@@ -1,0 +1,145 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Safety net: never allow the page to scroll sideways on any viewport. */
+  html,
+  body {
+    overflow-x: hidden;
+    max-width: 100%;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    background-image:
+      radial-gradient(
+        60rem 60rem at 85% -10%,
+        rgba(235, 94, 40, 0.09),
+        transparent 60%
+      ),
+      radial-gradient(
+        50rem 50rem at -10% 20%,
+        rgba(204, 197, 185, 0.05),
+        transparent 55%
+      );
+    background-attachment: fixed;
+  }
+
+  ::selection {
+    background: rgba(235, 94, 40, 0.28);
+    color: #fffcf2;
+  }
+
+  /* Visible, on-brand keyboard focus everywhere */
+  :focus-visible {
+    outline: 2px solid #eb5e28;
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  /* Themed scrollbar */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #252422;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #403d39;
+    border-radius: 8px;
+    border: 2px solid #252422;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #55514b;
+  }
+}
+
+@layer components {
+  /* Faint dotted grid used behind the hero — the "terminal canvas" */
+  .bg-dotgrid {
+    background-image: radial-gradient(
+      rgba(204, 197, 185, 0.12) 1px,
+      transparent 1px
+    );
+    background-size: 22px 22px;
+  }
+
+  /* Command-line eyebrow used on every section heading */
+  .eyebrow {
+    @apply inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.2em] text-ember;
+  }
+
+  .terminal-frame {
+    @apply rounded-lg border border-border bg-card/80 backdrop-blur-sm shadow-2xl;
+  }
+
+  /* Tech-stack marquee. Kept in global CSS (not styled-jsx) so the keyframes
+     always apply, even when the class is composed via cn(). Track is duplicated
+     in the markup, so translating -50% loops seamlessly. */
+  .animate-marquee {
+    animation: marquee 30s linear infinite;
+  }
+  .animate-marquee.is-paused,
+  .marquee-track:hover .animate-marquee {
+    animation-play-state: paused;
+  }
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  /* Contribution-graph cells: hidden until in view, then each slot lights up
+     on its own animation-delay for a fast left-to-right sweep. */
+  .contrib-cell {
+    opacity: 0;
+  }
+  .contrib-cell.lit {
+    animation: cell-light 0.3s ease-out both;
+  }
+  @keyframes cell-light {
+    from {
+      opacity: 0;
+      transform: scale(0.2);
+    }
+    60% {
+      transform: scale(1.25);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+}
