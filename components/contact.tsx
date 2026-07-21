@@ -9,31 +9,40 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 
 const inputClass =
-  "w-full rounded-md border border-border bg-ink/50 px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/70 transition-colors focus:border-ember focus:outline-none focus:ring-2 focus:ring-ember/40";
+  "w-full rounded-md border border-input bg-white px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground/70 transition-colors focus:border-ocean focus:outline-none focus:ring-2 focus:ring-ring";
 
 export function Contact() {
   const [sent, setSent] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setLoading(true);
+    setError(null);
 
     const formData = new FormData(e.currentTarget);
-    formData.append("_subject", `New portfolio message from ${formData.get("name")}`);
-    formData.append("_template", "box"); // Makes the email look like a nice styled box
-    formData.append("_autoresponse", "Thanks for reaching out! I've received your message and will get back to you shortly."); 
+    const payload = {
+      name: formData.get("name"),
+      email: formData.get("email"),
+      message: formData.get("message"),
+      company: formData.get("company"), // honeypot — real visitors leave this blank
+    };
 
     try {
-      await fetch(`https://formsubmit.co/ajax/${profile.email}`, {
+      const res = await fetch("/api/contact", {
         method: "POST",
-        body: formData,
-        // No Content-Type header needed; browser automatically sets multipart/form-data with boundary
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
       });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Failed to send message.");
       setSent(true);
-    } catch (error) {
-      console.error("Failed to send message", error);
-      alert("Something went wrong. Please email me directly!");
+    } catch (err) {
+      console.error("Failed to send message", err);
+      setError(
+        err instanceof Error ? err.message : "Something went wrong. Please email me directly!"
+      );
     } finally {
       setLoading(false);
     }
@@ -60,14 +69,14 @@ export function Contact() {
                   </p>
                   <a
                     href={`mailto:${profile.email}`}
-                    className="mt-6 inline-flex items-center gap-2 font-mono text-lg text-ember hover:underline"
+                    className="mt-6 inline-flex items-center gap-2 font-mono text-lg text-ocean hover:underline"
                   >
                     <Mail className="size-5" />
                     {profile.email}
                   </a>
                 </div>
                 <p className="inline-flex items-center gap-2 text-sm text-muted-foreground">
-                  <Clock className="size-4 text-ember" />
+                  <Clock className="size-4 text-ocean" />
                   {profile.responseTime}
                 </p>
               </CardContent>
@@ -82,8 +91,8 @@ export function Contact() {
                     role="status"
                     className="flex flex-col items-center justify-center py-12 text-center"
                   >
-                    <CheckCircle2 className="size-10 text-ember" />
-                    <h3 className="mt-4 font-display text-xl font-semibold">
+                    <CheckCircle2 className="size-10 text-emerald-500" />
+                    <h3 className="mt-4 font-display text-xl font-semibold text-navy">
                       Message sent successfully!
                     </h3>
                     <p className="mt-2 max-w-sm text-sm text-muted-foreground">
@@ -92,6 +101,14 @@ export function Contact() {
                   </div>
                 ) : (
                   <form onSubmit={handleSubmit} className="space-y-4" noValidate>
+                    <input
+                      type="text"
+                      name="company"
+                      tabIndex={-1}
+                      autoComplete="off"
+                      className="hidden"
+                      aria-hidden="true"
+                    />
                     <div className="grid gap-4 sm:grid-cols-2">
                       <div>
                         <label
@@ -144,6 +161,11 @@ export function Contact() {
                         className={inputClass + " resize-y"}
                       />
                     </div>
+                    {error && (
+                      <p role="alert" className="text-sm text-red-600">
+                        {error}
+                      </p>
+                    )}
                     <Button type="submit" size="lg" className="w-full sm:w-auto" disabled={loading}>
                       {loading ? "Sending..." : "Send message"} <Send className="size-4" />
                     </Button>

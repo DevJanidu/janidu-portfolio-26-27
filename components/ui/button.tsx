@@ -9,13 +9,13 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "bg-primary text-primary-foreground shadow hover:brightness-110 hover:-translate-y-0.5 active:brightness-110 active:translate-y-0",
+          "bg-primary text-primary-foreground shadow-button hover:bg-navy hover:-translate-y-0.5 active:bg-navy active:translate-y-0",
         outline:
-          "border border-border bg-transparent text-foreground hover:bg-secondary hover:border-ember/50 active:bg-secondary active:border-ember/50",
+          "border border-border bg-transparent text-foreground hover:bg-accent hover:border-ocean/40 active:bg-accent active:border-ocean/40",
         secondary:
-          "bg-secondary text-secondary-foreground hover:brightness-110 active:brightness-110",
-        ghost: "hover:bg-secondary hover:text-foreground active:bg-secondary active:text-foreground",
-        link: "text-ember underline-offset-4 hover:underline active:underline",
+          "border border-border bg-secondary text-secondary-foreground hover:bg-sky active:bg-sky",
+        ghost: "text-ocean hover:bg-accent hover:text-navy active:bg-accent active:text-navy",
+        link: "text-ocean underline-offset-4 hover:underline active:underline",
       },
       size: {
         default: "h-10 px-5 py-2",

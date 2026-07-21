@@ -8,11 +8,11 @@ import { cn } from "@/lib/utils";
 
 export function ProjectCard({ project }: { project: Project }) {
   return (
-    <Card className="group flex h-full flex-col overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:border-ember/40 hover:shadow-2xl hover:shadow-ember/5 active:-translate-y-1 active:border-ember/40 active:shadow-2xl active:shadow-ember/5">
+    <Card className="group flex h-full flex-col overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:border-ocean/40 hover:shadow-elevated active:-translate-y-1 active:border-ocean/40 active:shadow-elevated">
       {/* Preview area */}
       <Link
         href={`/projects/${project.slug}`}
-        className="relative block aspect-[16/10] overflow-hidden border-b border-border bg-ink"
+        className="relative block aspect-[16/10] overflow-hidden border-b border-border bg-muted"
         aria-label={`Open ${project.title} case study`}
       >
         {project.images && project.images.length > 0 ? (
@@ -27,10 +27,10 @@ export function ProjectCard({ project }: { project: Project }) {
           <>
             <div className="absolute inset-0 bg-dotgrid opacity-40" />
             <div className="absolute inset-0 flex flex-col justify-end p-5">
-              <span className="font-display text-2xl font-bold text-cream/90">
+              <span className="font-display text-2xl font-bold text-navy/90">
                 {project.title}
               </span>
-              <code className="mt-2 w-fit rounded bg-ink/70 px-2 py-1 font-mono text-[11px] text-ember">
+              <code className="mt-2 w-fit rounded bg-white/80 px-2 py-1 font-mono text-[11px] text-ocean">
                 {project.accentTerminal}
               </code>
             </div>
@@ -38,7 +38,7 @@ export function ProjectCard({ project }: { project: Project }) {
         )}
         <div
           className={cn(
-            "absolute inset-0 bg-gradient-to-br from-ember/15 via-transparent to-transparent pointer-events-none",
+            "absolute inset-0 bg-gradient-to-br from-cyan/10 via-transparent to-transparent pointer-events-none",
             "transition-opacity duration-300 group-hover:opacity-80 group-active:opacity-80"
           )}
         />
@@ -46,17 +46,17 @@ export function ProjectCard({ project }: { project: Project }) {
 
       <div className="flex flex-1 flex-col p-6">
         <div className="flex items-start justify-between gap-3">
-          <h3 className="font-display text-lg font-semibold">
+          <h3 className="font-display text-lg font-semibold text-navy">
             <Link
               href={`/projects/${project.slug}`}
-              className="transition-colors hover:text-ember active:text-ember"
+              className="transition-colors hover:text-ocean active:text-ocean"
             >
               {project.title}
             </Link>
           </h3>
           {typeof project.stars === "number" && (
             <span className="inline-flex shrink-0 items-center gap-1 font-mono text-xs text-muted-foreground">
-              <Star className="size-3.5 fill-sand/30 text-sand/60" />
+              <Star className="size-3.5 fill-sky/50 text-ocean/60" />
               {project.stars}
             </span>
           )}
@@ -64,8 +64,8 @@ export function ProjectCard({ project }: { project: Project }) {
 
         <p className="mt-2 text-sm text-muted-foreground">{project.tagline}</p>
 
-        <p className="mt-3 text-sm text-sand">
-          <span className="text-ember">→ </span>
+        <p className="mt-3 text-sm text-muted-foreground">
+          <span className="text-ocean">→ </span>
           {project.outcome}
         </p>
 
@@ -80,7 +80,7 @@ export function ProjectCard({ project }: { project: Project }) {
         <div className="mt-6 flex flex-wrap items-center gap-4 border-t border-border pt-4 text-sm">
           <Link
             href={`/projects/${project.slug}`}
-            className="inline-flex items-center gap-1 font-medium text-ember hover:underline"
+            className="inline-flex items-center gap-1 font-medium text-ocean hover:underline"
           >
             Case study <ArrowUpRight className="size-4" />
           </Link>

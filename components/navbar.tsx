@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Menu, X, Terminal } from "lucide-react";
+import Image from "next/image";
+import { Menu, X } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import { navLinks, profile } from "@/lib/data";
 import { Button } from "@/components/ui/button";
@@ -42,12 +43,19 @@ export function Navbar() {
       >
         <Link
           href="/"
-          className="group inline-flex items-center gap-2 font-mono text-sm font-semibold"
+          className="group inline-flex items-center gap-2.5 font-mono text-base font-semibold sm:text-lg"
         >
-          <Terminal className="size-4 text-ember" aria-hidden="true" />
-          <span className="tracking-tight">
+          <Image
+            src="/devjanidu-logo.png"
+            alt=""
+            width={40}
+            height={40}
+            className="size-11 sm:size-12"
+            priority
+          />
+          <span className="tracking-tight text-navy">
             {profile.firstName.toLowerCase()}
-            <span className="text-ember">Dev</span>
+            <span className="text-ocean">Dev</span>
           </span>
         </Link>
 
@@ -57,7 +65,7 @@ export function Navbar() {
             <li key={link.href}>
               <Link
                 href={link.href.startsWith('#') ? `/${link.href}` : link.href}
-                className="rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:text-foreground focus-visible:text-foreground active:text-foreground"
+                className="rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-accent hover:text-ocean focus-visible:text-ocean active:text-ocean"
               >
                 {link.label}
               </Link>
@@ -100,9 +108,9 @@ export function Navbar() {
                   <Link
                     href={link.href.startsWith('#') ? `/${link.href}` : link.href}
                     onClick={() => setOpen(false)}
-                    className="block rounded-md px-3 py-3 font-mono text-sm text-muted-foreground hover:bg-secondary hover:text-foreground active:bg-secondary active:text-foreground"
+                    className="block rounded-md px-3 py-3 font-mono text-sm text-muted-foreground hover:bg-accent hover:text-ocean active:bg-accent active:text-ocean"
                   >
-                    <span className="text-ember">~/</span>
+                    <span className="text-ocean">~/</span>
                     {link.label.toLowerCase()}
                   </Link>
                 </li>

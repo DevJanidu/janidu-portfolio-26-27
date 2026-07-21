@@ -4,10 +4,13 @@ import {
   Space_Grotesk,
   JetBrains_Mono,
 } from "next/font/google";
+import { MotionConfig } from "framer-motion";
 import "./globals.css";
-import { profile } from "@/lib/data";
+import { profile, siteUrl } from "@/lib/data";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
+import { JsonLd } from "@/components/json-ld";
+import { Analytics } from "@/components/analytics";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -25,49 +28,102 @@ const jetbrainsMono = JetBrains_Mono({
   display: "swap",
 });
 
-const siteUrl = "https://janidudev.lycolabs.com";
+const homepageTitle = "Janidu Yapa | Software Engineer & Full-Stack Developer";
+const homepageDescription =
+  "Janidu Yapa is a software engineer and full-stack developer in Kandy, Sri Lanka, building ERP systems, POS software, AI-powered web applications, booking systems, and modern business software.";
+
+// Only include verification entries that actually have a real token — never
+// ship an empty content="" meta tag or an invented value.
+const verification: Metadata["verification"] = {};
+if (process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION) {
+  verification.google = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION;
+}
+if (process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION) {
+  verification.other = {
+    "msvalidate.01": process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION,
+  };
+}
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: `${profile.name} — ${profile.title}`,
-    template: `%s · ${profile.firstName}`,
+    default: homepageTitle,
+    template: "%s | Janidu Yapa",
   },
-  description: profile.intro,
-  keywords: [
-    "developer portfolio",
-    "full-stack developer portfolio",
-    "Janidu Dhakshitha Yapa",
-    "Sri Lanka software engineer",
-    "React developer",
-    "Spring Boot engineer",
-    "Next.js portfolio",
-    profile.name,
-  ],
-  authors: [{ name: profile.name }],
+  description: homepageDescription,
+  applicationName: "JaniduDev",
+  authors: [{ name: profile.name, url: siteUrl }],
   creator: profile.name,
+  publisher: profile.name,
+  category: "technology",
+  keywords: [
+    "Janidu Yapa",
+    "Janidu Dhakshitha Yapa",
+    "JaniduDev",
+    "Janidu Yapa software engineer",
+    "Janidu Yapa full-stack developer",
+    "Janidu Yapa Sri Lanka",
+    "Janidu Yapa Kandy",
+    "software engineer in Kandy",
+    "full-stack developer in Sri Lanka",
+    "ERP developer Sri Lanka",
+    "POS software developer Sri Lanka",
+    "AI application developer Sri Lanka",
+    "Next.js developer Sri Lanka",
+    "Spring Boot developer Sri Lanka",
+    "software engineer portfolio Sri Lanka",
+  ],
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
     type: "website",
     url: siteUrl,
-    title: `${profile.name} — ${profile.title}`,
-    description: profile.intro,
-    siteName: `${profile.firstName}.dev`,
+    title: homepageTitle,
+    description: homepageDescription,
+    siteName: "JaniduDev",
+    locale: "en_US",
   },
   twitter: {
     card: "summary_large_image",
-    title: `${profile.name} — ${profile.title}`,
-    description: profile.intro,
+    title: homepageTitle,
+    description: homepageDescription,
   },
-  robots: { index: true, follow: true },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  referrer: "strict-origin-when-cross-origin",
+  ...(Object.keys(verification).length > 0 ? { verification } : {}),
   other: {
     "darkreader-lock": "true", // Prevents Dark Reader from causing hydration mismatches
   },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#252422",
+  themeColor: "#FFFFFF",
   width: "device-width",
   initialScale: 1,
+};
+
+const websiteJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "Janidu Yapa",
+  alternateName: "JaniduDev",
+  url: `${siteUrl}/`,
 };
 
 export default function RootLayout({
@@ -82,15 +138,21 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="min-h-dvh" suppressHydrationWarning>
+        <JsonLd data={websiteJsonLd} />
         <a
           href="#top"
-          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-md focus:bg-ember focus:px-4 focus:py-2 focus:text-sm focus:text-cream"
+          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[100] focus:rounded-md focus:bg-primary focus:px-4 focus:py-2 focus:text-sm focus:text-primary-foreground"
         >
           Skip to content
         </a>
-        <Navbar />
-        <main>{children}</main>
-        <Footer />
+        {/* Site-wide: every Framer Motion animation automatically respects
+            the visitor's OS-level prefers-reduced-motion setting. */}
+        <MotionConfig reducedMotion="user">
+          <Navbar />
+          <main>{children}</main>
+          <Footer />
+        </MotionConfig>
+        <Analytics />
       </body>
     </html>
   );

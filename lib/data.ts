@@ -3,8 +3,16 @@
 // Edit these arrays to customize — every component reads from here.
 // ---------------------------------------------------------------------------
 
+// Canonical production origin (with www — the preferred version). Every
+// canonical URL, sitemap entry, and structured-data URL is derived from
+// this so there is exactly one place to change it.
+export const siteUrl = "https://www.janidudev.com";
+
 export const profile = {
   name: "Janidu Dhakshitha Yapa",
+  // Shorter public/professional form used in headings and metadata —
+  // distinct from the full legal name above.
+  publicName: "Janidu Yapa",
   firstName: "Janidu",
   title: "Full-Stack Software Engineer",
   // Roles cycled by the hero typing effect.
@@ -16,7 +24,7 @@ export const profile = {
   "API Architect",
 ],
   location: "Kandy, Sri Lanka",
-  email: "janidudev@gmail.com",
+  email: "hello@janidudev.com",
   // TODO: replace with your real profile URLs.
   socials: {
     github: "https://github.com/DevJanidu",
@@ -42,6 +50,13 @@ export const current = {
   since: "Feb 2026",
   blurb:
     "Building full-stack features across Laravel, Spring Boot, and Flutter with a cross-functional team.",
+};
+
+// --- LinkedIn highlight -------------------------------------------------
+export const linkedin = {
+  headline:
+    "I build ERP systems, POS software, and AI-powered web applications that help businesses automate, scale, and grow. Real estate agent websites, legal tech, LLMs, RAG, and AI agents — full-stack, end to end.",
+  connections: "500+",
 };
 
 // --- Venture (LycoLabs) -----------------------------------------------------

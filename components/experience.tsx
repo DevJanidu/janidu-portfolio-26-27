@@ -19,19 +19,19 @@ export function Experience() {
               {/* Node */}
               <span
                 aria-hidden="true"
-                className="absolute -left-[41px] top-1 flex size-5 items-center justify-center rounded-full border-2 border-ember bg-background sm:-left-[49px]"
+                className="absolute -left-[41px] top-1 flex size-5 items-center justify-center rounded-full border-2 border-ocean bg-background sm:-left-[49px]"
               >
-                <span className="size-2 rounded-full bg-ember" />
+                <span className="size-2 rounded-full bg-ocean" />
               </span>
 
-              <p className="font-mono text-xs uppercase tracking-widest text-ember">
+              <p className="font-mono text-xs uppercase tracking-widest text-ocean">
                 {exp.period}
               </p>
-              <h3 className="mt-1 font-display text-xl font-semibold">
+              <h3 className="mt-1 font-display text-xl font-semibold text-navy">
                 {exp.role}
               </h3>
               <p className="text-sm text-muted-foreground">{exp.company}</p>
-              <p className="mt-3 max-w-2xl text-sm text-sand">
+              <p className="mt-3 max-w-2xl text-sm text-muted-foreground">
                 {exp.description}
               </p>
               <ul className="mt-4 flex flex-wrap gap-1.5">

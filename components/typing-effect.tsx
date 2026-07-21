@@ -11,7 +11,11 @@ export function TypingEffect({
   className?: string;
 }) {
   const [index, setIndex] = useState(0);
-  const [text, setText] = useState("");
+  // Start pre-filled with the first phrase (not empty) so it's part of the
+  // server-rendered HTML — crawlers and no-JS clients see real text
+  // immediately instead of an empty span; the animation then takes over
+  // from there once mounted.
+  const [text, setText] = useState(phrases[0]);
   const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
@@ -53,7 +57,7 @@ export function TypingEffect({
       {text}
       <span
         aria-hidden="true"
-        className="ml-0.5 inline-block h-[1em] w-[3px] translate-y-[2px] bg-ember align-middle animate-blink"
+        className="ml-0.5 inline-block h-[1em] w-[3px] translate-y-[2px] bg-ocean align-middle animate-blink"
       />
     </span>
   );

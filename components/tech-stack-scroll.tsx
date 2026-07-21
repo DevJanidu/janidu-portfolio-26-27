@@ -40,8 +40,8 @@ export function TechStackScroll() {
   return (
     <div className="relative w-full overflow-hidden py-6">
       {/* fade edges */}
-      <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-ink/40 to-transparent" />
-      <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-ink/40 to-transparent" />
+      <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-muted to-transparent" />
+      <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-muted to-transparent" />
 
       <div
         className="marquee-track flex w-max cursor-pointer"
@@ -69,7 +69,7 @@ export function TechStackScroll() {
               className="flex w-12 flex-col items-center gap-2 sm:w-14"
               title={tech.name}
             >
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-border bg-secondary/60 transition-all duration-300 hover:scale-110 hover:border-ember/40 active:scale-110 active:border-ember/40 sm:h-11 sm:w-11">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-border bg-white transition-all duration-300 hover:scale-110 hover:border-ocean/40 active:scale-110 active:border-ocean/40 sm:h-11 sm:w-11">
                 <Image
                   src={tech.src}
                   alt={tech.name}

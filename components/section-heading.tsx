@@ -17,11 +17,11 @@ export function SectionHeading({
     <div className={cn("max-w-2xl", className)}>
       <Reveal>
         <span className="eyebrow">
-          <span className="text-sand/60">$</span> {command}
+          <span className="text-muted-foreground/60">$</span> {command}
         </span>
       </Reveal>
       <Reveal i={1}>
-        <h2 className="mt-3 font-display text-3xl font-bold tracking-tight sm:text-4xl">
+        <h2 className="mt-3 font-display text-3xl font-bold tracking-tight text-navy sm:text-4xl">
           {title}
         </h2>
       </Reveal>

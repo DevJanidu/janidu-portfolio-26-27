@@ -62,8 +62,8 @@ export function ImageCarousel({ images, title }: ImageCarouselProps) {
               className={cn(
                 "h-2.5 w-2.5 rounded-full transition-all duration-300",
                 currentIndex === idx
-                  ? "bg-ember scale-110"
-                  : "bg-muted hover:bg-muted-foreground/50"
+                  ? "bg-ocean scale-110"
+                  : "bg-sky/60 hover:bg-sky"
               )}
             />
           ))}

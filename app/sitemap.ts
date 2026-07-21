@@ -1,11 +1,9 @@
 import type { MetadataRoute } from "next";
-import { projects } from "@/lib/data";
-
-const base = "https://janidudev.lycolabs.com";
+import { projects, siteUrl } from "@/lib/data";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const projectRoutes = projects.map((p) => ({
-    url: `${base}/projects/${p.slug}`,
+    url: `${siteUrl}/projects/${p.slug}`,
     lastModified: new Date(),
     changeFrequency: "monthly" as const,
     priority: 0.7,
@@ -13,9 +11,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   return [
     {
-      url: base,
+      url: `${siteUrl}/`,
       lastModified: new Date(),
-      changeFrequency: "monthly",
+      changeFrequency: "weekly",
       priority: 1,
     },
     ...projectRoutes,

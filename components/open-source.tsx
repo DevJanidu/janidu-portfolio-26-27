@@ -10,7 +10,7 @@ export function OpenSource() {
   return (
     <section
       id="open-source"
-      className="scroll-mt-20 border-y border-border bg-ink/40 py-20 sm:py-28"
+      className="scroll-mt-20 border-y border-border bg-muted py-20 sm:py-28"
     >
       <div className="container">
         <SectionHeading
@@ -18,8 +18,8 @@ export function OpenSource() {
           title="Open source & contributions"
         />
 
-        <div className="mt-12 grid gap-6 lg:grid-cols-[1.4fr_1fr]">
-          <Reveal>
+        <div className="mt-12 grid min-w-0 gap-6 lg:grid-cols-[1.4fr_1fr]">
+          <Reveal className="min-w-0">
             <Card>
               <CardContent className="p-6">
                 <div className="mb-4 flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between sm:gap-3">
@@ -54,7 +54,7 @@ export function OpenSource() {
             </Card>
           </Reveal>
 
-          <Reveal i={1}>
+          <Reveal i={1} className="min-w-0">
             <Card className="h-full">
               <CardContent className="p-6">
                 <p className="mb-4 font-mono text-xs uppercase tracking-widest text-muted-foreground">
@@ -63,8 +63,8 @@ export function OpenSource() {
                 <ul className="space-y-4">
                   {openSource.contributions.map((c) => (
                     <li key={c.repo} className="flex gap-3">
-                      <GitBranch className="mt-0.5 size-4 shrink-0 text-ember" />
-                      <div>
+                      <GitBranch className="mt-0.5 size-4 shrink-0 text-ocean" />
+                      <div className="min-w-0">
                         <span className="font-mono text-sm text-foreground">
                           {c.repo}
                         </span>

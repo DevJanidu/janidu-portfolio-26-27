@@ -8,7 +8,7 @@ export function Skills() {
   return (
     <section
       id="skills"
-      className="scroll-mt-20 border-y border-border bg-ink/40 py-20 sm:py-28"
+      className="scroll-mt-20 border-y border-border bg-muted py-20 sm:py-28"
     >
       <div className="container">
         <SectionHeading
@@ -24,17 +24,17 @@ export function Skills() {
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {skillGroups.map((group, gi) => (
             <Reveal key={group.category} i={gi}>
-              <Card className="h-full transition-colors hover:border-ember/30">
+              <Card className="h-full transition-colors hover:border-ocean/30">
                 <CardContent className="p-6">
-                  <h3 className="mb-4 flex items-center gap-2 font-mono text-sm text-ember">
-                    <span className="text-sand/50">#</span>
+                  <h3 className="mb-4 flex items-center gap-2 font-mono text-sm text-ocean">
+                    <span className="text-muted-foreground/50">#</span>
                     {group.category}
                   </h3>
                   <ul className="flex flex-wrap gap-2">
                     {group.items.map((skill) => (
                       <li
                         key={skill}
-                        className="rounded-md border border-border bg-secondary/60 px-3 py-1.5 text-sm text-sand transition-colors hover:border-ember/40 hover:text-foreground active:border-ember/40 active:text-foreground"
+                        className="rounded-md border border-border bg-muted px-3 py-1.5 text-sm text-muted-foreground transition-colors hover:border-ocean/40 hover:bg-accent hover:text-navy active:border-ocean/40 active:text-navy"
                       >
                         {skill}
                       </li>

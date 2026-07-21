@@ -21,14 +21,14 @@ export function Venture() {
             <Card className="h-full">
               <CardContent className="flex h-full flex-col gap-6 p-6 sm:p-8">
                 <div className="flex items-center gap-3">
-                  <span className="inline-flex size-10 shrink-0 items-center justify-center rounded-md border border-ember/40 bg-ember/10 text-ember">
+                  <span className="inline-flex size-10 shrink-0 items-center justify-center rounded-md border border-ocean/30 bg-accent text-ocean">
                     <Rocket className="size-5" />
                   </span>
                   <div>
-                    <p className="font-display text-xl font-bold">
+                    <p className="font-display text-xl font-bold text-navy">
                       {venture.name}
                     </p>
-                    <p className="font-mono text-xs uppercase tracking-widest text-ember">
+                    <p className="font-mono text-xs uppercase tracking-widest text-ocean">
                       {venture.role}
                     </p>
                   </div>
@@ -68,7 +68,7 @@ export function Venture() {
             <Card className="h-full">
               <CardContent className="flex h-full flex-col justify-center gap-6 p-6 sm:p-8">
                 <div>
-                  <div className="font-display text-4xl font-bold text-ember">
+                  <div className="font-display text-4xl font-bold text-ocean">
                     6+
                   </div>
                   <div className="mt-1 text-sm text-muted-foreground">
@@ -76,7 +76,7 @@ export function Venture() {
                   </div>
                 </div>
                 <div>
-                  <div className="font-display text-4xl font-bold text-ember">
+                  <div className="font-display text-4xl font-bold text-ocean">
                     End&#8209;to&#8209;end
                   </div>
                   <div className="mt-1 text-sm text-muted-foreground">
@@ -84,7 +84,7 @@ export function Venture() {
                   </div>
                 </div>
                 <div>
-                  <div className="font-display text-4xl font-bold text-ember">
+                  <div className="font-display text-4xl font-bold text-ocean">
                     Founder
                   </div>
                   <div className="mt-1 text-sm text-muted-foreground">

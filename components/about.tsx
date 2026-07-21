@@ -21,12 +21,12 @@ export function About() {
                 <p className="text-muted-foreground">
                   Currently a{" "}
                   <span className="text-foreground">{current.role}</span> at{" "}
-                  <span className="text-ember">{current.company}</span> since{" "}
+                  <span className="text-ocean">{current.company}</span> since{" "}
                   {current.since}. {current.blurb}
                 </p>
-                <div className="rounded-md border border-border bg-ink/40 p-4">
-                  <p className="flex items-start gap-2 text-sm text-sand">
-                    <Sparkles className="mt-0.5 size-4 shrink-0 text-ember" />
+                <div className="rounded-md border border-border bg-accent p-4">
+                  <p className="flex items-start gap-2 text-sm text-muted-foreground">
+                    <Sparkles className="mt-0.5 size-4 shrink-0 text-ocean" />
                     <span>{profile.funFact}</span>
                   </p>
                 </div>
@@ -54,7 +54,7 @@ export function About() {
               <CardContent className="flex h-full flex-col justify-center gap-6 p-6 sm:p-8">
                 {profile.stats.map((s) => (
                   <div key={s.label}>
-                    <div className="font-display text-4xl font-bold text-ember">
+                    <div className="font-display text-4xl font-bold text-ocean">
                       {s.value}
                     </div>
                     <div className="mt-1 text-sm text-muted-foreground">
