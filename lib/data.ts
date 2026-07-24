@@ -25,6 +25,7 @@ export const profile = {
 ],
   location: "Kandy, Sri Lanka",
   email: "hello@janidudev.com",
+  whatsapp: "+947262541632",
   // TODO: replace with your real profile URLs.
   socials: {
     github: "https://github.com/DevJanidu",
@@ -402,6 +403,7 @@ export const posts = [
 export const navLinks = [
   { href: "#about", label: "About" },
   { href: "#venture", label: "LycoLabs" },
+  { href: "/pricing", label: "Pricing" },
   { href: "#skills", label: "Skills" },
   { href: "#projects", label: "Projects" },
   { href: "#open-source", label: "Open Source" },

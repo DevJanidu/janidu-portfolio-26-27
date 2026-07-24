@@ -9,24 +9,31 @@ export const runtime = "nodejs";
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export async function POST(request: Request) {
-  let body: { name?: string; email?: string; message?: string; company?: string };
+  let body: {
+    name?: string;
+    email?: string;
+    message?: string;
+    subject?: string;
+    company?: string;
+  };
   try {
     body = await request.json();
   } catch {
     return NextResponse.json({ error: "Invalid request body." }, { status: 400 });
   }
 
-  const name = body.name?.trim();
+  const name = body.name?.trim() || "Website visitor";
   const email = body.email?.trim();
   const message = body.message?.trim();
+  const subject = body.subject?.trim();
 
   // Honeypot: a hidden field real visitors never fill in.
   if (body.company) {
     return NextResponse.json({ ok: true });
   }
 
-  if (!name || !email || !message) {
-    return NextResponse.json({ error: "Name, email, and message are required." }, { status: 400 });
+  if (!email || !message) {
+    return NextResponse.json({ error: "Email and message are required." }, { status: 400 });
   }
   if (!EMAIL_RE.test(email)) {
     return NextResponse.json({ error: "Please provide a valid email address." }, { status: 400 });
@@ -51,7 +58,7 @@ export async function POST(request: Request) {
       from: `"Portfolio Contact Form" <${SMTP_USER}>`,
       to: CONTACT_TO_EMAIL || profile.email,
       replyTo: `"${name}" <${email}>`,
-      subject: `New portfolio message from ${name}`,
+      subject: subject || `New portfolio message from ${name}`,
       text: `From: ${name} <${email}>\n\n${message}`,
       html: `
         <div style="font-family: sans-serif; font-size: 15px; line-height: 1.6; color: #111;">

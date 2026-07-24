@@ -3,13 +3,24 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import { navLinks, profile } from "@/lib/data";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
+// The salon landing page is a focused, unlinked page — show a trimmed nav
+// there instead of the full site navigation.
+const SALON_NAV_LABELS = ["About", "LycoLabs", "Projects", "Contact"];
+
 export function Navbar() {
+  const pathname = usePathname();
+  const isSalon = pathname?.startsWith("/salon-details") ?? false;
+  const links = isSalon
+    ? navLinks.filter((link) => SALON_NAV_LABELS.includes(link.label))
+    : navLinks;
+
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -61,7 +72,7 @@ export function Navbar() {
 
         {/* Desktop nav */}
         <ul className="hidden items-center gap-1 md:flex">
-          {navLinks.map((link) => (
+          {links.map((link) => (
             <li key={link.href}>
               <Link
                 href={link.href.startsWith('#') ? `/${link.href}` : link.href}
@@ -103,7 +114,7 @@ export function Navbar() {
             className="overflow-hidden border-t border-border bg-background/95 md:hidden"
           >
             <ul className="container flex flex-col gap-1 py-4">
-              {navLinks.map((link) => (
+              {links.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href.startsWith('#') ? `/${link.href}` : link.href}
