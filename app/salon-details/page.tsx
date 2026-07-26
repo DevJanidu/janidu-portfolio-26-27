@@ -16,7 +16,7 @@ const plusJakarta = Plus_Jakarta_Sans({
 
 const title = "Salon Website & Cloud ERP System | Salon Management Software";
 const description =
-  "A complete cloud-based salon management platform — online booking, digital billing, customer and staff management, inventory, loyalty, memberships, and reports, all from one system.";
+  "A complete cloud-based salon management platform with online booking, digital billing, customer and staff management, inventory, loyalty, memberships, and reports, all from one system.";
 const url = `${siteUrl}/salon-details`;
 
 export const metadata: Metadata = {

@@ -64,7 +64,7 @@ export function Contact() {
                 <div>
                   <p className="text-muted-foreground">
                     Whether it&apos;s a freelance build, a full-time role, or a
-                    quick technical question — the fastest way to reach me is
+                    quick technical question, the fastest way to reach me is
                     email.
                   </p>
                   <a

@@ -14,7 +14,7 @@ export function Skills() {
         <SectionHeading
           command="ls ~/skills"
           title="Tools I reach for"
-          description="Grouped by where they live in the stack — from the database up to the deploy."
+          description="Grouped by where they live in the stack, from the database up to the deploy."
         />
 
         <Reveal i={1}>

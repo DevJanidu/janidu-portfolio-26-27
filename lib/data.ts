@@ -25,7 +25,7 @@ export const profile = {
 ],
   location: "Kandy, Sri Lanka",
   email: "hello@janidudev.com",
-  whatsapp: "+947262541632",
+  whatsapp: "+94 72 625 4163",
   // TODO: replace with your real profile URLs.
   socials: {
     github: "https://github.com/DevJanidu",
@@ -33,7 +33,7 @@ export const profile = {
   },
   resumeUrl: "/resume.pdf", // drop your PDF in /public
   intro:
-    "I build full-stack web applications and REST APIs end to end — from PostgreSQL schemas and Spring Boot services to typed React front ends. I care about clean, scalable code and shipping features that people actually use.",
+    "I build full-stack web applications and REST APIs end to end, from PostgreSQL schemas and Spring Boot services to typed React front ends. I care about clean, scalable code and shipping features that people actually use.",
   availability: "Open to internships, freelance, and full-time roles",
   responseTime: "Usually replies within 24 hours",
   stats: [
@@ -42,7 +42,7 @@ export const profile = {
     { value: "100%", label: "Full-stack ownership" },
   ],
   funFact:
-    "I like taking a project all the way — schema, API, UI, Docker, deploy — so nothing gets lost in the handoff.",
+    "I like taking a project all the way (schema, API, UI, Docker, deploy) so nothing gets lost in the handoff.",
 };
 
 export const current = {
@@ -56,7 +56,7 @@ export const current = {
 // --- LinkedIn highlight -------------------------------------------------
 export const linkedin = {
   headline:
-    "I build ERP systems, POS software, and AI-powered web applications that help businesses automate, scale, and grow. Real estate agent websites, legal tech, LLMs, RAG, and AI agents — full-stack, end to end.",
+    "I build ERP systems, POS software, and AI-powered web applications that help businesses automate, scale, and grow. Real estate agent websites, legal tech, LLMs, RAG, and AI agents, full-stack and end to end.",
   connections: "500+",
 };
 
@@ -67,7 +67,7 @@ export const venture = {
   url: "https://www.lycolabs.com",
   tagline: "Empowering businesses with cutting-edge technology solutions.",
   blurb:
-    "I founded LycoLabs — a software development and IT solutions studio that builds production-ready digital products, from concept through launch, for startups and growing businesses.",
+    "I founded LycoLabs, a software development and IT solutions studio that builds production-ready digital products, from concept through launch, for startups and growing businesses.",
   services: [
     "Ecommerce Websites",
     "AI Automation Apps",
@@ -321,7 +321,7 @@ export const experience: Experience[] = [
   {
     role: "Software Engineer Intern",
     company: "Applantics (PVT) LTD",
-    period: "Feb 2026 — Present",
+    period: "Feb 2026 to Present",
     description:
       "Contributing to full-stack application development across Laravel, Spring Boot, and Flutter. Implementing backend APIs and frontend features, working in Git-based team workflows, and supporting deployment and debugging across environments.",
     tech: ["Laravel", "Spring Boot", "Flutter", "Git"],
@@ -331,7 +331,7 @@ export const experience: Experience[] = [
     company: "StemLink, Sri Lanka",
     period: "Certification",
     description:
-      "Java OOP & Spring Boot Backend Engineering Bootcamp — hands-on training in Java, OOP, Spring Boot, REST API development, PostgreSQL, authentication, and deployment.",
+      "Java OOP & Spring Boot Backend Engineering Bootcamp with hands-on training in Java, OOP, Spring Boot, REST API development, PostgreSQL, authentication, and deployment.",
     tech: ["Java", "Spring Boot", "PostgreSQL", "REST APIs"],
   },
 ];

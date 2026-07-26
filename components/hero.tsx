@@ -46,7 +46,7 @@ export function Hero() {
           >
             Hi, I&apos;m{" "}
             <span className="text-ocean">{profile.publicName}</span>
-            {" — "}
+            {". "}
             <span className="block sm:inline">
               Software Engineer &amp; Full-Stack Developer.
             </span>

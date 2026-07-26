@@ -222,7 +222,7 @@ export default async function CaseStudyPage({
                 Drop a screenshot or architecture diagram here
               </p>
               <p className="max-w-xs text-[11px] text-muted-foreground/70">
-                Use next/image for automatic optimization — see the README.
+                Use next/image for automatic optimization. See the README.
               </p>
             </div>
           </div>

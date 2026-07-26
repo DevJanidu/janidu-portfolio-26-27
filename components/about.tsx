@@ -39,7 +39,7 @@ export function About() {
                       <li key={e.program} className="text-sm">
                         <span className="text-foreground">{e.program}</span>
                         <span className="text-muted-foreground">
-                          {" "}— {e.school}
+                          , {e.school}
                         </span>
                       </li>
                     ))}

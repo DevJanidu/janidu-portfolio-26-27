@@ -182,7 +182,7 @@ export function ContributionGraph() {
                 role="img"
                 aria-label={
                   scrollable
-                    ? "GitHub contribution graph, one square per day. Showing the most recent months — scroll left for earlier ones."
+                    ? "GitHub contribution graph, one square per day. Showing the most recent months. Scroll left for earlier ones."
                     : "GitHub contribution graph, one square per day."
                 }
               >

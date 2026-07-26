@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 
 const title = "Pricing | Website & Cloud ERP Packages";
 const description =
-  "Web Lite, Web Pro, and Cloud ERP — professional website and cloud management packages for businesses in any industry.";
+  "Web Lite, Web Pro, and Cloud ERP: professional website and cloud management packages for businesses in any industry.";
 const url = `${siteUrl}/pricing`;
 
 export const metadata: Metadata = {

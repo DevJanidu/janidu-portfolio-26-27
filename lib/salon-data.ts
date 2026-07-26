@@ -8,7 +8,7 @@ export const salonHero = {
   eyebrow: "./salon-details --erp",
   title: "Are You Looking for a Complete Salon Management System with a Website?",
   intro:
-    "Manage your entire salon from one secure cloud-based platform. Handle appointments, digital billing, customers, services, products, inventory, purchasing, suppliers, expenses, staff, attendance, leave, loyalty programs, memberships, reports, users, and business settings — all in one place.",
+    "Manage your entire salon from one secure cloud-based platform. Handle appointments, digital billing, customers, services, products, inventory, purchasing, suppliers, expenses, staff, attendance, leave, loyalty programs, memberships, reports, users, and business settings, all in one place.",
   note:
     "No handwritten bills. No complicated paperwork. Every invoice, payment, customer record, and business transaction is managed digitally.",
   callout:
@@ -672,5 +672,5 @@ export const mainBenefits: string[] = [
 export const salonFinalCTA = {
   title: "Ready to Digitize Your Salon?",
   description:
-    "Tell us about your salon — the services you offer, how many staff you have, and how you currently manage bookings and billing. We'll recommend the right package and walk you through a live demo.",
+    "Tell us about your salon: the services you offer, how many staff you have, and how you currently manage bookings and billing. We'll recommend the right package and walk you through a live demo.",
 };

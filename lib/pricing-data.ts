@@ -4,9 +4,9 @@
 // its section components just render this data.
 // ---------------------------------------------------------------------------
 
-const WEB_LITE_PRICE = "LKR 69,000 — One-Time Payment";
-const WEB_PRO_PRICE = "LKR 89,000 — One-Time Payment";
-const CLOUD_ERP_PRICE = "LKR 150,000 — One-Time Payment";
+const WEB_LITE_PRICE = "LKR 69,000 One-Time Payment";
+const WEB_PRO_PRICE = "LKR 89,000 One-Time Payment";
+const CLOUD_ERP_PRICE = "LKR 150,000 One-Time Payment";
 
 export const pricingHero = {
   eyebrow: "./pricing --packages",
@@ -423,7 +423,7 @@ export const cloudERP = {
     {
       title: "Users, Roles, and Permissions",
       items: [
-        "Multiple user accounts — owner, administrator, manager, staff",
+        "Multiple user accounts for owner, administrator, manager, and staff",
         "Department-based and branch-based access",
         "Role-based access control and custom permissions",
         "Activity and audit logs",
@@ -623,8 +623,8 @@ export const paymentTermsNote =
 
 // --- Delivery time --------------------------------------------------------
 export const deliveryTimes: { name: string; estimate: string }[] = [
-  { name: "Web Lite", estimate: "Approximately 1–3 weeks" },
-  { name: "Web Pro", estimate: "Approximately 3–8 weeks" },
+  { name: "Web Lite", estimate: "Approximately 1 to 3 weeks" },
+  { name: "Web Pro", estimate: "Approximately 3 to 8 weeks" },
   { name: "Cloud ERP", estimate: "Confirmed after requirement analysis" },
 ];
 export const deliveryFactors: string[] = [

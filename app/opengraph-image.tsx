@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 import { profile } from "@/lib/data";
 
-export const alt = "Janidu Yapa — Software Engineer & Full-Stack Developer";
+export const alt = "Janidu Yapa, Software Engineer & Full-Stack Developer";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 

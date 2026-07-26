@@ -82,7 +82,7 @@ function InquiryModal({
   packageName: string;
   onClose: () => void;
 }) {
-  const [subject, setSubject] = useState(`${packageName} — quick inquiry`);
+  const [subject, setSubject] = useState(`${packageName}: quick inquiry`);
   const [message, setMessage] = useState(
     `Hi Janidu,\n\nI'm interested in the ${packageName} package. Could you get in touch with more details?\n\n`
   );
