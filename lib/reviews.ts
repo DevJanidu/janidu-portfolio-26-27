@@ -125,7 +125,7 @@ export async function getPublishedReviews(): Promise<PublishedReview[]> {
           client_name,
           business_name,
           country,
-          published_at,
+          TO_CHAR(published_at, 'YYYY-MM-DD') AS published_at,
           featured
         FROM reviews
         WHERE approved = TRUE AND display_permission = TRUE

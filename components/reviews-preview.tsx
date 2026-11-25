@@ -4,6 +4,8 @@ import { useState } from "react";
 import Link from "next/link";
 import { ArrowRight, Globe, Loader2 } from "lucide-react";
 import type { PublishedReview, ReviewSummary } from "@/lib/reviews";
+import { getCountryByValue } from "@/lib/countries";
+import { CountryFlag } from "@/components/country-flag";
 import { SectionHeading } from "@/components/section-heading";
 import { StarRating } from "@/components/star-rating";
 import { Button } from "@/components/ui/button";
@@ -118,9 +120,17 @@ export function ReviewsPreview({
                       {review.businessName}
                     </p>
                   ) : null}
-                  <p className="mt-1 text-xs text-muted-foreground">
-                    {review.projectName}
-                    {review.location ? ` · ${review.location}` : ""}
+                  <p className="mt-1 flex flex-wrap items-center gap-1.5 text-xs text-muted-foreground">
+                    <span>{review.projectName}</span>
+                    {review.location ? (
+                      <>
+                        <span>&middot;</span>
+                        <CountryFlag
+                          code={getCountryByValue(review.location).code}
+                        />
+                        <span>{review.location}</span>
+                      </>
+                    ) : null}
                   </p>
                 </div>
 

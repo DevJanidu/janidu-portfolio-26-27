@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Check, ChevronDown, Search } from "lucide-react";
 import { COUNTRIES, getCountryByValue } from "@/lib/countries";
+import { CountryFlag } from "@/components/country-flag";
 import { cn } from "@/lib/utils";
 
 export function CountryPicker({
@@ -84,9 +85,7 @@ export function CountryPicker({
         )}
       >
         <span className="flex items-center gap-2.5 truncate">
-          <span className="text-lg leading-none" aria-hidden="true">
-            {selected.flag}
-          </span>
+          <CountryFlag code={selected.code} />
           <span className="truncate font-normal">{selected.label}</span>
         </span>
         <ChevronDown
@@ -144,12 +143,7 @@ export function CountryPicker({
                       )}
                     >
                       <span className="flex items-center gap-2.5 truncate">
-                        <span
-                          className="text-base leading-none"
-                          aria-hidden="true"
-                        >
-                          {country.flag}
-                        </span>
+                        <CountryFlag code={country.code} />
                         <span className="truncate">{country.label}</span>
                       </span>
                       {isSelected ? (
