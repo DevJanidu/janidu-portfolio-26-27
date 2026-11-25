@@ -1,18 +1,15 @@
 import Link from "next/link";
 import type { Metadata } from "next";
-import { ArrowLeft, Check, ChevronRight } from "lucide-react";
+import { ArrowLeft, ChevronRight } from "lucide-react";
 import { profile, siteUrl } from "@/lib/data";
-import {
-  getVerifiedSalonConcepts,
-  salonTierScopes,
-} from "@/lib/salon-concepts";
+import { getVerifiedSalonConcepts } from "@/lib/salon-concepts";
 import { SalonConceptsGallery } from "@/components/salon-concepts-gallery";
 import { Button } from "@/components/ui/button";
 import { JsonLd } from "@/components/json-ld";
 
 const title = `Salon Website Design Concepts | ${profile.publicName}`;
 const description =
-  "Explore 11 verified salon and spa website design concepts across Starter, Standard, and Premium scopes, each with a live interactive demo.";
+  "Explore 11 verified salon and spa website design concepts, each with a live interactive demo.";
 const url = `${siteUrl}/salon-concepts`;
 
 export const metadata: Metadata = {
@@ -86,64 +83,6 @@ export default function SalonConceptsPage() {
           <SalonConceptsGallery concepts={concepts} />
         </section>
 
-        {/* Salon scope tiers summary matching #packages */}
-        <section
-          id="scopes"
-          className="mt-20 border-t border-border pt-16"
-          aria-labelledby="salon-scopes-heading"
-        >
-          <div className="max-w-2xl">
-            <p className="section-label">Salon scopes</p>
-            <h2
-              id="salon-scopes-heading"
-              className="mt-2.5 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl"
-            >
-              What Starter, Standard, and Premium salon builds include
-            </h2>
-            <p className="mt-3 text-body text-muted-foreground">
-              Any visual style above can be paired with the feature level your
-              salon needs. Exact pricing and timeline are confirmed in your
-              written proposal.
-            </p>
-          </div>
-
-          <div className="mt-10 divide-y divide-border rounded-lg border border-border bg-surface">
-            {salonTierScopes.map((scope) => (
-              <div
-                key={scope.tier}
-                className="grid gap-6 p-6 sm:p-8 lg:grid-cols-[260px_1fr]"
-              >
-                <div>
-                  <span className="text-xs font-semibold uppercase tracking-[0.08em] text-primary">
-                    {scope.tag}
-                  </span>
-                  <h3 className="mt-1 text-xl font-semibold text-foreground">
-                    {scope.tier}
-                  </h3>
-                  <p className="mt-1 text-sm text-muted-foreground">
-                    {scope.revisions}
-                  </p>
-                </div>
-
-                <div>
-                  <p className="text-body text-foreground/90">{scope.summary}</p>
-                  <ul className="mt-4 grid gap-2.5 text-[15px] text-muted-foreground sm:grid-cols-2">
-                    {scope.includes.map((item) => (
-                      <li key={item} className="flex items-start gap-2">
-                        <Check
-                          className="mt-1 size-4 shrink-0 text-primary"
-                          aria-hidden="true"
-                        />
-                        <span>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-
         <section className="mt-16 rounded-lg border border-border bg-surface p-6 sm:p-10">
           <div className="flex flex-col justify-between gap-6 md:flex-row md:items-center">
             <div className="max-w-xl">
@@ -153,7 +92,7 @@ export default function SalonConceptsPage() {
               <p className="mt-2 text-body text-muted-foreground">
                 Click Enquire about this design on any concept above to
                 preselect it, or send your treatment list and reference links
-                for a custom proposal.
+                for a custom written proposal.
               </p>
             </div>
             <div className="flex flex-wrap gap-3">

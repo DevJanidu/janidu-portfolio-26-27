@@ -55,11 +55,6 @@ export function Footer() {
                   Leave a review
                 </Link>
               </li>
-              <li>
-                <Link href="/pricing" className="transition-colors hover:text-foreground">
-                  Package comparison
-                </Link>
-              </li>
             </ul>
           </div>
 

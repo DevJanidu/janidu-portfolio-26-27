@@ -68,7 +68,6 @@ export function SalonConceptsSection() {
                 <div className="flex flex-wrap items-center gap-2">
                   <Badge variant="accent">{concept.label}</Badge>
                   <Badge variant="outline">{concept.bookingApproach}</Badge>
-                  <Badge variant="default">{concept.tier} scope</Badge>
                 </div>
 
                 <h3 className="mt-3.5 text-2xl font-semibold tracking-tight text-foreground">

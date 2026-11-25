@@ -1,12 +1,12 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import {
-  costExpectations,
   getVerifiedPaymentNotes,
   paymentConfig,
   processSteps,
 } from "@/lib/data";
 import { SectionHeading } from "@/components/section-heading";
+import { Button } from "@/components/ui/button";
 
 export function ProcessSection() {
   const paymentNotes = getVerifiedPaymentNotes();
@@ -17,10 +17,10 @@ export function ProcessSection() {
         <SectionHeading
           label="Process & payments"
           title="How a project runs from proposal to launch"
-          description="Clear milestones, a private preview link to test everything on your phone and computer, and fixed pricing agreed before work begins."
+          description="Clear milestones, a private preview link to test everything on your phone and computer, and a written proposal agreed before work begins."
         />
 
-        <div className="mt-12 grid gap-12 lg:grid-cols-[1.12fr_0.88fr] lg:items-start">
+        <div className="mt-12 grid gap-12 lg:grid-cols-[1.15fr_0.85fr] lg:items-start">
           {/* Four plain-English steps */}
           <ol className="divide-y divide-border border-y border-border">
             {processSteps.map((step) => (
@@ -43,42 +43,20 @@ export function ProcessSection() {
             ))}
           </ol>
 
-          {/* Scope, pricing clarity, and payment confirmation notice */}
+          {/* Custom proposal & payment terms (no fixed packages or tiers) */}
           <div className="rounded-lg border border-border bg-surface p-6 shadow-card sm:p-8">
             <h3 className="text-xl font-semibold tracking-tight text-foreground">
-              {costExpectations.heading}
+              Custom proposals tailored to your business
             </h3>
-            <p className="mt-2.5 text-[16px] leading-relaxed text-muted-foreground">
-              {costExpectations.summary}
+            <p className="mt-3 text-[16px] leading-relaxed text-muted-foreground">
+              Every website is scoped individually around what your customers
+              need to do online, whether that is browsing your service menu,
+              booking an appointment, or sending an inquiry.
             </p>
-
-            <dl className="mt-6 space-y-5 border-t border-border pt-5">
-              {costExpectations.tiers.map((tier) => (
-                <div key={tier.name}>
-                  <div className="flex flex-wrap items-baseline justify-between gap-2">
-                    <dt className="text-base font-semibold text-foreground">
-                      {tier.name}
-                    </dt>
-                    <span className="text-xs font-medium text-muted-foreground">
-                      Typical timeline: {tier.timeline}
-                    </span>
-                  </div>
-                  <dd className="mt-1 text-[15px] leading-relaxed text-muted-foreground">
-                    {tier.summary}
-                  </dd>
-                </div>
-              ))}
-            </dl>
-
-            <p className="mt-5 text-sm leading-relaxed text-muted-foreground">
-              {costExpectations.ownershipNote}{" "}
-              <Link
-                href="/pricing"
-                className="inline-flex items-center gap-1 font-medium text-primary hover:underline"
-              >
-                Compare package details
-                <ArrowRight className="size-3.5" aria-hidden="true" />
-              </Link>
+            <p className="mt-3 text-[15px] leading-relaxed text-muted-foreground">
+              You receive a clear written proposal covering the exact pages,
+              features, timeline, and total before any deposit is due. Domain
+              registration and hosting stay in your own accounts.
             </p>
 
             <div className="mt-6 rounded-md border border-border bg-background p-4 sm:p-5">
@@ -93,6 +71,15 @@ export function ProcessSection() {
                   {note}
                 </p>
               ))}
+            </div>
+
+            <div className="mt-6">
+              <Button asChild size="lg" className="w-full sm:w-auto">
+                <Link href="/#contact">
+                  Request a written proposal
+                  <ArrowRight className="size-4" aria-hidden="true" />
+                </Link>
+              </Button>
             </div>
           </div>
         </div>

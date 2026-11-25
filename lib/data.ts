@@ -85,33 +85,33 @@ export function getExternalProjectLabel(type: ProjectLinkType): string {
 }
 
 export const projects: Project[] = [
-  // --- Featured Premium Builds from salon-demo-coral-eta.vercel.app/concepts ---
+  // --- Featured Salon Builds from salon-demo-coral-eta.vercel.app/concepts ---
   {
     slug: "milan-marble",
     title: "Milan Marble",
-    category: "Premium salon build · Fashion editorial",
+    category: "Salon website · Fashion editorial",
     tagline:
-      "Full-bleed editorial lookbook connecting signature salon looks directly to services, packages, and online booking.",
+      "Full-bleed editorial lookbook connecting signature salon looks directly to services and online booking.",
     cardLead:
-      "Built for upscale hair salons and color specialists where clients browse signature looks, inspect treatment details and bridal packages, and book an appointment from any section.",
+      "Built for upscale hair salons and color specialists where clients browse signature looks, inspect treatment details, and book an appointment from any section.",
     cardCapabilities: [
       "Editorial lookbook linked directly to matching salon treatments",
-      "Dedicated service menu, bridal packages, and inquiry workflow",
+      "Dedicated service menu, gallery, and client inquiry workflow",
       "Interactive appointment booking and WhatsApp consultation access",
     ],
     description:
-      "A Premium multi-page salon design built around high-impact photography and effortless navigation from visual inspiration to the service menu, packages, and booking.",
+      "A multi-page salon design built around high-impact photography and effortless navigation from visual inspiration to the service menu and booking.",
     cardImage: "/assets/salon-concepts/01-milan-marble.png",
     cardImageAlt:
-      "Milan Marble premium salon website showing editorial hair cover, service menu, packages, and Book an Appointment button",
+      "Milan Marble salon website showing editorial hair cover, service menu, and Book an Appointment button",
     images: ["/assets/salon-concepts/01-milan-marble.png"],
     screens: [
       {
         src: "/assets/salon-concepts/01-milan-marble.png",
-        alt: "Milan Marble homepage cover with editorial lookbook navigation, service menu, packages, and Book an Appointment button",
+        alt: "Milan Marble homepage cover with editorial lookbook navigation, service menu, and Book an Appointment button",
         title: "Editorial cover and direct booking",
         caption:
-          "Pairs full-bleed salon photography with a clean navigation bar for Lookbook, Service Menu, Packages, Enquire, Visit, and Book an Appointment.",
+          "Pairs full-bleed salon photography with a clean navigation bar for Lookbook, Service Menu, Enquire, Visit, and Book an Appointment.",
       },
     ],
     externalUrl: "https://salon-demo-coral-eta.vercel.app/concepts/marble",
@@ -121,22 +121,22 @@ export const projects: Project[] = [
     supportsLiveEmbed: true,
     caseStudy: {
       brief:
-        "High-end hair salons and bridal studios rely on visual craft to justify premium pricing. Milan Marble was built so prospective clients can browse finished looks like a magazine editorial and jump straight to the matching service, package, or appointment booking form.",
+        "High-end hair salons and bridal studios rely on visual craft. Milan Marble was built so prospective clients can browse finished looks like a magazine editorial and jump straight to the matching service or appointment booking form.",
       whatIBuilt: [
-        "A full-bleed editorial hero with clean top navigation covering Lookbook, Service Menu, Packages, Enquire, and Visit.",
+        "A full-bleed editorial hero with clean top navigation covering Lookbook, Service Menu, Enquire, and Visit.",
         "Direct pathways from featured hair and beauty looks into detailed service descriptions and booking actions.",
-        "Multi-page Premium salon architecture supporting content management for services, packages, promotions, and inquiries.",
+        "Multi-page salon architecture supporting easy updates to services, promotions, and incoming inquiries.",
       ],
       verifiedOutcomes: [
-        "Live interactive Premium preview published at salon-demo-coral-eta.vercel.app/concepts/marble.",
-        "Ready to customize with any salon's brand photography, pricing menu, and booking system.",
+        "Live interactive preview published at salon-demo-coral-eta.vercel.app/concepts/marble.",
+        "Ready to customize with any salon's brand photography, service menu, and booking system.",
       ],
     },
   },
   {
     slug: "lucia-atelier",
     title: "Lucia Atelier",
-    category: "Premium salon build · Results-led atelier",
+    category: "Salon website · Results-led atelier",
     tagline:
       "Guides visitors from client transformation stories and skin or hair concerns straight to the right service and booking.",
     cardLead:
@@ -146,10 +146,10 @@ export const projects: Project[] = [
       "Prominent studio address, hours, WhatsApp, and Book Now action",
     ],
     description:
-      "A Premium warm-cream atelier layout built for salons, skin clinics, and corrective color studios where trust, specialist expertise, and visible results drive bookings.",
+      "A warm-cream atelier layout built for salons, skin clinics, and corrective color studios where trust, specialist expertise, and visible results drive bookings.",
     cardImage: "/assets/salon-concepts/02-lucia-atelier.png",
     cardImageAlt:
-      "Lucia Atelier premium salon website showing warm architectural arches, studio hours, and coral Book Now button",
+      "Lucia Atelier salon website showing warm architectural arches, studio hours, and coral Book Now button",
     images: ["/assets/salon-concepts/02-lucia-atelier.png"],
     screens: [
       {
@@ -171,10 +171,10 @@ export const projects: Project[] = [
       whatIBuilt: [
         "Dedicated navigation paths for Services, Concerns, Experts, Stories, Results, Enquire, and Visit.",
         "Warm architectural presentation with studio location, opening hours, WhatsApp access, and a prominent Book Now action.",
-        "Multi-page Premium structure built for easy updates to packages, testimonials, and incoming client inquiries.",
+        "Multi-page structure built for easy updates to testimonials and incoming client inquiries.",
       ],
       verifiedOutcomes: [
-        "Live interactive Premium preview published at salon-demo-coral-eta.vercel.app/concepts/lucia and embedded live on the homepage.",
+        "Live interactive preview published at salon-demo-coral-eta.vercel.app/concepts/lucia and embedded live on the homepage.",
         "Demonstrates concern-led discovery and direct consultation booking on desktop and mobile.",
       ],
     },
@@ -182,28 +182,28 @@ export const projects: Project[] = [
   {
     slug: "swiss-classic",
     title: "Swiss Classic",
-    category: "Premium salon build · Service directory",
+    category: "Salon website · Service directory",
     tagline:
-      "Structured typographic service index putting upfront prices, details, and per-service Book buttons in the first screen.",
+      "Structured typographic service index putting upfront services, details, and per-service Book buttons in the first screen.",
     cardLead:
-      "Lets decisive clients scan Haircuts, Scalp Treatments, Hair Coloring, and Facials with clear prices right away and click Details or Book on any row.",
+      "Lets decisive clients scan Haircuts, Scalp Treatments, Hair Coloring, and Facials right away and click Details or Book on any row.",
     cardCapabilities: [
-      "Upfront service index table with starting prices on the first screen",
+      "Upfront service index table right on the first screen",
       "Direct Details and Book buttons for every treatment category",
     ],
     description:
-      "A Premium high-contrast service directory built for busy salons and clinics whose clients want transparent pricing, concise treatment notes, and zero-friction booking.",
+      "A high-contrast service directory built for busy salons and clinics whose clients want concise treatment notes and zero-friction booking.",
     cardImage: "/assets/salon-concepts/03-swiss-classic.png",
     cardImageAlt:
-      "Swiss Classic premium salon website showing a structured service index with prices and Book buttons",
+      "Swiss Classic salon website showing a structured service index and Book buttons",
     images: ["/assets/salon-concepts/03-swiss-classic.png"],
     screens: [
       {
         src: "/assets/salon-concepts/03-swiss-classic.png",
-        alt: "Swiss Classic service directory showing Haircuts, Scalp Treatments, Hair Coloring, and Facial Treatments with prices and Book buttons",
+        alt: "Swiss Classic service directory showing Haircuts, Scalp Treatments, Hair Coloring, and Facial Treatments with Book buttons",
         title: "First-screen service index and instant booking",
         caption:
-          "Lists every core treatment category with concise descriptions, starting prices, and direct Details and Book actions above the fold.",
+          "Lists every core treatment category with concise descriptions and direct Details and Book actions above the fold.",
       },
     ],
     externalUrl: "https://salon-demo-coral-eta.vercel.app/concepts/classic",
@@ -213,15 +213,15 @@ export const projects: Project[] = [
     supportsLiveEmbed: true,
     caseStudy: {
       brief:
-        "Decisive clients often abandon salon sites when prices are buried behind multiple clicks. Swiss Classic puts a clean, scannable service index right at the top of the page so visitors can inspect prices and book in seconds.",
+        "Decisive clients often leave salon sites when services are buried behind multiple clicks. Swiss Classic puts a clean, scannable service index right at the top of the page so visitors can inspect options and book in seconds.",
       whatIBuilt: [
-        "A hairline-grid service directory listing categories, plain-English descriptions, starting prices, and per-row Details and Book buttons.",
-        "Header bar keeping studio address, opening hours, Specifications, Packages, Gallery, and Enquire immediately accessible.",
-        "Premium multi-page structure supporting full service, package, and inquiry management.",
+        "A hairline-grid service directory listing categories, plain-English descriptions, and per-row Details and Book buttons.",
+        "Header bar keeping studio address, opening hours, Specifications, Gallery, and Enquire immediately accessible.",
+        "Multi-page structure supporting full service and inquiry management.",
       ],
       verifiedOutcomes: [
-        "Live interactive Premium preview published at salon-demo-coral-eta.vercel.app/concepts/classic.",
-        "Built for fast price comparison and immediate appointment conversion on both desktop and mobile.",
+        "Live interactive preview published at salon-demo-coral-eta.vercel.app/concepts/classic.",
+        "Built for fast scanning and immediate appointment conversion on both desktop and mobile.",
       ],
     },
   },

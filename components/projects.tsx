@@ -197,9 +197,9 @@ export function Projects() {
       <span id="projects" className="scroll-mt-24" aria-hidden="true" />
       <div className="container">
         <SectionHeading
-          label="Featured work · Premium builds"
+          label="Featured work"
           title="Recent builds for salons, spas, and service firms"
-          description="Real layouts built around how customers check prices, pick a time or specialist, and get in touch."
+          description="Real layouts built around how customers check services, pick a time or specialist, and get in touch."
         />
 
         <div className="mt-12 space-y-8">
