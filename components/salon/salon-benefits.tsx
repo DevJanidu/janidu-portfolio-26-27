@@ -15,7 +15,7 @@ export function SalonBenefits() {
       <section className="scroll-mt-20 border-y border-border bg-muted py-20 sm:py-28">
         <SalonContainer>
           <SectionHeading
-            command="cat benefits.md"
+            label="Operational benefits"
             title="Main Benefits"
             description="Why salons move their operations onto one cloud system."
           />

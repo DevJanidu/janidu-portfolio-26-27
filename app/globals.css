@@ -14,10 +14,10 @@
   html {
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
   }
 
-  /* Safety net: never allow the page to scroll sideways on any viewport. */
   html,
   body {
     overflow-x: hidden;
@@ -39,125 +39,51 @@
 
   body {
     @apply bg-background text-foreground font-sans antialiased;
-    background: #ffffff;
-    color: #03045e;
+    background-color: #faf9f6;
+    color: #111827;
+    font-size: 17px;
+    line-height: 1.68;
+  }
+
+  @media (min-width: 768px) {
+    body {
+      font-size: 18px;
+      line-height: 1.7;
+    }
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    color: #111827;
+    letter-spacing: -0.025em;
   }
 
   ::selection {
-    background: rgba(0, 180, 216, 0.25);
-    color: #03045e;
+    background: rgba(29, 78, 216, 0.16);
+    color: #111827;
   }
 
-  /* Visible, on-brand keyboard focus everywhere */
   :focus-visible {
-    outline: 2px solid #0077b6;
+    outline: 2px solid #1d4ed8;
     outline-offset: 3px;
     border-radius: 4px;
-  }
-
-  /* Themed scrollbar */
-  ::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
-  }
-  ::-webkit-scrollbar-track {
-    background: #f4fbfd;
-  }
-  ::-webkit-scrollbar-thumb {
-    background: #caf0f8;
-    border-radius: 8px;
-    border: 2px solid #f4fbfd;
-  }
-  ::-webkit-scrollbar-thumb:hover {
-    background: #90e0ef;
   }
 }
 
 @layer components {
-  /* Faint dotted grid used behind the hero — the "terminal canvas" */
-  .bg-dotgrid {
-    background-image: radial-gradient(
-      rgba(0, 119, 182, 0.12) 1px,
-      transparent 1px
-    );
-    background-size: 22px 22px;
+  .section-label {
+    @apply text-xs font-semibold uppercase tracking-[0.12em] text-primary;
   }
 
-  /* Command-line eyebrow used on every section heading */
-  .eyebrow {
-    @apply inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.2em] text-ocean;
+  /* Screenshot browser frame that keeps chrome subtle so real imagery carries the color */
+  .screenshot-frame {
+    @apply overflow-hidden rounded-lg border border-border bg-white shadow-frame;
   }
 
-  .terminal-frame {
-    @apply rounded-lg border border-border bg-card shadow-card;
-  }
-
-  /* Tech-stack marquee. Kept in global CSS (not styled-jsx) so the keyframes
-     always apply, even when the class is composed via cn(). Track is duplicated
-     in the markup, so translating -50% loops seamlessly. */
-  .animate-marquee {
-    animation: marquee 30s linear infinite;
-  }
-  .animate-marquee.is-paused,
-  .marquee-track:hover .animate-marquee {
-    animation-play-state: paused;
-  }
-  @keyframes marquee {
-    from {
-      transform: translateX(0);
-    }
-    to {
-      transform: translateX(-50%);
-    }
-  }
-
-  /* Contribution-graph cells: hidden until in view, then each slot lights up
-     on its own animation-delay for a fast left-to-right sweep. */
-  .contrib-cell {
-    opacity: 0;
-  }
-  .contrib-cell.lit {
-    animation: cell-light 0.3s ease-out both;
-  }
-  @keyframes cell-light {
-    from {
-      opacity: 0;
-      transform: scale(0.2);
-    }
-    60% {
-      transform: scale(1.25);
-    }
-    to {
-      opacity: 1;
-      transform: scale(1);
-    }
-  }
-
-  /* Contribution-graph horizontal scroller: the native scrollbar stays
-     hidden until the strip is hovered, focused, or touched — matching
-     GitHub's own mobile contribution-graph behavior (press to scroll,
-     release and it fades away again). */
-  .contrib-scroll {
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-  }
-  .contrib-scroll:hover,
-  .contrib-scroll:focus-within,
-  .contrib-scroll:active {
-    scrollbar-width: thin;
-  }
-  .contrib-scroll::-webkit-scrollbar {
-    height: 6px;
-  }
-  .contrib-scroll::-webkit-scrollbar-track {
-    background: transparent;
-  }
-  .contrib-scroll::-webkit-scrollbar-thumb {
-    background: transparent;
-    border-radius: 999px;
-  }
-  .contrib-scroll:hover::-webkit-scrollbar-thumb,
-  .contrib-scroll:active::-webkit-scrollbar-thumb {
-    background: rgba(0, 119, 182, 0.35);
+  .content-auto {
+    content-visibility: auto;
+    contain-intrinsic-size: 1px 320px;
   }
 }

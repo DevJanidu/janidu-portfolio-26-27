@@ -4,15 +4,19 @@ import { motion, type Variants } from "framer-motion";
 import type { ReactNode } from "react";
 
 const variants: Variants = {
-  hidden: { opacity: 0, y: 24 },
+  hidden: { opacity: 0, y: 10 },
   visible: (i: number = 0) => ({
     opacity: 1,
     y: 0,
-    transition: { duration: 0.55, delay: i * 0.08, ease: [0.21, 0.47, 0.32, 0.98] },
+    transition: {
+      duration: 0.35,
+      delay: Math.min(i * 0.05, 0.15),
+      ease: [0.25, 0.1, 0.25, 1],
+    },
   }),
 };
 
-/** Scroll-triggered fade/rise. Respects prefers-reduced-motion via Framer. */
+/** Subtle fade-up reveal. Respects prefers-reduced-motion via MotionConfig. */
 export function Reveal({
   children,
   i = 0,
@@ -32,7 +36,7 @@ export function Reveal({
       variants={variants}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, margin: "-80px" }}
+      viewport={{ once: true, margin: "-60px" }}
     >
       {children}
     </MotionTag>

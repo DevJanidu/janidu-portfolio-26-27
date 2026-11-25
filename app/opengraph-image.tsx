@@ -1,7 +1,8 @@
 import { ImageResponse } from "next/og";
-import { profile } from "@/lib/data";
+import { heroContent, profile } from "@/lib/data";
 
-export const alt = "Janidu Yapa, Software Engineer & Full-Stack Developer";
+export const alt =
+  "Janidu Yapa — Websites & Online Booking for Small Businesses";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -16,66 +17,78 @@ export default function Image() {
           flexDirection: "column",
           justifyContent: "space-between",
           padding: "72px",
-          background:
-            "linear-gradient(135deg, #03045E 0%, #023E8A 45%, #0077B6 100%)",
-          fontFamily: "system-ui, sans-serif",
+          background: "#FAF9F6",
+          color: "#111827",
+          fontFamily: "system-ui, -apple-system, sans-serif",
+          borderTop: "10px solid #1D4ED8",
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
           <div
             style={{
-              width: 14,
-              height: 14,
-              borderRadius: 999,
-              background: "#00B4D8",
-              display: "flex",
-            }}
-          />
-          <div
-            style={{
-              color: "#90E0EF",
-              fontSize: 28,
+              color: "#1D4ED8",
+              fontSize: 26,
               fontWeight: 700,
-              letterSpacing: 1,
+              letterSpacing: -0.5,
               display: "flex",
             }}
           >
-            JaniduDev
+            {profile.publicName} · JaniduDev
+          </div>
+          <div
+            style={{
+              color: "#4B5563",
+              fontSize: 22,
+              display: "flex",
+            }}
+          >
+            {profile.location}
           </div>
         </div>
 
-        <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: 22 }}>
           <div
             style={{
-              color: "#FFFFFF",
-              fontSize: 76,
-              fontWeight: 800,
-              lineHeight: 1.05,
+              color: "#111827",
+              fontSize: 66,
+              fontWeight: 700,
+              lineHeight: 1.08,
+              letterSpacing: -1.5,
+              maxWidth: 980,
               display: "flex",
             }}
           >
-            {profile.name}
+            {heroContent.headline}
           </div>
           <div
             style={{
-              color: "#CAF0F8",
-              fontSize: 34,
-              fontWeight: 500,
-              display: "flex",
-            }}
-          >
-            Software Engineer &amp; Full-Stack Developer
-          </div>
-          <div
-            style={{
-              color: "#90E0EF",
-              fontSize: 24,
+              color: "#4B5563",
+              fontSize: 30,
               fontWeight: 400,
+              lineHeight: 1.4,
+              maxWidth: 940,
               display: "flex",
             }}
           >
-            Kandy, Sri Lanka · ERP · POS · AI-powered web applications
+            {heroContent.subheadline}
           </div>
+        </div>
+
+        <div
+          style={{
+            color: "#1D4ED8",
+            fontSize: 22,
+            fontWeight: 600,
+            display: "flex",
+          }}
+        >
+          janidudev.com · Serving US, UK, Australia &amp; Sri Lanka
         </div>
       </div>
     ),

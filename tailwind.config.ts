@@ -10,76 +10,79 @@ const config: Config = {
   theme: {
     container: {
       center: true,
-      padding: "1.5rem",
+      padding: "1.25rem",
       screens: {
+        sm: "640px",
+        md: "768px",
+        lg: "1024px",
+        xl: "1160px",
         "2xl": "1200px",
       },
     },
     extend: {
       colors: {
-        navy: "#03045E",
-        ocean: "#0077B6",
-        cyan: "#00B4D8",
-        sky: "#90E0EF",
-        ice: "#CAF0F8",
+        // Legacy aliases mapped onto the restrained off-white / near-black / single-blue palette
+        // so preserved secondary routes (/pricing, /salon-details) stay harmonious.
+        navy: "#111827",
+        ocean: "#1D4ED8",
+        cyan: "#1D4ED8",
+        sky: "#DBEAFE",
+        ice: "#EFF6FF",
 
-        background: "#FFFFFF",
-        foreground: "#03045E",
+        background: "#FAF9F6",
+        surface: "#FFFFFF",
+        foreground: "#111827",
 
-        border: "rgba(0, 119, 182, 0.14)",
-        input: "rgba(0, 119, 182, 0.16)",
-        ring: "#00B4D8",
+        border: "#E5E4DF",
+        input: "#D6D5CE",
+        ring: "#1D4ED8",
 
         card: {
           DEFAULT: "#FFFFFF",
-          foreground: "#03045E",
+          foreground: "#111827",
         },
 
         popover: {
           DEFAULT: "#FFFFFF",
-          foreground: "#03045E",
+          foreground: "#111827",
         },
 
         primary: {
-          DEFAULT: "#0077B6",
+          DEFAULT: "#1D4ED8",
+          hover: "#1E40AF",
           foreground: "#FFFFFF",
         },
 
         secondary: {
-          DEFAULT: "#CAF0F8",
-          foreground: "#03045E",
+          DEFAULT: "#F2F1EC",
+          foreground: "#111827",
         },
 
         muted: {
-          DEFAULT: "#F4FBFD",
-          foreground: "#4D7185",
+          DEFAULT: "#F3F2EE",
+          foreground: "#4B5563",
         },
 
         accent: {
-          // Nudged lighter than a first pass (#E6F8FC) so ocean text sitting
-          // on this background clears WCAG AA (4.5:1) at normal text sizes.
-          DEFAULT: "#ECFAFD",
-          foreground: "#0077B6",
+          DEFAULT: "#EFF6FF",
+          foreground: "#1D4ED8",
         },
 
         destructive: {
-          DEFAULT: "#DC2626",
+          DEFAULT: "#B91C1C",
           foreground: "#FFFFFF",
         },
       },
 
       fontFamily: {
-        sans: ["var(--font-inter)", "system-ui", "sans-serif"],
-        display: [
-          "var(--font-space-grotesk)",
-          "system-ui",
-          "sans-serif",
-        ],
-        mono: [
-          "var(--font-jetbrains-mono)",
-          "ui-monospace",
-          "monospace",
-        ],
+        sans: ["var(--font-inter)", "system-ui", "-apple-system", "sans-serif"],
+        display: ["var(--font-inter)", "system-ui", "-apple-system", "sans-serif"],
+        mono: ["var(--font-inter)", "system-ui", "-apple-system", "sans-serif"],
+      },
+
+      fontSize: {
+        body: ["1.0625rem", { lineHeight: "1.68" }],
+        "body-lg": ["1.125rem", { lineHeight: "1.7" }],
       },
 
       borderRadius: {
@@ -89,9 +92,10 @@ const config: Config = {
       },
 
       boxShadow: {
-        card: "0 8px 30px rgba(3, 4, 94, 0.06)",
-        elevated: "0 12px 40px rgba(0, 119, 182, 0.10)",
-        button: "0 6px 18px rgba(0, 119, 182, 0.18)",
+        card: "0 1px 3px rgba(17, 24, 39, 0.05), 0 1px 2px rgba(17, 24, 39, 0.03)",
+        elevated: "0 12px 32px -8px rgba(17, 24, 39, 0.09), 0 2px 6px rgba(17, 24, 39, 0.04)",
+        frame: "0 18px 44px -12px rgba(17, 24, 39, 0.12), 0 2px 8px rgba(17, 24, 39, 0.05)",
+        button: "0 1px 2px rgba(17, 24, 39, 0.08)",
       },
 
       keyframes: {
@@ -99,29 +103,15 @@ const config: Config = {
           from: { height: "0" },
           to: { height: "var(--radix-accordion-content-height)" },
         },
-
         "accordion-up": {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
-        },
-
-        blink: {
-          "0%, 100%": { opacity: "1" },
-          "50%": { opacity: "0" },
-        },
-
-        "grid-fade": {
-          "0%": { opacity: "0.15" },
-          "50%": { opacity: "0.3" },
-          "100%": { opacity: "0.15" },
         },
       },
 
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-        blink: "blink 1s step-end infinite",
-        "grid-fade": "grid-fade 6s ease-in-out infinite",
       },
     },
   },

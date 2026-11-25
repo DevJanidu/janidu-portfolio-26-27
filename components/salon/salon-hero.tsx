@@ -6,16 +6,10 @@ import { Button } from "@/components/ui/button";
 
 export function SalonHero() {
   return (
-    <section className="relative overflow-hidden bg-dotgrid pb-16 pt-28 sm:pb-20 sm:pt-32">
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute right-[-10%] top-[-10%] h-[36rem] w-[36rem] rounded-full bg-sky/40 blur-[120px]"
-      />
+    <section className="relative overflow-hidden pb-16 pt-28 sm:pb-20 sm:pt-32">
       <SalonContainer className="relative max-w-4xl">
         <GsapReveal>
-          <span className="eyebrow text-sm">
-            <span className="text-muted-foreground/60">$</span> {salonHero.eyebrow}
-          </span>
+          <span className="section-label">Salon website &amp; ERP</span>
         </GsapReveal>
 
         <GsapReveal delay={0.08}>

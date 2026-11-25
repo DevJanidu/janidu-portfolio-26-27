@@ -1,9 +1,9 @@
 import { ImageResponse } from "next/og";
-import { projects } from "@/lib/data";
+import { profile, projects } from "@/lib/data";
 
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
-export const alt = "Software project case study by Janidu Yapa";
+export const alt = "Website project case study by Janidu Yapa";
 
 export function generateStaticParams() {
   return projects.map((p) => ({ slug: p.slug }));
@@ -16,8 +16,9 @@ export default async function Image({
 }) {
   const { slug } = await params;
   const project = projects.find((p) => p.slug === slug);
-  const title = project?.title ?? "Project";
-  const tagline = project?.tagline ?? "A software project by Janidu Yapa";
+  const title = project?.title ?? "Project Case Study";
+  const tagline = project?.tagline ?? "Designed and built by Janidu Yapa";
+  const category = project?.category ?? "Featured Project";
 
   return new ImageResponse(
     (
@@ -29,41 +30,33 @@ export default async function Image({
           flexDirection: "column",
           justifyContent: "space-between",
           padding: "72px",
-          background:
-            "linear-gradient(135deg, #03045E 0%, #023E8A 45%, #0077B6 100%)",
-          fontFamily: "system-ui, sans-serif",
+          background: "#FAF9F6",
+          color: "#111827",
+          fontFamily: "system-ui, -apple-system, sans-serif",
+          borderTop: "10px solid #1D4ED8",
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-          <div
-            style={{
-              width: 14,
-              height: 14,
-              borderRadius: 999,
-              background: "#00B4D8",
-              display: "flex",
-            }}
-          />
-          <div
-            style={{
-              color: "#90E0EF",
-              fontSize: 28,
-              fontWeight: 700,
-              letterSpacing: 1,
-              display: "flex",
-            }}
-          >
-            JaniduDev · Case Study
-          </div>
+        <div
+          style={{
+            color: "#1D4ED8",
+            fontSize: 24,
+            fontWeight: 700,
+            textTransform: "uppercase",
+            letterSpacing: 1.5,
+            display: "flex",
+          }}
+        >
+          {category}
         </div>
 
-        <div style={{ display: "flex", flexDirection: "column", gap: 18 }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
           <div
             style={{
-              color: "#FFFFFF",
-              fontSize: 64,
-              fontWeight: 800,
-              lineHeight: 1.1,
+              color: "#111827",
+              fontSize: 68,
+              fontWeight: 700,
+              lineHeight: 1.08,
+              letterSpacing: -1.5,
               display: "flex",
             }}
           >
@@ -71,25 +64,27 @@ export default async function Image({
           </div>
           <div
             style={{
-              color: "#CAF0F8",
+              color: "#4B5563",
               fontSize: 30,
-              fontWeight: 500,
-              maxWidth: 1000,
+              fontWeight: 400,
+              lineHeight: 1.4,
+              maxWidth: 980,
               display: "flex",
             }}
           >
             {tagline}
           </div>
-          <div
-            style={{
-              color: "#90E0EF",
-              fontSize: 24,
-              fontWeight: 400,
-              display: "flex",
-            }}
-          >
-            By Janidu Yapa
-          </div>
+        </div>
+
+        <div
+          style={{
+            color: "#4B5563",
+            fontSize: 24,
+            fontWeight: 500,
+            display: "flex",
+          }}
+        >
+          Designed &amp; built by {profile.publicName} · janidudev.com
         </div>
       </div>
     ),

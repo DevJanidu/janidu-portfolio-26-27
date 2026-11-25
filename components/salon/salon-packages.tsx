@@ -42,7 +42,7 @@ export function SalonPackages() {
     >
       <SalonContainer>
         <SectionHeading
-          command="ls ./salon-packages"
+          label="Salon packages"
           title="Three Ways to Get Your Salon Online"
           description="Start with a professional website, add online booking and a dashboard, or run your entire salon on one cloud ERP."
         />

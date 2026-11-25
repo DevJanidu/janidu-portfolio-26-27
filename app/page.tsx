@@ -1,72 +1,59 @@
 import { Hero } from "@/components/hero";
-import { About } from "@/components/about";
-import { LinkedInHighlight } from "@/components/linkedin-highlight";
-import { Venture } from "@/components/venture";
-import { Skills } from "@/components/skills";
+import { LiveProjectShowcase } from "@/components/live-project-showcase";
 import { Projects } from "@/components/projects";
-import { OpenSource } from "@/components/open-source";
-import { Experience } from "@/components/experience";
-import { Writing } from "@/components/writing";
+import { SalonConceptsSection } from "@/components/salon-concepts-section";
+import { ProcessSection } from "@/components/process-section";
+import { ReviewsPreview } from "@/components/reviews-preview";
+import { About } from "@/components/about";
 import { Contact } from "@/components/contact";
 import { JsonLd } from "@/components/json-ld";
 import { profile, siteUrl } from "@/lib/data";
+import {
+  computeReviewSummary,
+  getFeaturedReviews,
+  getPublishedReviews,
+} from "@/lib/reviews";
 
-const profilePageJsonLd = {
+const professionalServiceJsonLd = {
   "@context": "https://schema.org",
-  "@type": "ProfilePage",
+  "@type": "ProfessionalService",
+  name: "Janidu Yapa — Web Design & Development",
+  alternateName: "JaniduDev",
   url: `${siteUrl}/`,
-  mainEntity: {
+  email: profile.email,
+  telephone: profile.whatsapp,
+  description:
+    "Custom websites, service menus, and online booking systems for small businesses in the US, UK, Australia, Sri Lanka, and worldwide.",
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Kandy",
+    addressRegion: "Central Province",
+    addressCountry: "LK",
+  },
+  areaServed: ["US", "GB", "AU", "LK"],
+  founder: {
     "@type": "Person",
     name: profile.name,
-    alternateName: [profile.publicName, "JaniduDev"],
     url: `${siteUrl}/`,
-    jobTitle: "Software Engineer and Full-Stack Developer",
-    description:
-      "Software engineer in Kandy, Sri Lanka specializing in ERP systems, POS software, AI-powered web applications, booking systems, and business automation.",
-    address: {
-      "@type": "PostalAddress",
-      addressLocality: "Kandy",
-      addressRegion: "Central Province",
-      addressCountry: "LK",
-    },
-    knowsAbout: [
-      "Software Engineering",
-      "Full-Stack Development",
-      "ERP Systems",
-      "POS Software",
-      "Business Automation",
-      "Artificial Intelligence",
-      "Large Language Models",
-      "Retrieval-Augmented Generation",
-      "AI Agents",
-      "Next.js",
-      "React",
-      "TypeScript",
-      "Java",
-      "Spring Boot",
-      "ASP.NET Core",
-      "Laravel",
-      "PostgreSQL",
-      "MySQL",
-      "Docker",
-    ],
-    sameAs: [profile.socials.linkedin, profile.socials.github],
+    sameAs: [profile.socials.linkedin],
   },
 };
 
-export default function HomePage() {
+export default async function HomePage() {
+  const allReviews = await getPublishedReviews();
+  const featuredReviews = await getFeaturedReviews(3);
+  const reviewSummary = computeReviewSummary(allReviews);
+
   return (
     <>
-      <JsonLd data={profilePageJsonLd} />
+      <JsonLd data={professionalServiceJsonLd} />
       <Hero />
-      <About />
-      <LinkedInHighlight />
-      <Venture />
-      <Skills />
+      <LiveProjectShowcase />
       <Projects />
-      <OpenSource />
-      <Experience />
-      <Writing />
+      <SalonConceptsSection />
+      <ProcessSection />
+      <ReviewsPreview reviews={featuredReviews} summary={reviewSummary} />
+      <About />
       <Contact />
     </>
   );

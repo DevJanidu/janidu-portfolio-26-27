@@ -1,34 +1,31 @@
-import { Reveal } from "@/components/reveal";
 import { cn } from "@/lib/utils";
 
-/** Command-line eyebrow + display title. The eyebrow encodes a route/command. */
 export function SectionHeading({
+  label,
   command,
   title,
   description,
   className,
 }: {
-  command: string;
+  label?: string;
+  command?: string;
   title: string;
   description?: string;
   className?: string;
 }) {
+  const eyebrowText = label ?? command;
   return (
     <div className={cn("max-w-2xl", className)}>
-      <Reveal>
-        <span className="eyebrow">
-          <span className="text-muted-foreground/60">$</span> {command}
-        </span>
-      </Reveal>
-      <Reveal i={1}>
-        <h2 className="mt-3 font-display text-3xl font-bold tracking-tight text-navy sm:text-4xl">
-          {title}
-        </h2>
-      </Reveal>
+      {eyebrowText ? (
+        <p className="section-label">{eyebrowText}</p>
+      ) : null}
+      <h2 className="mt-2.5 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
+        {title}
+      </h2>
       {description ? (
-        <Reveal i={2}>
-          <p className="mt-3 text-muted-foreground">{description}</p>
-        </Reveal>
+        <p className="mt-3.5 text-body text-muted-foreground sm:text-body-lg">
+          {description}
+        </p>
       ) : null}
     </div>
   );

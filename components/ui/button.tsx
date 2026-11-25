@@ -4,23 +4,24 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 [&_svg]:size-4 [&_svg]:shrink-0",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-[15px] font-medium transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 [&_svg]:size-4 [&_svg]:shrink-0",
   {
     variants: {
       variant: {
         default:
-          "bg-primary text-primary-foreground shadow-button hover:bg-navy hover:-translate-y-0.5 active:bg-navy active:translate-y-0",
+          "bg-primary text-primary-foreground shadow-button hover:bg-primary-hover active:bg-primary-hover",
         outline:
-          "border border-border bg-transparent text-foreground hover:bg-accent hover:border-ocean/40 active:bg-accent active:border-ocean/40",
+          "border border-input bg-surface text-foreground hover:border-foreground/30 hover:bg-secondary active:bg-secondary",
         secondary:
-          "border border-border bg-secondary text-secondary-foreground hover:bg-sky active:bg-sky",
-        ghost: "text-ocean hover:bg-accent hover:text-navy active:bg-accent active:text-navy",
-        link: "text-ocean underline-offset-4 hover:underline active:underline",
+          "border border-border bg-secondary text-secondary-foreground hover:bg-border/60 active:bg-border/60",
+        ghost:
+          "text-foreground hover:bg-secondary active:bg-secondary",
+        link: "text-primary underline-offset-4 hover:underline active:underline",
       },
       size: {
-        default: "h-10 px-5 py-2",
-        sm: "h-9 rounded-md px-3",
-        lg: "h-12 rounded-md px-8 text-base",
+        default: "h-11 px-5 py-2.5",
+        sm: "h-9 rounded-md px-3.5 text-sm",
+        lg: "h-12 rounded-md px-6 text-base font-medium",
         icon: "h-10 w-10",
       },
     },

@@ -9,25 +9,27 @@ export const metadata: Metadata = {
 
 export default function NotFound() {
   return (
-    <div className="container flex min-h-dvh flex-col items-center justify-center py-24 text-center">
-      <p className="font-mono text-sm text-ocean">$ cd /page</p>
-      <h1 className="mt-4 font-display text-6xl font-bold text-navy">404</h1>
-      <p className="mt-2 font-mono text-muted-foreground">
-        bash: page: No such file or directory
+    <div className="container flex min-h-[75dvh] flex-col items-center justify-center py-24 text-center">
+      <p className="section-label">404 error</p>
+      <h1 className="mt-3 text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">
+        Page not found
+      </h1>
+      <p className="mt-4 max-w-md text-body text-muted-foreground">
+        This page may have moved or the link may be out of date. You can view
+        recent projects or start an inquiry below.
       </p>
-      <p className="mt-4 max-w-sm text-muted-foreground">
-        This page doesn&apos;t exist or may have moved. Try one of these
-        instead:
-      </p>
-      <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
-        <Button asChild>
-          <Link href="/">Return home</Link>
+      <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+        <Button asChild size="lg">
+          <Link href="/">Back to home</Link>
         </Button>
-        <Button asChild variant="outline">
-          <Link href="/#projects">View projects</Link>
+        <Button asChild size="lg" variant="outline">
+          <Link href="/#work">View projects</Link>
         </Button>
-        <Button asChild variant="outline">
-          <Link href="/#contact">Contact</Link>
+        <Button asChild size="lg" variant="outline">
+          <Link href="/salon-concepts">Salon concepts</Link>
+        </Button>
+        <Button asChild size="lg" variant="ghost">
+          <Link href="/#contact">Start a project</Link>
         </Button>
       </div>
     </div>

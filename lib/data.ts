@@ -1,306 +1,451 @@
 // ---------------------------------------------------------------------------
-// Single source of truth for the whole site.
-// Edit these arrays to customize — every component reads from here.
+// Single source of truth for site copy, projects, process, and payment rules.
 // ---------------------------------------------------------------------------
 
-// Canonical production origin (with www — the preferred version). Every
-// canonical URL, sitemap entry, and structured-data URL is derived from
-// this so there is exactly one place to change it.
 export const siteUrl = "https://www.janidudev.com";
 
 export const profile = {
   name: "Janidu Dhakshitha Yapa",
-  // Shorter public/professional form used in headings and metadata —
-  // distinct from the full legal name above.
   publicName: "Janidu Yapa",
   firstName: "Janidu",
-  title: "Full-Stack Software Engineer",
-  // Roles cycled by the hero typing effect.
- roles: [
-  "Full-Stack Engineer",
-  "Spring Boot Backend Engineer",
-  "React & TypeScript Developer",
-  "DevOps Engineer",
-  "API Architect",
-],
+  title: "Freelance Web Designer & Developer for Small Businesses",
   location: "Kandy, Sri Lanka",
+  clientMarkets:
+    "Based in Kandy, Sri Lanka. Working with small business owners in the US, UK, Australia, Sri Lanka, and worldwide.",
   email: "hello@janidudev.com",
   whatsapp: "+94 72 625 4163",
-  // TODO: replace with your real profile URLs.
+  whatsappHref: "https://wa.me/94726254163",
   socials: {
-    github: "https://github.com/DevJanidu",
     linkedin: "https://www.linkedin.com/in/janidu-yapa-40217a332/",
   },
-  resumeUrl: "/resume.pdf", // drop your PDF in /public
-  intro:
-    "I build full-stack web applications and REST APIs end to end, from PostgreSQL schemas and Spring Boot services to typed React front ends. I care about clean, scalable code and shipping features that people actually use.",
-  availability: "Open to internships, freelance, and full-time roles",
-  responseTime: "Usually replies within 24 hours",
-  stats: [
-    { value: "3+", label: "Shipped products" },
-    { value: "6+", label: "Languages & frameworks" },
-    { value: "100%", label: "Full-stack ownership" },
-  ],
-  funFact:
-    "I like taking a project all the way (schema, API, UI, Docker, deploy) so nothing gets lost in the handoff.",
+  responseTime: "Usually replies within 1 business day",
+  aboutParagraph:
+    "I'm Janidu Yapa, an independent web designer and developer based in Kandy, Sri Lanka, building custom websites for small businesses across the US, UK, Australia, Sri Lanka, and beyond. Because you work directly with me from first draft to launch, your layout, service menu, online booking flow, and mobile speed are handled by one person without agency handoffs.",
+  experienceLine:
+    "BEng (Hons) Software Engineering graduate from London Metropolitan University with commercial experience building online booking platforms, client intake portals, and custom business software.",
 };
 
-export const current = {
-  role: "Software Engineer Intern",
-  company: "Applantics (PVT) LTD",
-  since: "Feb 2026",
-  blurb:
-    "Building full-stack features across Laravel, Spring Boot, and Flutter with a cross-functional team.",
-};
-
-// --- LinkedIn highlight -------------------------------------------------
-export const linkedin = {
-  headline:
-    "I build ERP systems, POS software, and AI-powered web applications that help businesses automate, scale, and grow. Real estate agent websites, legal tech, LLMs, RAG, and AI agents, full-stack and end to end.",
-  connections: "500+",
-};
-
-// --- Venture (LycoLabs) -----------------------------------------------------
-export const venture = {
-  role: "Founder",
-  name: "LycoLabs",
-  url: "https://www.lycolabs.com",
-  tagline: "Empowering businesses with cutting-edge technology solutions.",
-  blurb:
-    "I founded LycoLabs, a software development and IT solutions studio that builds production-ready digital products, from concept through launch, for startups and growing businesses.",
-  services: [
-    "Ecommerce Websites",
-    "AI Automation Apps",
-    "Mobile Apps",
-    "Desktop Apps",
-    "Data Services",
-    "Graphic Design",
-  ],
-};
-
-// --- Skills -----------------------------------------------------------------
-export type SkillGroup = { category: string; items: string[] };
-
-export const skillGroups: SkillGroup[] = [
-  {
-    category: "Languages",
-    items: ["TypeScript", "JavaScript", "Java", "C#", "Python", "PHP", "Dart"],
-  },
-  {
-    category: "Frontend",
-    items: ["React", "Next.js", "Angular", "Flutter", "Tailwind CSS", "Vite"],
-  },
-  {
-    category: "Backend",
-    items: [
-      "Spring Boot",
-      "ASP.NET Core",
-      "Laravel",
-      "Node.js",
-      "REST APIs",
-      "GraphQL",
-    ],
-  },
-  {
-    category: "Data",
-    items: ["PostgreSQL", "MySQL", "SQL Server", "MongoDB", "Redis", "SQLite"],
-  },
-  {
-    category: "DevOps & Cloud",
-    items: [
-      "Docker",
-      "GitHub Actions",
-      "AWS",
-      "Vercel",
-      "Railway",
-      "Supabase",
-    ],
-  },
-  {
-    category: "Security & Auth",
-    items: ["JWT", "OAuth2", "Spring Security", "Clerk", "RBAC"],
-  },
+export const navLinks = [
+  { href: "/#work", label: "Work" },
+  { href: "/#process", label: "Process" },
+  { href: "/reviews", label: "Reviews" },
+  { href: "/#about", label: "About" },
 ];
 
+export const heroContent = {
+  headline: "I design and build websites for small businesses.",
+  subheadline:
+    "Custom websites with clear service menus, online booking, and structured inquiries for salons, spas, and professional service firms.",
+  primaryAction: {
+    label: "View projects",
+    href: "#live-showcase",
+  },
+  secondaryAction: {
+    label: "Start a project",
+    href: "#contact",
+  },
+};
+
 // --- Projects ---------------------------------------------------------------
+export type ProjectLinkType = "live" | "demo";
+
+export type ProjectScreen = {
+  src: string;
+  alt: string;
+  title: string;
+  caption: string;
+};
+
 export type Project = {
   slug: string;
   title: string;
+  category: string;
   tagline: string;
-  outcome: string; // one-line user/business outcome
+  cardLead: string;
+  cardCapabilities: string[];
   description: string;
-  tech: string[];
-  github: string;
-  demo: string;
-  stars?: number;
+  cardImage: string;
+  cardImageAlt: string;
+  images: string[];
+  screens: ProjectScreen[];
+  externalUrl: string;
+  externalLinkType: ProjectLinkType;
   featured: boolean;
-  accentTerminal: string; // shown in the card's mini terminal
-  images?: string[]; // paths to project images
+  featuredLayout: "wide" | "compact";
+  supportsLiveEmbed?: boolean;
   caseStudy: {
-    problem: string;
-    context: string;
-    constraints: string[];
-    architecture: string[];
-    highlights: string[];
-    results: string[];
+    brief: string;
+    whatIBuilt: string[];
+    verifiedOutcomes: string[];
   };
 };
 
+export function getExternalProjectLabel(type: ProjectLinkType): string {
+  return type === "live" ? "Live site" : "Open demo";
+}
+
 export const projects: Project[] = [
+  // --- Featured Premium Builds from salon-demo-coral-eta.vercel.app/concepts ---
   {
-    slug: "havelock-law-firm",
-    title: "Havelock Law Firm",
-    tagline: "Modern legal practice management and client portal.",
-    outcome:
-      "A professional digital presence and secure client intake system for a law firm.",
+    slug: "milan-marble",
+    title: "Milan Marble",
+    category: "Premium salon build · Fashion editorial",
+    tagline:
+      "Full-bleed editorial lookbook connecting signature salon looks directly to services, packages, and online booking.",
+    cardLead:
+      "Built for upscale hair salons and color specialists where clients browse signature looks, inspect treatment details and bridal packages, and book an appointment from any section.",
+    cardCapabilities: [
+      "Editorial lookbook linked directly to matching salon treatments",
+      "Dedicated service menu, bridal packages, and inquiry workflow",
+      "Interactive appointment booking and WhatsApp consultation access",
+    ],
     description:
-      "Full-stack legal platform featuring a corporate website, secure client portal, and case inquiry system, built with an emphasis on professional aesthetics and data security.",
-    tech: [
-      "Next.js",
-      "Tailwind CSS",
-      "Spring Boot",
-      "TypeScript",
-      "PostgreSQL",
+      "A Premium multi-page salon design built around high-impact photography and effortless navigation from visual inspiration to the service menu, packages, and booking.",
+    cardImage: "/assets/salon-concepts/01-milan-marble.png",
+    cardImageAlt:
+      "Milan Marble premium salon website showing editorial hair cover, service menu, packages, and Book an Appointment button",
+    images: ["/assets/salon-concepts/01-milan-marble.png"],
+    screens: [
+      {
+        src: "/assets/salon-concepts/01-milan-marble.png",
+        alt: "Milan Marble homepage cover with editorial lookbook navigation, service menu, packages, and Book an Appointment button",
+        title: "Editorial cover and direct booking",
+        caption:
+          "Pairs full-bleed salon photography with a clean navigation bar for Lookbook, Service Menu, Packages, Enquire, Visit, and Book an Appointment.",
+      },
     ],
-    github: "https://github.com/DevJanidu/Law-Firm-site",
-    demo: "https://havelock.lycolabs.com/",
-    stars: 12,
+    externalUrl: "https://salon-demo-coral-eta.vercel.app/concepts/marble",
+    externalLinkType: "demo",
     featured: true,
-    accentTerminal: "POST /api/inquiries → 201 Created",
-    images: [
-      "/assets/project-images/law-1.png",
-      "/assets/project-images/law-2.png",
-      "/assets/project-images/law-3.png",
-      "/assets/project-images/law-4.png",
-      "/assets/project-images/law-5.png"
-    ],
+    featuredLayout: "wide",
+    supportsLiveEmbed: true,
     caseStudy: {
-      problem:
-        "The law firm lacked a modern online presence and was relying on manual phone calls and emails for initial client intakes, leading to inefficiencies.",
-      context:
-        "A corporate website merged with an initial case evaluation portal, aimed at projecting authority and streamlining new client onboarding.",
-      constraints: [
-        "Design needed to exude trust, professionalism, and high-end corporate identity.",
-        "Data security and privacy for client inquiries were paramount.",
-        "The platform required SEO optimization to attract local clientele.",
+      brief:
+        "High-end hair salons and bridal studios rely on visual craft to justify premium pricing. Milan Marble was built so prospective clients can browse finished looks like a magazine editorial and jump straight to the matching service, package, or appointment booking form.",
+      whatIBuilt: [
+        "A full-bleed editorial hero with clean top navigation covering Lookbook, Service Menu, Packages, Enquire, and Visit.",
+        "Direct pathways from featured hair and beauty looks into detailed service descriptions and booking actions.",
+        "Multi-page Premium salon architecture supporting content management for services, packages, promotions, and inquiries.",
       ],
-      architecture: [
-        "Next.js + Tailwind CSS for a fast, SEO-optimized corporate front end.",
-        "Spring Boot backend to securely process and store client inquiries.",
-        "PostgreSQL database with strict data validation and security policies.",
+      verifiedOutcomes: [
+        "Live interactive Premium preview published at salon-demo-coral-eta.vercel.app/concepts/marble.",
+        "Ready to customize with any salon's brand photography, pricing menu, and booking system.",
       ],
-      highlights: [
-        "Sophisticated corporate UI with modern typography and layout.",
-        "Secure client intake forms connected to a robust backend.",
-        "Optimized for performance and search engine visibility.",
+    },
+  },
+  {
+    slug: "lucia-atelier",
+    title: "Lucia Atelier",
+    category: "Premium salon build · Results-led atelier",
+    tagline:
+      "Guides visitors from client transformation stories and skin or hair concerns straight to the right service and booking.",
+    cardLead:
+      "Organizes the site around client concerns, expert profiles, and real transformation stories so visitors find the right treatment and book with confidence.",
+    cardCapabilities: [
+      "Concern-based browsing alongside Services, Experts, Stories, and Results",
+      "Prominent studio address, hours, WhatsApp, and Book Now action",
+    ],
+    description:
+      "A Premium warm-cream atelier layout built for salons, skin clinics, and corrective color studios where trust, specialist expertise, and visible results drive bookings.",
+    cardImage: "/assets/salon-concepts/02-lucia-atelier.png",
+    cardImageAlt:
+      "Lucia Atelier premium salon website showing warm architectural arches, studio hours, and coral Book Now button",
+    images: ["/assets/salon-concepts/02-lucia-atelier.png"],
+    screens: [
+      {
+        src: "/assets/salon-concepts/02-lucia-atelier.png",
+        alt: "Lucia Atelier homepage with Services, Concerns, Experts, Stories, Results navigation and studio hours",
+        title: "Atelier welcome and concern-led navigation",
+        caption:
+          "Highlights the studio atmosphere, open hours, and direct booking while giving visitors clear tabs for Concerns, Experts, Stories, and Results.",
+      },
+    ],
+    externalUrl: "https://salon-demo-coral-eta.vercel.app/concepts/lucia",
+    externalLinkType: "demo",
+    featured: true,
+    featuredLayout: "compact",
+    supportsLiveEmbed: true,
+    caseStudy: {
+      brief:
+        "Many salon and spa guests know the outcome they want before they know the technical treatment name. Lucia Atelier was designed to guide visitors from concerns and client stories directly to the matching service and specialist consultation.",
+      whatIBuilt: [
+        "Dedicated navigation paths for Services, Concerns, Experts, Stories, Results, Enquire, and Visit.",
+        "Warm architectural presentation with studio location, opening hours, WhatsApp access, and a prominent Book Now action.",
+        "Multi-page Premium structure built for easy updates to packages, testimonials, and incoming client inquiries.",
       ],
-      results: [
-        "Streamlined the initial client consultation process.",
-        "Elevated the firm's brand image with a modern, high-performance website.",
+      verifiedOutcomes: [
+        "Live interactive Premium preview published at salon-demo-coral-eta.vercel.app/concepts/lucia and embedded live on the homepage.",
+        "Demonstrates concern-led discovery and direct consultation booking on desktop and mobile.",
+      ],
+    },
+  },
+  {
+    slug: "swiss-classic",
+    title: "Swiss Classic",
+    category: "Premium salon build · Service directory",
+    tagline:
+      "Structured typographic service index putting upfront prices, details, and per-service Book buttons in the first screen.",
+    cardLead:
+      "Lets decisive clients scan Haircuts, Scalp Treatments, Hair Coloring, and Facials with clear prices right away and click Details or Book on any row.",
+    cardCapabilities: [
+      "Upfront service index table with starting prices on the first screen",
+      "Direct Details and Book buttons for every treatment category",
+    ],
+    description:
+      "A Premium high-contrast service directory built for busy salons and clinics whose clients want transparent pricing, concise treatment notes, and zero-friction booking.",
+    cardImage: "/assets/salon-concepts/03-swiss-classic.png",
+    cardImageAlt:
+      "Swiss Classic premium salon website showing a structured service index with prices and Book buttons",
+    images: ["/assets/salon-concepts/03-swiss-classic.png"],
+    screens: [
+      {
+        src: "/assets/salon-concepts/03-swiss-classic.png",
+        alt: "Swiss Classic service directory showing Haircuts, Scalp Treatments, Hair Coloring, and Facial Treatments with prices and Book buttons",
+        title: "First-screen service index and instant booking",
+        caption:
+          "Lists every core treatment category with concise descriptions, starting prices, and direct Details and Book actions above the fold.",
+      },
+    ],
+    externalUrl: "https://salon-demo-coral-eta.vercel.app/concepts/classic",
+    externalLinkType: "demo",
+    featured: true,
+    featuredLayout: "compact",
+    supportsLiveEmbed: true,
+    caseStudy: {
+      brief:
+        "Decisive clients often abandon salon sites when prices are buried behind multiple clicks. Swiss Classic puts a clean, scannable service index right at the top of the page so visitors can inspect prices and book in seconds.",
+      whatIBuilt: [
+        "A hairline-grid service directory listing categories, plain-English descriptions, starting prices, and per-row Details and Book buttons.",
+        "Header bar keeping studio address, opening hours, Specifications, Packages, Gallery, and Enquire immediately accessible.",
+        "Premium multi-page structure supporting full service, package, and inquiry management.",
+      ],
+      verifiedOutcomes: [
+        "Live interactive Premium preview published at salon-demo-coral-eta.vercel.app/concepts/classic.",
+        "Built for fast price comparison and immediate appointment conversion on both desktop and mobile.",
+      ],
+    },
+  },
+
+  // --- Preserved legacy public case study routes (non-featured on homepage) ---
+  {
+    slug: "sf-nail-spa",
+    title: "SF Nail Spa",
+    category: "Nail salon · San Francisco concept",
+    tagline:
+      "Service menu, studio hours, and online appointment booking for a neighborhood nail salon.",
+    cardLead:
+      "Customers can browse manicure, pedicure, and gel nail treatments, check daily hours and wheelchair accessibility, and book an appointment from their phone.",
+    cardCapabilities: [
+      "Visual service menu with clear category notes",
+      "Direct online appointment booking from every page",
+      "Click-to-call phone link, studio hours, and inquiry form",
+    ],
+    description:
+      "Designed and built for a San Francisco nail salon concept focused on non-toxic nail care. The site pairs a calm, warm visual style with fast access to treatments, studio hours, and online booking.",
+    cardImage: "/assets/project-images/nailimg2.png",
+    cardImageAlt:
+      "SF Nail Spa services section showing organic manicure, pedicure, and gel nails cards with a Book Appointment button",
+    images: [
+      "/assets/project-images/nailimg1.png",
+      "/assets/project-images/nailimg2.png",
+      "/assets/project-images/nailimg3.png",
+    ],
+    screens: [
+      {
+        src: "/assets/project-images/nailimg1.png",
+        alt: "SF Nail Spa homepage hero with Book Appointment button, Explore Services link, and today's phone number",
+        title: "Homepage and quick booking",
+        caption:
+          "Introduces the studio's organic positioning while keeping the phone number, open status, and Book Appointment action visible without scrolling.",
+      },
+      {
+        src: "/assets/project-images/nailimg2.png",
+        alt: "SF Nail Spa service menu cards for Manicure, Pedicure, and Gel Nails",
+        title: "Visual service menu",
+        caption:
+          "Explains what is included in each manicure, pedicure, and gel treatment, including clear expectations on extensions and hard gel.",
+      },
+      {
+        src: "/assets/project-images/nailimg3.png",
+        alt: "SF Nail Spa contact page showing San Francisco address, accessibility details, opening hours, and message form",
+        title: "Location, hours, and direct contact",
+        caption:
+          "Gives first-time visitors the street address, step-free access note, Tuesday-through-Saturday hours, click-to-call button, and a short question form.",
+      },
+    ],
+    externalUrl: "https://demo.lycolabs.com/",
+    externalLinkType: "demo",
+    featured: false,
+    featuredLayout: "compact",
+    caseStudy: {
+      brief:
+        "Neighborhood nail salons often lose bookings when mobile visitors have to pinch-zoom PDF price lists or call during busy floor hours. This project was designed as a clean storefront for a San Francisco nail studio that needed its treatment list, studio policies, hours, and appointment booking accessible in a couple of taps.",
+      whatIBuilt: [
+        "A warm, high-contrast homepage with immediate paths to book an appointment, explore the service menu, or tap to call the front desk.",
+        "Structured treatment cards for manicures, pedicures, and gel nails that set clear expectations before a client books.",
+        "A dedicated visit and contact section displaying street address, wheelchair-accessibility notes, daily hours, and a direct inquiry form.",
+      ],
+      verifiedOutcomes: [
+        "Interactive demo deployed and live at demo.lycolabs.com for client walkthroughs.",
+        "Covers the full visitor journey from service discovery to appointment request and front-desk inquiries.",
       ],
     },
   },
   {
     slug: "salon-eclat",
     title: "Salon Eclat",
-    tagline: "Premium beauty salon booking and management platform.",
-    outcome:
-      "Unified online booking and staff management for a high-end beauty salon.",
-    description:
-      "A sophisticated platform for a premium salon, allowing customers to book services, view style portfolios, and manage appointments, while enabling staff to manage schedules and clientele.",
-    tech: [
-      "Next.js",
-      "Tailwind CSS",
-      "Spring Boot",
-      "TypeScript",
-      "PostgreSQL",
+    category: "Hair & beauty salon · Multi-step booking",
+    tagline:
+      "Searchable 27-service menu and guided online booking across branches and stylists.",
+    cardLead:
+      "Clients filter 27 hair, beauty, and spa treatments with upfront durations and prices, pick a stylist or any available chair, and see their total before confirming.",
+    cardCapabilities: [
+      "Searchable service menu with category filters and prices",
+      "5-step booking flow for branch, services, stylist, and time",
     ],
-    github: "https://github.com/DevJanidu/salon-eclat",
-    demo: "https://eclat.lycolabs.com/",
-    stars: 15,
-    featured: true,
-    accentTerminal: "GET /api/appointments → 200 OK",
+    description:
+      "A full-service hair and beauty salon website built around self-serve appointment scheduling. Visitors can search treatments by category, combine multiple services into one visit, choose a preferred specialist, and submit their booking details.",
+    cardImage: "/assets/project-images/sal-3.png",
+    cardImageAlt:
+      "Salon Eclat multi-step online booking screen showing branch, service selection, durations, and prices",
     images: [
       "/assets/project-images/sal-1.png",
       "/assets/project-images/sal-2.png",
       "/assets/project-images/sal-3.png",
       "/assets/project-images/sal-4.png",
-      "/assets/project-images/sal-5.png"
+      "/assets/project-images/sal-5.png",
     ],
+    screens: [
+      {
+        src: "/assets/project-images/sal-1.png",
+        alt: "Salon Eclat homepage hero with Book Appointment and Explore Services actions",
+        title: "Salon homepage",
+        caption:
+          "Sets a refined editorial tone for hair, skin, and makeup services while leading directly into booking or the treatment list.",
+      },
+      {
+        src: "/assets/project-images/sal-2.png",
+        alt: "Salon Eclat service menu with search bar, category filter pills, durations, and prices",
+        title: "Searchable service menu",
+        caption:
+          "Organizes 27 treatments across hair, beauty, herbal spa, massage, nails, makeup, waxing, and threading with clear durations and prices.",
+      },
+      {
+        src: "/assets/project-images/sal-3.png",
+        alt: "Salon Eclat booking step two allowing customers to select multiple services",
+        title: "Multi-service selection step",
+        caption:
+          "Lets clients search and combine multiple treatments in a single appointment instead of submitting separate requests.",
+      },
+      {
+        src: "/assets/project-images/sal-4.png",
+        alt: "Salon Eclat stylist picker with Any Available Stylist option and specialist profiles",
+        title: "Optional stylist selection",
+        caption:
+          "Gives returning clients the choice to pick a specific colorist or stylist, while new clients can select Any Available Stylist to book faster.",
+      },
+      {
+        src: "/assets/project-images/sal-5.png",
+        alt: "Salon Eclat final booking details showing summary of branch, chosen services, date, time, and estimated total",
+        title: "Booking summary and client confirmation",
+        caption:
+          "Displays the selected branch, combined services, date and time, and estimated total right above the client contact fields.",
+      },
+    ],
+    externalUrl: "https://eclat.lycolabs.com/",
+    externalLinkType: "demo",
+    featured: false,
+    featuredLayout: "compact",
     caseStudy: {
-      problem:
-        "The salon relied on an outdated booking system that didn't reflect their premium brand, causing friction for customers and scheduling headaches for staff.",
-      context:
-        "Designed to offer a seamless, elegant booking experience for end-users and a powerful dashboard for salon administrators.",
-      constraints: [
-        "The aesthetic needed to match the salon's high-end, elegant branding.",
-        "Booking process had to be intuitive and work flawlessly on mobile devices.",
-        "Real-time availability synchronization to prevent double bookings.",
+      brief:
+        "Full-service salons with large menus and multiple stylists need more than a basic contact form. Salon Eclat needed an online booking flow capable of handling multiple locations, dozens of categorized treatments with different durations, optional stylist preferences, and clear price estimates.",
+      whatIBuilt: [
+        "A searchable, category-filtered service menu displaying treatment descriptions, appointment lengths, and prices upfront.",
+        "A 5-step online booking flow covering branch choice, multi-service selection, optional stylist selection, date and time, and contact details.",
+        "An Any Available Stylist shortcut and live estimated total summary before confirmation.",
       ],
-      architecture: [
-        "Next.js and Tailwind CSS for a visually striking, responsive frontend.",
-        "Spring Boot backend handling complex scheduling logic and user management.",
-        "PostgreSQL for reliable relational data storage.",
-      ],
-      highlights: [
-        "Elegant, user-focused booking flow with service and staff selection.",
-        "Interactive style portfolio gallery.",
-        "Admin dashboard for schedule and appointment management.",
-      ],
-      results: [
-        "Significantly reduced booking friction and administrative overhead.",
-        "Provided a digital experience that matches the premium nature of the physical salon.",
+      verifiedOutcomes: [
+        "Interactive multi-step booking demo deployed at eclat.lycolabs.com.",
+        "Supports multi-service cart selection, role-filtered stylist browsing, and branch-aware scheduling.",
       ],
     },
   },
   {
-    slug: "sf-nail-spa",
-    title: "SF Nail Spa",
-    tagline: "Modern booking & management platform for a USA nail salon.",
-    outcome:
-      "A complete digital storefront and booking system for a USA-based client.",
+    slug: "havelock-law-firm",
+    title: "Havelock Law Firm",
+    category: "Professional services · Legal practice",
+    tagline:
+      "Practice area guide, attorney directory, and consultation intake for a multi-practice law firm.",
+    cardLead:
+      "Prospective clients can review practice areas, choose an available attorney by specialty, read matter-specific client reviews, or send a confidential case inquiry.",
+    cardCapabilities: [
+      "Attorney profiles with live availability and specialties",
+      "Consultation booking modal and practice-area intake form",
+    ],
     description:
-      "A full-stack salon management and online booking platform custom-built for a nail salon in the USA, featuring a beautiful UI and seamless scheduling.",
-    tech: [
-      "Next.js",
-      "Tailwind CSS",
-      "Spring Boot",
-      "TypeScript",
-      "PostgreSQL",
-    ],
-    github: "https://github.com/DevJanidu/SF-Nail-Spa",
-    demo: "https://demo.lycolabs.com/",
-    stars: 14,
-    featured: true,
-    accentTerminal: "POST /api/bookings → 201 Created",
+      "Built for a legal practice handling corporate, family, property, litigation, employment, and immigration work. The site replaces back-and-forth phone screening with structured consultation booking and matter-specific inquiries.",
+    cardImage: "/assets/project-images/law-1.png",
+    cardImageAlt:
+      "Havelock and Grey law firm homepage with Book a call, Start a chat, and Send your case actions",
     images: [
-      "/assets/project-images/nailimg1.png",
-      "/assets/project-images/nailimg2.png",
-      "/assets/project-images/nailimg3.png"
+      "/assets/project-images/law-1.png",
+      "/assets/project-images/law-2.png",
+      "/assets/project-images/law-3.png",
+      "/assets/project-images/law-4.png",
+      "/assets/project-images/law-5.png",
     ],
+    screens: [
+      {
+        src: "/assets/project-images/law-1.png",
+        alt: "Havelock and Grey law firm homepage stating practice areas and clear fee policy with three consultation actions",
+        title: "Homepage and clear intake options",
+        caption:
+          "States the firm's six core practice areas in plain language and gives visitors three clear ways to begin: book a call, start a chat, or send case details.",
+      },
+      {
+        src: "/assets/project-images/law-2.png",
+        alt: "Attorney directory cards showing partners and associates alongside a guided intake assistant",
+        title: "Attorney profiles and guided intake assistant",
+        caption:
+          "Introduces partners and associates by practice area alongside an optional general-information assistant that routes visitors to the right department.",
+      },
+      {
+        src: "/assets/project-images/law-4.png",
+        alt: "Choose your attorney booking dialog listing available corporate and commercial lawyers",
+        title: "Attorney selection modal",
+        caption:
+          "Matches prospective clients with available attorneys practicing in their selected area of law before choosing a consultation slot.",
+      },
+      {
+        src: "/assets/project-images/law-3.png",
+        alt: "Reviews page filtered by Corporate, Family, Property, Litigation, Employment, and Immigration matters",
+        title: "Reviews filtered by practice area",
+        caption:
+          "Lets prospective clients read feedback relevant to their exact legal matter, from shareholder agreements to property purchases.",
+      },
+      {
+        src: "/assets/project-images/law-5.png",
+        alt: "Law firm contact page with chambers address, hours, matter-type dropdown, and conflict-check notice",
+        title: "Structured case inquiry form",
+        caption:
+          "Collects contact details and matter type upfront while displaying a clear confidentiality and conflict-check notice below the submit button.",
+      },
+    ],
+    externalUrl: "https://havelock.lycolabs.com/",
+    externalLinkType: "demo",
+    featured: false,
+    featuredLayout: "compact",
     caseStudy: {
-      problem:
-        "The client needed a professional, high-performance online presence with an integrated booking system to modernize their USA nail salon.",
-      context:
-        "Designed to serve both the end customers looking to book appointments and the salon staff managing schedules.",
-      constraints: [
-        "The UI had to be visually stunning and perfectly responsive.",
-        "The booking flow needed to be incredibly simple.",
-        "High performance and SEO optimization were critical.",
+      brief:
+        "Professional service firms rely on trust and clarity before a client ever picks up the phone. Havelock Law Firm needed a site that explained its six practice areas in plain English, introduced its attorneys, and routed new inquiries to the right legal team.",
+      whatIBuilt: [
+        "A clear, authoritative homepage highlighting practice areas, transparent fee expectations, and direct consultation actions.",
+        "An attorney directory and consultation selector that filters available lawyers by practice area.",
+        "A structured case inquiry form with matter-type routing and a pre-conflict-check disclaimer.",
       ],
-      architecture: [
-        "Next.js + Tailwind CSS for a blazing-fast, SEO-friendly storefront.",
-        "Spring Boot backend to handle robust booking logic and data management.",
-        "Secure REST API communication between the front and back ends.",
-      ],
-      highlights: [
-        "Sleek, modern design tailored for a beauty and wellness brand.",
-        "Integrated online booking system.",
-        "Full-stack implementation separating UI concerns from business logic.",
-      ],
-      results: [
-        "Delivered a production-ready application deployed on the LycoLabs demo server.",
-        "Elevated the salon's digital presence to attract more clients.",
+      verifiedOutcomes: [
+        "Full interactive demo live at havelock.lycolabs.com.",
+        "Demonstrates structured intake, attorney matching, and trust signals for professional service firms.",
       ],
     },
   },
@@ -308,105 +453,92 @@ export const projects: Project[] = [
 
 export const featuredProjects = projects.filter((p) => p.featured);
 
-// --- Experience -------------------------------------------------------------
-export type Experience = {
-  role: string;
-  company: string;
-  period: string;
-  description: string;
-  tech: string[];
-};
-
-export const experience: Experience[] = [
+// --- Process, Costs & Payment Terms -----------------------------------------
+export const processSteps = [
   {
-    role: "Software Engineer Intern",
-    company: "Applantics (PVT) LTD",
-    period: "Feb 2026 to Present",
-    description:
-      "Contributing to full-stack application development across Laravel, Spring Boot, and Flutter. Implementing backend APIs and frontend features, working in Git-based team workflows, and supporting deployment and debugging across environments.",
-    tech: ["Laravel", "Spring Boot", "Flutter", "Git"],
+    number: "01",
+    title: "Share your project",
+    body: "Share your project. I send a written proposal with the scope, price, and timeline.",
   },
   {
-    role: "Backend Engineering Bootcamp",
-    company: "StemLink, Sri Lanka",
-    period: "Certification",
-    description:
-      "Java OOP & Spring Boot Backend Engineering Bootcamp with hands-on training in Java, OOP, Spring Boot, REST API development, PostgreSQL, authentication, and deployment.",
-    tech: ["Java", "Spring Boot", "PostgreSQL", "REST APIs"],
+    number: "02",
+    title: "50% deposit to start",
+    body: "Pay a 50% deposit after approving the proposal. Development begins after the deposit is received.",
+  },
+  {
+    number: "03",
+    title: "Private preview & revisions",
+    body: "Review a private preview and request the revisions included in the proposal.",
+  },
+  {
+    number: "04",
+    title: "Final approval & launch",
+    body: "Approve the final site and pay the remaining 50% before launch. I then publish the site and hand over access.",
   },
 ];
 
-// --- Education --------------------------------------------------------------
-export const education = [
-  {
-    program: "BEng (Hons) Software Engineering",
-    school: "London Metropolitan University, UK",
-  },
-  {
-    program: "Higher Diploma in Computing & Software Engineering",
-    school: "Cardiff Metropolitan University, UK",
-  },
-];
-
-// --- Open source (edit or wire to the GitHub API) ---------------------------
-export const openSource = {
-  githubUrl: "https://github.com/DevJanidu",
-  // Manually synced from github.com/DevJanidu — update when it drifts.
-  repoCount: 49,
-  contributionsLastYear: 352,
-  // Swap this for a live contribution-graph image or the GitHub API.
-  graphImage: "https://ghchart.rshah.org/EB5E28/DevJanidu",
-  contributions: [
+export const costExpectations = {
+  heading: "What a project involves and how pricing works",
+  summary:
+    "Every build is quoted at a fixed project price based on what your customers need to do on the site, so you know the exact total before paying a deposit.",
+  tiers: [
     {
-      repo: "Law-Firm-site",
-      note: "Secure client intake forms and Spring Boot backend for law firm management.",
+      name: "Brochure & service menu site",
+      timeline: "1 to 3 weeks",
+      summary:
+        "Custom mobile-first pages for your services and prices, team profiles, gallery, opening hours, map, WhatsApp/call links, and inquiry form.",
     },
     {
-      repo: "salon-eclat",
-      note: "Elegant Next.js booking platform and API for a premium beauty salon.",
+      name: "Website + online booking & dashboard",
+      timeline: "3 to 6 weeks",
+      summary:
+        "Everything in a brochure site plus custom online booking or client intake, automated email confirmations, and an admin dashboard to manage services, staff availability, and appointments.",
     },
     {
-      repo: "SF-Nail-Spa",
-      note: "Next.js and Spring Boot application for a USA nail salon.",
+      name: "Multi-branch or operations system",
+      timeline: "Scoped to workflow",
+      summary:
+        "Custom scheduling, digital billing, customer records, inventory, and staff reporting tailored around how your locations operate.",
     },
   ],
+  ownershipNote:
+    "Domain registration, hosting, and any third-party SMS or API usage stay in your own accounts or are itemized transparently in your proposal.",
 };
 
-// --- Writing (optional) -----------------------------------------------------
-export const posts = [
-  {
-    title: "Caching hot reads with Redis in a Spring Boot API",
-    excerpt:
-      "How a small caching layer took repeated availability lookups from noticeable to instant.",
-    date: "2026-03-10",
-    readTime: "6 min",
-    url: "#",
+export const paymentConfig = {
+  headline: "Payment options are confirmed in your proposal.",
+  details:
+    "Payment instructions, currency details, and milestone dates are tied directly to your written proposal so everything is documented in one place.",
+  paypal: {
+    commercialPaymentsVerified: false,
+    invoicesVerified: false,
+    guestCardVerified: false,
+    checkoutVerified: false,
   },
-  {
-    title: "Designing a multi-step booking flow that people finish",
-    excerpt:
-      "Notes on reducing drop-off in booking UX across two different products.",
-    date: "2026-02-02",
-    readTime: "5 min",
-    url: "#",
-  },
-  {
-    title: "Role-based access control without the tangle",
-    excerpt:
-      "Keeping student, mentor, and admin flows isolated with Clerk and clean boundaries.",
-    date: "2026-01-18",
-    readTime: "7 min",
-    url: "#",
-  },
-];
+};
 
-export const navLinks = [
-  { href: "#about", label: "About" },
-  { href: "#venture", label: "LycoLabs" },
-  { href: "/pricing", label: "Pricing" },
-  { href: "#skills", label: "Skills" },
-  { href: "#projects", label: "Projects" },
-  { href: "#open-source", label: "Open Source" },
-  { href: "#experience", label: "Experience" },
-  { href: "#contact", label: "Contact" },
-];
+export function getVerifiedPaymentNotes(): string[] {
+  const notes: string[] = [paymentConfig.details];
+
+  if (paymentConfig.paypal.commercialPaymentsVerified) {
+    const capabilities: string[] = [];
+    if (paymentConfig.paypal.invoicesVerified)
+      capabilities.push("PayPal invoices");
+    if (paymentConfig.paypal.guestCardVerified)
+      capabilities.push("guest card payments");
+    if (paymentConfig.paypal.checkoutVerified)
+      capabilities.push("PayPal Checkout");
+
+    if (capabilities.length > 0) {
+      notes.push(
+        `PayPal is available for eligible international payments (${capabilities.join(", ")}), as confirmed in your proposal.`
+      );
+    } else {
+      notes.push(
+        "PayPal is available as an option for eligible international payments when confirmed in your proposal."
+      );
+    }
+  }
+
+  return notes;
+}

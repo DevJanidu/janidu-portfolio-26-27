@@ -1,65 +1,113 @@
-import { Github, Linkedin, Mail } from "lucide-react";
+import Link from "next/link";
+import { Linkedin } from "lucide-react";
 import { profile } from "@/lib/data";
-import { BinaryName } from "@/components/binary-name";
-import { MosaicBackdrop } from "@/components/mosaic-backdrop";
 
 export function Footer() {
   const year = new Date().getFullYear();
+
   return (
-    <footer className="relative overflow-hidden bg-navy pt-10 text-white">
-      {/* Pool-tile mosaic: dark→light dithered gradient, left to right */}
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0">
-        <MosaicBackdrop />
-        {/* Dark filter sweeping from the bottom-left up to the top-right,
-            so the name sits on shade while the mosaic stays vivid above */}
-        <div
-          className="absolute inset-0"
-          style={{
-            background:
-              "linear-gradient(to top right, rgba(1, 1, 40, 0.95) 0%, rgba(2, 2, 56, 0.8) 32%, rgba(2, 3, 74, 0.5) 52%, rgba(2, 3, 74, 0.2) 72%, transparent 90%)",
-          }}
-        />
-        {/* Second, tighter shade pass just behind the wordmark for extra
-            contrast against the busiest part of the mosaic */}
-        <div
-          className="absolute inset-x-0 bottom-0 h-[65%]"
-          style={{
-            background:
-              "linear-gradient(180deg, transparent 0%, rgba(2, 2, 56, 0.35) 60%, rgba(1, 1, 40, 0.55) 100%)",
-          }}
-        />
-      </div>
+    <footer className="border-t border-border bg-surface">
+      <div className="container py-12 sm:py-16">
+        <div className="grid gap-10 md:grid-cols-[1.3fr_1fr_1fr]">
+          <div>
+            <p className="text-base font-semibold tracking-tight text-foreground">
+              {profile.publicName}
+            </p>
+            <p className="mt-2 max-w-md text-[15px] leading-relaxed text-muted-foreground">
+              Websites, service menus, and online booking for small businesses.{" "}
+              {profile.clientMarkets}
+            </p>
+          </div>
 
-      <div className="container relative z-10 flex flex-col items-center justify-between gap-6 pb-10 sm:flex-row">
-        <p className="font-mono text-sm text-white/80">
-          <span className="text-cyan">$</span> echo &quot;© {year}{" "}
-          {profile.name}&quot;
-        </p>
-        <ul className="flex items-center gap-2">
-           {[
-            { href: profile.socials.github, label: "GitHub", Icon: Github },
-            { href: profile.socials.linkedin, label: "LinkedIn", Icon: Linkedin },
-            { href: `mailto:${profile.email}`, label: "Email", Icon: Mail },
-          ].map(({ href, label, Icon }) => (
-            <li key={label}>
-              <a
-                href={href}
-                target={href.startsWith("mailto") ? undefined : "_blank"}
-                rel="noopener noreferrer"
-                aria-label={label}
-                className="inline-flex size-9 items-center justify-center rounded-md text-white/70 transition-colors hover:bg-white/10 hover:text-white"
-              >
-                <Icon className="size-4" />
-              </a>
-            </li>
-          ))}
-        </ul>
-      </div>
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.1em] text-foreground">
+              Pages
+            </p>
+            <ul className="mt-3 space-y-2 text-[15px] text-muted-foreground">
+              <li>
+                <Link href="/#work" className="transition-colors hover:text-foreground">
+                  Work
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/salon-concepts"
+                  className="transition-colors hover:text-foreground"
+                >
+                  Salon design concepts
+                </Link>
+              </li>
+              <li>
+                <Link href="/#process" className="transition-colors hover:text-foreground">
+                  Process &amp; payments
+                </Link>
+              </li>
+              <li>
+                <Link href="/reviews" className="transition-colors hover:text-foreground">
+                  Client reviews
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/reviews#leave-a-review"
+                  className="transition-colors hover:text-foreground"
+                >
+                  Leave a review
+                </Link>
+              </li>
+              <li>
+                <Link href="/pricing" className="transition-colors hover:text-foreground">
+                  Package comparison
+                </Link>
+              </li>
+            </ul>
+          </div>
 
-      {/* Janidu drawn as a field of tiny 1/0 digits that follow the pointer */}
-      <p className="sr-only">{profile.firstName}</p>
-      <div className="relative z-10 mt-4 select-none pb-4">
-        <BinaryName text={profile.firstName} />
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-[0.1em] text-foreground">
+              Direct contact
+            </p>
+            <ul className="mt-3 space-y-2 text-[15px] text-muted-foreground">
+              <li>
+                <a
+                  href={`mailto:${profile.email}`}
+                  className="transition-colors hover:text-foreground"
+                >
+                  {profile.email}
+                </a>
+              </li>
+              <li>
+                <a
+                  href={profile.whatsappHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="transition-colors hover:text-foreground"
+                >
+                  WhatsApp: {profile.whatsapp}
+                </a>
+              </li>
+              <li>{profile.location}</li>
+              <li className="pt-1">
+                <a
+                  href={profile.socials.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-foreground transition-colors hover:text-primary"
+                >
+                  <Linkedin className="size-4" aria-hidden="true" />
+                  <span>LinkedIn</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div className="mt-10 flex flex-col justify-between gap-3 border-t border-border pt-6 text-sm text-muted-foreground sm:flex-row sm:items-center">
+          <p>
+            &copy; {year} {profile.name}. All rights reserved.
+          </p>
+          <p>JaniduDev &middot; {profile.location}</p>
+        </div>
       </div>
     </footer>
   );

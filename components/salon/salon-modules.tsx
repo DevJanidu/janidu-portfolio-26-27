@@ -28,7 +28,7 @@ export function SalonModules() {
     <section id="modules" className="scroll-mt-20 py-20 sm:py-28">
       <SalonContainer>
         <SectionHeading
-          command="explore ./erp-modules"
+          label="ERP modules"
           title="Every Module Inside the Salon ERP"
           description="One system for appointments, billing, inventory, staff, and reporting. Pick a category to see exactly what's included."
         />

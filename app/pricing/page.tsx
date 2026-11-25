@@ -1,23 +1,27 @@
+import Link from "next/link";
 import type { Metadata } from "next";
-import { Check } from "lucide-react";
-import { profile, siteUrl } from "@/lib/data";
+import { Check, ChevronRight } from "lucide-react";
+import {
+  getVerifiedPaymentNotes,
+  paymentConfig,
+  profile,
+  siteUrl,
+} from "@/lib/data";
 import { JsonLd } from "@/components/json-ld";
-import { Reveal } from "@/components/reveal";
-import { Card } from "@/components/ui/card";
-import { InquiryDialogProvider, InquiryTrigger } from "@/components/pricing/inquiry-dialog";
-import { cn } from "@/lib/utils";
+import {
+  InquiryDialogProvider,
+  InquiryTrigger,
+} from "@/components/pricing/inquiry-dialog";
 
-const title = "Pricing | Website & Cloud ERP Packages";
+const title = `Packages & Scope Guide | ${profile.publicName}`;
 const description =
-  "Web Lite, Web Pro, and Cloud ERP: professional website and cloud management packages for businesses in any industry.";
+  "Compare Brochure & Service Menu websites, Online Booking & Admin Dashboard builds, and Multi-Branch Business Systems.";
 const url = `${siteUrl}/pricing`;
 
 export const metadata: Metadata = {
   title: { absolute: title },
   description,
-  alternates: {
-    canonical: url,
-  },
+  alternates: { canonical: url },
   openGraph: {
     type: "website",
     url,
@@ -35,251 +39,176 @@ export const metadata: Metadata = {
 const packages = [
   {
     name: "Web Lite",
-    label: "Professional Website",
+    label: "Service menu & brochure website",
+    timeline: "1 to 3 weeks",
     description:
-      "Perfect for businesses that need a clean and professional website to showcase their services and receive customer inquiries.",
+      "For salons, spas, and local service firms that need a clear, mobile-friendly website presenting their services, prices, hours, location, and contact options.",
     featured: false,
     features: [
-      "Modern professional website",
-      "Mobile-friendly responsive design",
-      "Business and service information",
-      "Services or product showcase",
-      "Team or staff profiles",
-      "Portfolio or image gallery",
-      "Contact and inquiry form",
-      "WhatsApp contact button",
-      "Google Maps integration",
-      "Basic SEO and speed optimization",
-      "SSL, domain connection and deployment",
-      "Free lifetime bug fixes",
+      "Custom mobile-first website tailored to your brand",
+      "Services and pricing showcase",
+      "Team or staff profiles and photo gallery",
+      "Opening hours, address, and Google Maps",
+      "Direct inquiry form, click-to-call, and WhatsApp button",
+      "Foundational search engine optimization and speed tuning",
+      "SSL setup, domain connection, and launch handover",
     ],
-    note: "Admin dashboard and online booking are not included.",
-    cta: "Get My Website",
+    note: "Does not include online appointment scheduling or an admin dashboard.",
+    cta: "Request a Web Lite quote",
   },
   {
     name: "Web Pro",
-    label: "Most Popular",
+    label: "Website + online booking & dashboard",
+    timeline: "3 to 6 weeks",
     description:
-      "The complete solution for businesses that need a professional website, online customer actions, email confirmations, and a management dashboard.",
+      "For appointment-based businesses and professional practices that want clients to book services or consultations online while staff manage availability and inquiries in a dashboard.",
     featured: true,
     features: [
       "Everything included in Web Lite",
-      "Online booking, registration or inquiry system",
-      "Service, package, staff, date and time selection",
-      "Customer information collection",
-      "Automated email notifications",
-      "Customer confirmation emails",
-      "Secure business management dashboard",
-      "Booking and inquiry management",
-      "Customer database",
-      "Services and pricing management",
-      "Staff or team management",
-      "Website content management",
-      "Booking calendar and basic reports",
-      "Free lifetime bug fixes",
+      "Custom online booking or consultation intake workflow",
+      "Service, package, specialist, date, and time selection",
+      "Automated email confirmations for clients and staff",
+      "Secure dashboard for bookings, inquiries, and customer records",
+      "Self-serve editing for services, prices, staff schedules, and hours",
+      "Calendar overview and appointment status controls",
     ],
-    note: "Customized to match your business and customer workflow.",
-    cta: "Request a Free Demo",
+    note: "Adapted to your exact booking rules, service durations, and team structure.",
+    cta: "Request a Web Pro quote",
   },
   {
     name: "Cloud ERP",
-    label: "Complete Management System",
+    label: "Operations & multi-branch system",
+    timeline: "Scoped after workflow review",
     description:
-      "A customizable cloud-based system designed to manage your complete daily business operations from one place.",
+      "For established salons and growing businesses that want appointments, digital billing, inventory, staff attendance, commissions, and reporting in one cloud system.",
     featured: false,
     features: [
-      "Business performance dashboard",
-      "Customer and client management",
-      "Bookings, orders or workflow management",
-      "Sales, billing and digital invoices",
-      "Products and inventory management",
-      "Purchase orders and suppliers",
-      "Services, packages and pricing",
-      "Staff management",
-      "Attendance and leave management",
-      "Payroll and commission management",
-      "Expense and profit tracking",
-      "Reports and business analytics",
-      "Users, roles and permissions",
-      "Multi-branch support",
-      "Custom modules for your business",
-      "Free lifetime bug fixes",
+      "Point-of-sale checkout and paperless digital invoices",
+      "Customer history, loyalty points, and memberships",
+      "Product stock levels, low-stock alerts, and purchase orders",
+      "Staff schedules, attendance, leave, and commission tracking",
+      "Expense recording and daily/monthly revenue reports",
+      "Role-based staff logins and multi-branch support",
     ],
-    note: "Works on computers, tablets and phones without special hardware.",
-    cta: "Book a Free Consultation",
+    note: "Modules are selected around your daily operations so you only pay for what your team uses.",
+    cta: "Discuss an ERP project",
   },
 ];
 
-const breadcrumbJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  itemListElement: [
-    {
-      "@type": "ListItem",
-      position: 1,
-      name: "Home",
-      item: `${siteUrl}/`,
-    },
-    {
-      "@type": "ListItem",
-      position: 2,
-      name: "Pricing",
-      item: url,
-    },
-  ],
-};
-
-const offerCatalogJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "OfferCatalog",
-  name: "Website and Cloud ERP Packages",
-  url,
-  provider: {
-    "@type": "Person",
-    name: profile.name,
-    url: `${siteUrl}/`,
-  },
-  itemListElement: packages.map((item) => ({
-    "@type": "Offer",
-    itemOffered: {
-      "@type": "Service",
-      name: item.name,
-      description: item.description,
-    },
-  })),
-};
-
 export default function PricingPage() {
+  const paymentNotes = getVerifiedPaymentNotes();
+
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: `${siteUrl}/` },
+      { "@type": "ListItem", position: 2, name: "Packages", item: url },
+    ],
+  };
+
   return (
-    <>
-      <JsonLd data={breadcrumbJsonLd} />
-      <JsonLd data={offerCatalogJsonLd} />
+    <div className="pb-24 pt-24 sm:pt-32">
+      <div className="container max-w-5xl">
+        <JsonLd data={breadcrumbJsonLd} />
 
-      <section className="relative overflow-hidden bg-dotgrid pb-20 pt-28 sm:pb-28 sm:pt-32">
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute right-[-10%] top-[-10%] h-[36rem] w-[36rem] rounded-full bg-sky/40 blur-[120px]"
-        />
-        <div className="container relative">
-          <div className="mx-auto mb-16 max-w-2xl text-center">
-            <Reveal>
-              <h1 className="font-display text-4xl font-bold tracking-tight text-navy sm:text-5xl">
-                Choose the right solution for your business
-              </h1>
-            </Reveal>
+        <nav aria-label="Breadcrumb">
+          <ol className="flex flex-wrap items-center gap-1.5 text-sm text-muted-foreground">
+            <li className="flex items-center gap-1.5">
+              <Link href="/" className="transition-colors hover:text-foreground">
+                Home
+              </Link>
+              <ChevronRight className="size-3.5" aria-hidden="true" />
+            </li>
+            <li aria-current="page" className="font-medium text-foreground">
+              Packages
+            </li>
+          </ol>
+        </nav>
 
-            <Reveal i={1}>
-              <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg">
-                Get a professional website or complete cloud management
-                system customized for your industry.
-              </p>
-            </Reveal>
-          </div>
+        <header className="mt-8 max-w-3xl">
+          <p className="section-label">Scope &amp; pricing guide</p>
+          <h1 className="mt-2.5 text-3xl font-semibold tracking-tight text-foreground sm:text-5xl">
+            Compare website and booking scopes
+          </h1>
+          <p className="mt-4 text-body text-muted-foreground sm:text-body-lg">
+            Every project receives a fixed written proposal with exact deliverables,
+            price, and timeline before you commit. Pay 50% to begin and 50%
+            after you approve the private preview before launch.
+          </p>
+        </header>
 
-          <InquiryDialogProvider>
-            <div className="grid items-stretch gap-6 lg:grid-cols-3">
-            {packages.map((item, i) => (
-              <Reveal key={item.name} i={i}>
-                <Card
-                  className={cn(
-                    "relative flex h-full flex-col p-7 transition-transform duration-300 hover:-translate-y-1 sm:p-8",
-                    item.featured
-                      ? "border-navy bg-navy text-white shadow-elevated lg:-translate-y-6 lg:hover:-translate-y-7"
-                      : "shadow-card"
-                  )}
-                >
-                  <p
-                    className={cn(
-                      "font-mono text-xs font-bold uppercase tracking-widest",
-                      item.featured ? "text-sky" : "text-ocean"
-                    )}
-                  >
-                    {item.label}
-                  </p>
+        <InquiryDialogProvider>
+          <div className="mt-12 space-y-6">
+            {packages.map((pkg) => (
+              <section
+                key={pkg.name}
+                className="rounded-lg border border-border bg-surface p-6 shadow-card sm:p-8"
+              >
+                <div className="grid gap-8 lg:grid-cols-[0.85fr_1.15fr]">
+                  <div className="flex flex-col justify-between">
+                    <div>
+                      <p className="text-xs font-semibold uppercase tracking-[0.1em] text-primary">
+                        {pkg.label}
+                      </p>
+                      <h2 className="mt-2 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
+                        {pkg.name}
+                      </h2>
+                      <p className="mt-1 text-sm text-muted-foreground">
+                        Typical timeline: {pkg.timeline}
+                      </p>
+                      <p className="mt-3 text-body text-foreground/90">
+                        {pkg.description}
+                      </p>
+                    </div>
 
-                  <h2 className="mt-3 font-display text-3xl font-bold">
-                    {item.name}
-                  </h2>
+                    <div className="mt-6">
+                      <InquiryTrigger
+                        packageName={pkg.name}
+                        cta={pkg.cta}
+                        featured={pkg.featured}
+                      />
+                    </div>
+                  </div>
 
-                  <p
-                    className={cn(
-                      "mt-4 text-sm leading-6",
-                      item.featured ? "text-white/80" : "text-muted-foreground"
-                    )}
-                  >
-                    {item.description}
-                  </p>
-
-                  <div
-                    className={cn(
-                      "my-7 h-px",
-                      item.featured ? "bg-white/15" : "bg-border"
-                    )}
-                  />
-
-                  <ul className="flex-1 space-y-3">
-                    {item.features.map((feature) => (
-                      <li
-                        key={feature}
-                        className="flex items-start gap-3 text-sm leading-5"
-                      >
-                        <span
-                          className={cn(
-                            "mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full",
-                            item.featured
-                              ? "bg-white text-navy"
-                              : "bg-ocean text-white"
-                          )}
-                        >
-                          <Check className="size-3.5" strokeWidth={3} />
-                        </span>
-
-                        <span>{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
-
-                  <p
-                    className={cn(
-                      "mt-7 rounded-lg p-4 text-xs leading-5",
-                      item.featured
-                        ? "bg-white/10 text-white/80"
-                        : "bg-muted text-muted-foreground"
-                    )}
-                  >
-                    {item.note}
-                  </p>
-
-                  <InquiryTrigger
-                    packageName={item.name}
-                    cta={item.cta}
-                    featured={item.featured}
-                    className="mt-6"
-                  />
-                </Card>
-              </Reveal>
+                  <div className="border-t border-border pt-6 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0">
+                    <ul className="space-y-2.5 text-[15px] text-foreground/90">
+                      {pkg.features.map((feature) => (
+                        <li key={feature} className="flex items-start gap-2.5">
+                          <Check
+                            className="mt-1 size-4 shrink-0 text-primary"
+                            aria-hidden="true"
+                          />
+                          <span>{feature}</span>
+                        </li>
+                      ))}
+                    </ul>
+                    <p className="mt-5 rounded-md bg-background p-3.5 text-sm text-muted-foreground">
+                      {pkg.note}
+                    </p>
+                  </div>
+                </div>
+              </section>
             ))}
           </div>
-          </InquiryDialogProvider>
+        </InquiryDialogProvider>
 
-          <Reveal i={3}>
-            <div className="mx-auto mt-12 max-w-3xl text-center">
-              <p className="text-sm leading-6 text-muted-foreground">
-                Packages can be customized for salons, gyms, clinics,
-                restaurants, hotels, educational institutes, construction
-                companies, professional services, retail businesses, and
-                other industries.
-              </p>
-
-              <p className="mt-3 text-xs leading-5 text-muted-foreground/70">
-                Domain, hosting, premium integrations, SMS, WhatsApp API,
-                payment gateway, and third-party usage fees are charged
-                separately when required.
-              </p>
-            </div>
-          </Reveal>
-        </div>
-      </section>
-    </>
+        <section className="mt-12 rounded-lg border border-border bg-surface p-6 sm:p-8">
+          <h2 className="text-lg font-semibold text-foreground">
+            {paymentConfig.headline}
+          </h2>
+          {paymentNotes.map((note) => (
+            <p key={note} className="mt-1.5 text-[15px] text-muted-foreground">
+              {note}
+            </p>
+          ))}
+          <p className="mt-3 text-sm text-muted-foreground">
+            Domain registration, hosting, and any third-party SMS, WhatsApp API,
+            or payment gateway charges stay in your own accounts or are itemized
+            separately when required.
+          </p>
+        </section>
+      </div>
+    </div>
   );
 }

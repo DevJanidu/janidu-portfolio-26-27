@@ -1,18 +1,10 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans } from "next/font/google";
 import { profile, siteUrl } from "@/lib/data";
 import { JsonLd } from "@/components/json-ld";
 import { SalonHero } from "@/components/salon/salon-hero";
 import { SalonPackages } from "@/components/salon/salon-packages";
 import { SalonModules } from "@/components/salon/salon-modules";
 import { SalonBenefits } from "@/components/salon/salon-benefits";
-
-// Scoped to this page only — a larger, clearer body font for a
-// content-dense feature page, without touching the site-wide type scale.
-const plusJakarta = Plus_Jakarta_Sans({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
 
 const title = "Salon Website & Cloud ERP System | Salon Management Software";
 const description =
@@ -63,7 +55,7 @@ const serviceJsonLd = {
 
 export default function SalonPage() {
   return (
-    <div className={plusJakarta.className}>
+    <div>
       <JsonLd data={breadcrumbJsonLd} />
       <JsonLd data={serviceJsonLd} />
       <SalonHero />

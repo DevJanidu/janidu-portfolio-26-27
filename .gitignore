@@ -9,3 +9,5 @@ npm-debug.log*
 !.env.example
 .vercel
 next-env.d.ts
+/data/*.private.json
+/data/*.tmp
