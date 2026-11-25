@@ -31,9 +31,9 @@ function WideProjectFeature({ project }: { project: Project }) {
         >
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute left-0 top-0 z-10 h-28 w-28 overflow-hidden"
+            className="pointer-events-none absolute left-0 top-0 z-10 h-32 w-32 overflow-hidden"
           >
-            <span className="absolute -left-11 top-5 block w-40 -rotate-45 border-y border-black/15 bg-[#CCFF00] py-1 text-center text-[10px] font-bold uppercase tracking-[0.14em] text-black shadow-sm">
+            <span className="absolute -left-[42px] top-[30px] block w-[168px] -rotate-45 border-y border-black/15 bg-[#CCFF00] py-1 text-center text-[9.5px] font-extrabold uppercase tracking-[0.05em] text-black shadow-sm">
               Recent Project
             </span>
           </div>
@@ -122,9 +122,9 @@ function SecondaryProjectPreview({ project }: { project: Project }) {
       >
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute left-0 top-0 z-10 h-28 w-28 overflow-hidden"
+          className="pointer-events-none absolute left-0 top-0 z-10 h-32 w-32 overflow-hidden"
         >
-          <span className="absolute -left-11 top-5 block w-40 -rotate-45 border-y border-black/15 bg-[#CCFF00] py-1 text-center text-[10px] font-bold uppercase tracking-[0.14em] text-black shadow-sm">
+          <span className="absolute -left-[42px] top-[30px] block w-[168px] -rotate-45 border-y border-black/15 bg-[#CCFF00] py-1 text-center text-[9.5px] font-extrabold uppercase tracking-[0.05em] text-black shadow-sm">
             Recent Project
           </span>
         </div>
