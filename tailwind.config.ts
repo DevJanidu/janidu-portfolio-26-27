@@ -23,9 +23,9 @@ const config: Config = {
       colors: {
         // Legacy aliases mapped onto the restrained off-white / near-black / single-blue palette
         // so preserved secondary routes (/pricing, /salon-details) stay harmonious.
-        navy: "#111827",
-        ocean: "#1D4ED8",
-        cyan: "#1D4ED8",
+        navy: "#091C44",
+        ocean: "#091C44",
+        cyan: "#091C44",
         sky: "#DBEAFE",
         ice: "#EFF6FF",
 
@@ -35,7 +35,7 @@ const config: Config = {
 
         border: "#E5E4DF",
         input: "#D6D5CE",
-        ring: "#1D4ED8",
+        ring: "#091C44",
 
         card: {
           DEFAULT: "#FFFFFF",
@@ -48,8 +48,8 @@ const config: Config = {
         },
 
         primary: {
-          DEFAULT: "#1D4ED8",
-          hover: "#1E40AF",
+          DEFAULT: "#091C44",
+          hover: "#112D66",
           foreground: "#FFFFFF",
         },
 
@@ -64,8 +64,8 @@ const config: Config = {
         },
 
         accent: {
-          DEFAULT: "#EFF6FF",
-          foreground: "#1D4ED8",
+          DEFAULT: "#EDF2FA",
+          foreground: "#091C44",
         },
 
         destructive: {
