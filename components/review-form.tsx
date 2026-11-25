@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
+import { useRouter } from "next/navigation";
 import { CheckCircle2, Send, Star } from "lucide-react";
 import { profile } from "@/lib/data";
 import { DEFAULT_COUNTRY } from "@/lib/countries";
@@ -20,6 +21,7 @@ const RATING_LABELS: Record<number, string> = {
 };
 
 export function ReviewForm() {
+  const router = useRouter();
   const [rating, setRating] = useState<number>(0);
   const [hoverRating, setHoverRating] = useState<number>(0);
   const [clientName, setClientName] = useState("");
@@ -94,6 +96,7 @@ export function ReviewForm() {
         );
       }
       setSubmitted(true);
+      router.refresh();
     } catch (err) {
       setError(
         err instanceof Error
@@ -123,8 +126,7 @@ export function ReviewForm() {
         </h3>
         <p className="mt-2 max-w-lg text-body text-muted-foreground">
           Your {rating}-star review for <strong>{projectName}</strong> has been
-          saved for moderation. Your email address stays private and will never
-          be published.
+          published. Your email address stays private and is never displayed.
         </p>
       </div>
     );
@@ -349,7 +351,7 @@ export function ReviewForm() {
       ) : null}
 
       <Button type="submit" size="lg" disabled={loading}>
-        {loading ? "Submitting review..." : "Submit review for moderation"}
+        {loading ? "Submitting review..." : "Submit review"}
         <Send className="size-4" aria-hidden="true" />
       </Button>
     </form>
