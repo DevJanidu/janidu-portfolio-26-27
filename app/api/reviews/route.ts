@@ -1,4 +1,5 @@
 import crypto from "crypto";
+import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 import { normalizeCountry } from "@/lib/countries";
 import { ensureDatabaseSchema, getSql, isDatabaseConfigured } from "@/lib/db";
@@ -13,6 +14,7 @@ import {
 } from "@/lib/submission-delivery";
 
 export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -46,7 +48,9 @@ export async function POST(request: Request) {
   }
 
   if (body.website) {
-    return NextResponse.json({ ok: true });
+    revalidatePath("/reviews");
+  revalidatePath("/");
+  return NextResponse.json({ ok: true });
   }
 
   const parsedRating =
@@ -279,5 +283,7 @@ export async function POST(request: Request) {
     );
   }
 
+  revalidatePath("/reviews");
+  revalidatePath("/");
   return NextResponse.json({ ok: true });
 }

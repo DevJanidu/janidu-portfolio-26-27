@@ -8,7 +8,7 @@ import { ReviewForm } from "@/components/review-form";
 import { Button } from "@/components/ui/button";
 import { JsonLd } from "@/components/json-ld";
 
-export const revalidate = 60;
+export const dynamic = "force-dynamic";
 
 const title = `Client Reviews | ${profile.publicName}`;
 const description =

@@ -14,7 +14,7 @@ import {
   getPublishedReviews,
 } from "@/lib/reviews";
 
-export const revalidate = 60;
+export const dynamic = "force-dynamic";
 
 const professionalServiceJsonLd = {
   "@context": "https://schema.org",
