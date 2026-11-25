@@ -124,6 +124,15 @@ export function ReviewsList({
               <p className="mt-4 text-body text-foreground/95">
                 &ldquo;{review.comment}&rdquo;
               </p>
+
+              {review.translation ? (
+                <p className="mt-2.5 border-l-2 border-border pl-3 text-sm leading-relaxed text-muted-foreground">
+                  <span className="font-medium text-foreground/80">
+                    English:
+                  </span>{" "}
+                  {review.translation}
+                </p>
+              ) : null}
             </div>
 
             <footer className="mt-5 border-t border-border pt-4">
@@ -137,7 +146,8 @@ export function ReviewsList({
                 ) : null}
               </p>
               <p className="mt-0.5 text-xs text-muted-foreground">
-                Project: {review.projectName}
+                {review.projectName}
+                {review.location ? ` · ${review.location}` : ""}
               </p>
             </footer>
           </article>

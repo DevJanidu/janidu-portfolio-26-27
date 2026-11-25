@@ -6,6 +6,7 @@ export type PublishedReview = {
   rating: 1 | 2 | 3 | 4 | 5;
   projectName: string;
   comment: string;
+  translation?: string;
   clientName: string;
   businessName?: string;
   location?: string;
@@ -55,6 +56,9 @@ export async function getPublishedReviews(): Promise<PublishedReview[]> {
         rating: item.rating,
         projectName: item.projectName.trim(),
         comment: item.comment.trim(),
+        ...(typeof item.translation === "string" && item.translation.trim()
+          ? { translation: item.translation.trim() }
+          : {}),
         clientName: item.clientName.trim(),
         ...(typeof item.businessName === "string" && item.businessName.trim()
           ? { businessName: item.businessName.trim() }

@@ -71,13 +71,24 @@ export function ReviewsPreview({
                   </p>
                 ) : null}
                 <p className="mt-1 text-xs text-muted-foreground">
-                  Project: {review.projectName}
+                  {review.projectName}
+                  {review.location ? ` · ${review.location}` : ""}
                 </p>
               </div>
 
-              <p className="text-body text-foreground/90">
-                &ldquo;{review.comment}&rdquo;
-              </p>
+              <div>
+                <p className="text-body text-foreground/90">
+                  &ldquo;{review.comment}&rdquo;
+                </p>
+                {review.translation ? (
+                  <p className="mt-2 text-sm text-muted-foreground">
+                    <span className="font-medium text-foreground/80">
+                      English:
+                    </span>{" "}
+                    {review.translation}
+                  </p>
+                ) : null}
+              </div>
             </blockquote>
           ))}
         </div>
