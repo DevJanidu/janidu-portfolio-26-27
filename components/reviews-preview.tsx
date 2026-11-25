@@ -1,9 +1,13 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Globe, Loader2 } from "lucide-react";
 import type { PublishedReview, ReviewSummary } from "@/lib/reviews";
 import { SectionHeading } from "@/components/section-heading";
 import { StarRating } from "@/components/star-rating";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 export function ReviewsPreview({
   reviews,
@@ -12,9 +16,47 @@ export function ReviewsPreview({
   reviews: PublishedReview[];
   summary: ReviewSummary | null;
 }) {
-  // Hide the empty testimonial section completely when there are no approved reviews.
+  const [translatedIds, setTranslatedIds] = useState<Record<string, boolean>>(
+    {}
+  );
+  const [liveTranslations, setLiveTranslations] = useState<
+    Record<string, string>
+  >({});
+  const [loadingIds, setLoadingIds] = useState<Record<string, boolean>>({});
+
   if (reviews.length === 0 || !summary) {
     return null;
+  }
+
+  async function toggleTranslation(review: PublishedReview) {
+    if (translatedIds[review.id]) {
+      setTranslatedIds((prev) => ({ ...prev, [review.id]: false }));
+      return;
+    }
+
+    if (review.translation || liveTranslations[review.id]) {
+      setTranslatedIds((prev) => ({ ...prev, [review.id]: true }));
+      return;
+    }
+
+    setLoadingIds((prev) => ({ ...prev, [review.id]: true }));
+    try {
+      const res = await fetch("/api/translate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text: review.comment, target: "en" }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (res.ok && typeof data.translatedText === "string") {
+        setLiveTranslations((prev) => ({
+          ...prev,
+          [review.id]: data.translatedText,
+        }));
+        setTranslatedIds((prev) => ({ ...prev, [review.id]: true }));
+      }
+    } finally {
+      setLoadingIds((prev) => ({ ...prev, [review.id]: false }));
+    }
   }
 
   return (
@@ -55,42 +97,68 @@ export function ReviewsPreview({
         </div>
 
         <div className="mt-10 divide-y divide-border border-y border-border">
-          {reviews.slice(0, 3).map((review) => (
-            <blockquote
-              key={review.id}
-              className="grid gap-4 py-8 md:grid-cols-[240px_1fr] md:gap-10"
-            >
-              <div>
-                <StarRating rating={review.rating} showNumeric size="sm" />
-                <p className="mt-2.5 text-base font-semibold text-foreground">
-                  {review.clientName}
-                </p>
-                {review.businessName ? (
-                  <p className="text-sm text-muted-foreground">
-                    {review.businessName}
-                  </p>
-                ) : null}
-                <p className="mt-1 text-xs text-muted-foreground">
-                  {review.projectName}
-                  {review.location ? ` · ${review.location}` : ""}
-                </p>
-              </div>
+          {reviews.slice(0, 3).map((review) => {
+            const isTranslated = Boolean(translatedIds[review.id]);
+            const isLoading = Boolean(loadingIds[review.id]);
+            const translatedText =
+              review.translation || liveTranslations[review.id];
 
-              <div>
-                <p className="text-body text-foreground/90">
-                  &ldquo;{review.comment}&rdquo;
-                </p>
-                {review.translation ? (
-                  <p className="mt-2 text-sm text-muted-foreground">
-                    <span className="font-medium text-foreground/80">
-                      English:
-                    </span>{" "}
-                    {review.translation}
+            return (
+              <blockquote
+                key={review.id}
+                className="grid gap-4 py-8 md:grid-cols-[240px_1fr] md:gap-10"
+              >
+                <div>
+                  <StarRating rating={review.rating} showNumeric size="sm" />
+                  <p className="mt-2.5 text-base font-semibold text-foreground">
+                    {review.clientName}
                   </p>
-                ) : null}
-              </div>
-            </blockquote>
-          ))}
+                  {review.businessName ? (
+                    <p className="text-sm text-muted-foreground">
+                      {review.businessName}
+                    </p>
+                  ) : null}
+                  <p className="mt-1 text-xs text-muted-foreground">
+                    {review.projectName}
+                    {review.location ? ` · ${review.location}` : ""}
+                  </p>
+                </div>
+
+                <div>
+                  <p className="text-body text-foreground/90">
+                    &ldquo;
+                    {isTranslated && translatedText
+                      ? translatedText
+                      : review.comment}
+                    &rdquo;
+                  </p>
+                  <div className="mt-3">
+                    <button
+                      type="button"
+                      onClick={() => toggleTranslation(review)}
+                      disabled={isLoading}
+                      className={cn(
+                        "inline-flex items-center gap-1.5 rounded-md border px-2.5 py-1 text-xs font-medium transition-colors",
+                        isTranslated
+                          ? "border-primary/30 bg-accent text-primary"
+                          : "border-border bg-background text-muted-foreground hover:border-foreground/30 hover:text-foreground"
+                      )}
+                    >
+                      {isLoading ? (
+                        <Loader2
+                          className="size-3.5 animate-spin"
+                          aria-hidden="true"
+                        />
+                      ) : (
+                        <Globe className="size-3.5" aria-hidden="true" />
+                      )}
+                      <span>{isTranslated ? "Show original" : "Translate"}</span>
+                    </button>
+                  </div>
+                </div>
+              </blockquote>
+            );
+          })}
         </div>
       </div>
     </section>

@@ -3,7 +3,8 @@
 import { useState, type FormEvent } from "react";
 import { CheckCircle2, Send, Star } from "lucide-react";
 import { profile } from "@/lib/data";
-import { COUNTRY_OPTIONS, DEFAULT_COUNTRY } from "@/lib/countries";
+import { DEFAULT_COUNTRY } from "@/lib/countries";
+import { CountryPicker } from "@/components/country-picker";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -263,19 +264,12 @@ export function ReviewForm() {
           >
             Country
           </label>
-          <select
+          <CountryPicker
             id="review-country"
             name="country"
             value={country}
-            onChange={(e) => setCountry(e.target.value)}
-            className={inputClass}
-          >
-            {COUNTRY_OPTIONS.map((option) => (
-              <option key={option} value={option}>
-                {option}
-              </option>
-            ))}
-          </select>
+            onChange={setCountry}
+          />
         </div>
       </div>
 

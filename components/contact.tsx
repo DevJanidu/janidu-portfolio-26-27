@@ -5,7 +5,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { CheckCircle2, Mail, MessageSquare, Send, X } from "lucide-react";
 import { profile } from "@/lib/data";
-import { COUNTRY_OPTIONS, DEFAULT_COUNTRY } from "@/lib/countries";
+import { DEFAULT_COUNTRY } from "@/lib/countries";
+import { CountryPicker } from "@/components/country-picker";
 import {
   getSalonConceptBySlug,
   type SalonConcept,
@@ -387,19 +388,12 @@ export function Contact() {
                     >
                       Country
                     </label>
-                    <select
+                    <CountryPicker
                       id="inquiry-country"
                       name="country"
                       value={country}
-                      onChange={(e) => setCountry(e.target.value)}
-                      className={inputClass}
-                    >
-                      {COUNTRY_OPTIONS.map((option) => (
-                        <option key={option} value={option}>
-                          {option}
-                        </option>
-                      ))}
-                    </select>
+                      onChange={setCountry}
+                    />
                   </div>
                 </div>
 
