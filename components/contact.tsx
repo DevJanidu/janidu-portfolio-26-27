@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { CheckCircle2, Mail, MessageSquare, Send, X } from "lucide-react";
 import { profile } from "@/lib/data";
+import { COUNTRY_OPTIONS, DEFAULT_COUNTRY } from "@/lib/countries";
 import {
   getSalonConceptBySlug,
   type SalonConcept,
@@ -25,6 +26,7 @@ export function Contact() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [businessName, setBusinessName] = useState("");
+  const [country, setCountry] = useState<string>(DEFAULT_COUNTRY);
   const [message, setMessage] = useState("");
 
   const [sent, setSent] = useState(false);
@@ -115,6 +117,7 @@ export function Contact() {
       name: name.trim(),
       email: email.trim(),
       businessName: businessName.trim(),
+      country,
       message: message.trim(),
       selectedDesign: activeDesignIdentifier || undefined,
       company: formData.get("company"), // honeypot
@@ -356,24 +359,48 @@ export function Contact() {
                   </div>
                 </div>
 
-                <div>
-                  <label
-                    htmlFor="inquiry-business"
-                    className="mb-1.5 block text-sm font-medium text-foreground"
-                  >
-                    Business name
-                  </label>
-                  <input
-                    id="inquiry-business"
-                    name="businessName"
-                    type="text"
-                    required
-                    autoComplete="organization"
-                    value={businessName}
-                    onChange={(e) => setBusinessName(e.target.value)}
-                    placeholder="Your salon, spa, or service business"
-                    className={inputClass}
-                  />
+                <div className="grid gap-5 sm:grid-cols-2">
+                  <div>
+                    <label
+                      htmlFor="inquiry-business"
+                      className="mb-1.5 block text-sm font-medium text-foreground"
+                    >
+                      Business name
+                    </label>
+                    <input
+                      id="inquiry-business"
+                      name="businessName"
+                      type="text"
+                      required
+                      autoComplete="organization"
+                      value={businessName}
+                      onChange={(e) => setBusinessName(e.target.value)}
+                      placeholder="Your salon, spa, or service business"
+                      className={inputClass}
+                    />
+                  </div>
+
+                  <div>
+                    <label
+                      htmlFor="inquiry-country"
+                      className="mb-1.5 block text-sm font-medium text-foreground"
+                    >
+                      Country
+                    </label>
+                    <select
+                      id="inquiry-country"
+                      name="country"
+                      value={country}
+                      onChange={(e) => setCountry(e.target.value)}
+                      className={inputClass}
+                    >
+                      {COUNTRY_OPTIONS.map((option) => (
+                        <option key={option} value={option}>
+                          {option}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
                 </div>
 
                 <div>

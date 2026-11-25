@@ -14,6 +14,8 @@ import {
   getPublishedReviews,
 } from "@/lib/reviews";
 
+export const revalidate = 60;
+
 const professionalServiceJsonLd = {
   "@context": "https://schema.org",
   "@type": "ProfessionalService",

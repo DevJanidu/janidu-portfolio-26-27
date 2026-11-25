@@ -1,5 +1,6 @@
 import { promises as fs } from "fs";
 import path from "path";
+import { ensureDatabaseSchema, getSql, isDatabaseConfigured } from "@/lib/db";
 
 export type PublishedReview = {
   id: string;
@@ -17,8 +18,20 @@ export type PublishedReview = {
 type StoredPublishedReview = PublishedReview & {
   approved?: boolean;
   displayPermission?: boolean;
-  // Guard against anyone accidentally copying private moderation fields into published-reviews.json
   email?: never;
+};
+
+type DbReviewRow = {
+  id: string;
+  rating: number;
+  project_name: string;
+  comment: string;
+  translation: string | null;
+  client_name: string;
+  business_name: string | null;
+  country: string | null;
+  published_at: string | Date;
+  featured: boolean;
 };
 
 export type ReviewSummary = {
@@ -27,13 +40,30 @@ export type ReviewSummary = {
   distribution: Record<1 | 2 | 3 | 4 | 5, number>;
 };
 
-const PUBLISHED_REVIEWS_PATH = path.join(process.cwd(), "data", "published-reviews.json");
+const PUBLISHED_REVIEWS_PATH = path.join(
+  process.cwd(),
+  "data",
+  "published-reviews.json"
+);
 
 function isValidRating(value: unknown): value is 1 | 2 | 3 | 4 | 5 {
-  return typeof value === "number" && Number.isInteger(value) && value >= 1 && value <= 5;
+  return (
+    typeof value === "number" &&
+    Number.isInteger(value) &&
+    value >= 1 &&
+    value <= 5
+  );
 }
 
-export async function getPublishedReviews(): Promise<PublishedReview[]> {
+function formatIsoDate(value: string | Date): string {
+  if (value instanceof Date) {
+    return value.toISOString().slice(0, 10);
+  }
+  const str = String(value);
+  return str.length >= 10 ? str.slice(0, 10) : "2026-01-01";
+}
+
+async function getPublishedReviewsFromJson(): Promise<PublishedReview[]> {
   try {
     const raw = await fs.readFile(PUBLISHED_REVIEWS_PATH, "utf8");
     const parsed: unknown = JSON.parse(raw);
@@ -42,15 +72,14 @@ export async function getPublishedReviews(): Promise<PublishedReview[]> {
     const sanitized: PublishedReview[] = [];
     for (const item of parsed as StoredPublishedReview[]) {
       if (!item || typeof item !== "object") continue;
-      // Only include reviews explicitly approved (default true if placed in published-reviews.json unless approved === false)
-      // and with display permission (unless explicitly false).
       if (item.approved === false || item.displayPermission === false) continue;
       if (!isValidRating(item.rating)) continue;
       if (typeof item.comment !== "string" || !item.comment.trim()) continue;
-      if (typeof item.projectName !== "string" || !item.projectName.trim()) continue;
-      if (typeof item.clientName !== "string" || !item.clientName.trim()) continue;
+      if (typeof item.projectName !== "string" || !item.projectName.trim())
+        continue;
+      if (typeof item.clientName !== "string" || !item.clientName.trim())
+        continue;
 
-      // Explicitly pick ONLY public fields so private contact details can never leak.
       sanitized.push({
         id: String(item.id || `${item.clientName}-${item.publishedAt}`),
         rating: item.rating,
@@ -80,6 +109,56 @@ export async function getPublishedReviews(): Promise<PublishedReview[]> {
   }
 }
 
+export async function getPublishedReviews(): Promise<PublishedReview[]> {
+  if (isDatabaseConfigured()) {
+    try {
+      await ensureDatabaseSchema();
+      const sql = getSql();
+      // Strictly select only public columns; private_contact_email is never queried here.
+      const rows = (await sql`
+        SELECT
+          id,
+          rating,
+          project_name,
+          comment,
+          translation,
+          client_name,
+          business_name,
+          country,
+          published_at,
+          featured
+        FROM reviews
+        WHERE approved = TRUE AND display_permission = TRUE
+        ORDER BY published_at DESC, created_at DESC
+      `) as DbReviewRow[];
+
+      const sanitized: PublishedReview[] = [];
+      for (const row of rows) {
+        const ratingNum = Number(row.rating);
+        if (!isValidRating(ratingNum)) continue;
+        sanitized.push({
+          id: row.id,
+          rating: ratingNum,
+          projectName: row.project_name,
+          comment: row.comment,
+          ...(row.translation ? { translation: row.translation } : {}),
+          clientName: row.client_name,
+          ...(row.business_name ? { businessName: row.business_name } : {}),
+          ...(row.country ? { location: row.country } : {}),
+          publishedAt: formatIsoDate(row.published_at),
+          featured: Boolean(row.featured),
+        });
+      }
+
+      return sanitized;
+    } catch (err) {
+      console.error("Failed to load reviews from Neon, falling back to JSON:", err);
+    }
+  }
+
+  return getPublishedReviewsFromJson();
+}
+
 export async function getFeaturedReviews(limit = 3): Promise<PublishedReview[]> {
   const all = await getPublishedReviews();
   if (all.length === 0) return [];
@@ -88,7 +167,9 @@ export async function getFeaturedReviews(limit = 3): Promise<PublishedReview[]> 
   return [...featured, ...rest].slice(0, limit);
 }
 
-export function computeReviewSummary(reviews: PublishedReview[]): ReviewSummary | null {
+export function computeReviewSummary(
+  reviews: PublishedReview[]
+): ReviewSummary | null {
   if (reviews.length === 0) return null;
 
   const distribution: Record<1 | 2 | 3 | 4 | 5, number> = {

@@ -1,9 +1,8 @@
 import crypto from "crypto";
 import { NextResponse } from "next/server";
-import {
-  computeReviewSummary,
-  getPublishedReviews,
-} from "@/lib/reviews";
+import { normalizeCountry } from "@/lib/countries";
+import { ensureDatabaseSchema, getSql, isDatabaseConfigured } from "@/lib/db";
+import { computeReviewSummary, getPublishedReviews } from "@/lib/reviews";
 import { profile } from "@/lib/data";
 import {
   appendPrivateSubmission,
@@ -27,6 +26,7 @@ type ReviewSubmissionBody = {
   rating?: number | string;
   clientName?: string;
   businessName?: string;
+  country?: string;
   email?: string;
   projectName?: string;
   comment?: string;
@@ -45,7 +45,6 @@ export async function POST(request: Request) {
     );
   }
 
-  // Honeypot: silently accept automated spam without storing or emailing.
   if (body.website) {
     return NextResponse.json({ ok: true });
   }
@@ -67,6 +66,7 @@ export async function POST(request: Request) {
   const rating = parsedRating as 1 | 2 | 3 | 4 | 5;
   const clientName = body.clientName?.trim() ?? "";
   const businessName = body.businessName?.trim() ?? "";
+  const country = normalizeCountry(body.country);
   const email = body.email?.trim() ?? "";
   const projectName = body.projectName?.trim() ?? "";
   const comment = body.comment?.trim() ?? "";
@@ -125,7 +125,6 @@ export async function POST(request: Request) {
   const submittedAt = new Date().toISOString();
   const publishedDate = submittedAt.slice(0, 10);
 
-  // Ready-to-publish public object intentionally excludes private `email`.
   const publicModerationCandidate = {
     id,
     rating,
@@ -133,13 +132,13 @@ export async function POST(request: Request) {
     comment,
     clientName,
     ...(businessName ? { businessName } : {}),
+    location: country,
     publishedAt: publishedDate,
     approved: true,
     displayPermission: true,
     featured: false,
   };
 
-  // Private moderation record keeps `privateContactEmail` strictly server-side.
   const moderationRecord = {
     id,
     status: "pending_moderation" as const,
@@ -149,15 +148,56 @@ export async function POST(request: Request) {
     publicCandidate: publicModerationCandidate,
   };
 
+  let savedInDb = false;
   let emailed = false;
   let webhooked = false;
   let storedOnDisk = false;
 
   try {
-    storedOnDisk = await appendPrivateSubmission(
-      "review-submissions.private.json",
-      moderationRecord
-    );
+    if (isDatabaseConfigured()) {
+      await ensureDatabaseSchema();
+      const sql = getSql();
+      // Stored with approved = FALSE so every submission goes through moderation first.
+      const rows = await sql`
+        INSERT INTO reviews (
+          id,
+          rating,
+          project_name,
+          comment,
+          client_name,
+          business_name,
+          country,
+          private_contact_email,
+          display_permission,
+          approved,
+          featured,
+          published_at
+        )
+        VALUES (
+          ${id},
+          ${rating},
+          ${projectName},
+          ${comment},
+          ${clientName},
+          ${businessName || null},
+          ${country},
+          ${email},
+          ${displayPermission},
+          FALSE,
+          FALSE,
+          ${publishedDate}
+        )
+        RETURNING id
+      `;
+      savedInDb = rows.length > 0;
+    }
+
+    if (!savedInDb) {
+      storedOnDisk = await appendPrivateSubmission(
+        "review-submissions.private.json",
+        moderationRecord
+      );
+    }
 
     if (process.env.REVIEWS_WEBHOOK_URL) {
       webhooked = await postJsonWebhook(
@@ -173,15 +213,16 @@ export async function POST(request: Request) {
         `Rating: ${rating}/5 (${stars})`,
         `Client name: ${clientName}`,
         businessName ? `Business: ${businessName}` : null,
+        `Country: ${country}`,
         `Project: ${projectName}`,
         `Private verification email (DO NOT PUBLISH): ${email}`,
         `Display permission granted: Yes`,
+        savedInDb
+          ? `Stored in Neon Postgres (id: ${id}, approved: false). To publish: UPDATE reviews SET approved = TRUE WHERE id = '${id}';`
+          : null,
         "",
         "Comment:",
         comment,
-        "",
-        "Approve by adding this sanitized entry to data/published-reviews.json:",
-        JSON.stringify(publicModerationCandidate, null, 2),
       ]
         .filter((line): line is string => line !== null)
         .join("\n");
@@ -193,16 +234,17 @@ export async function POST(request: Request) {
           <p style="margin: 4px 0;"><strong>Client:</strong> ${escapeHtml(clientName)}${
             businessName ? ` (${escapeHtml(businessName)})` : ""
           }</p>
+          <p style="margin: 4px 0;"><strong>Country:</strong> ${escapeHtml(country)}</p>
           <p style="margin: 4px 0;"><strong>Project:</strong> ${escapeHtml(projectName)}</p>
           <p style="margin: 4px 0;"><strong>Private email (never shown publicly):</strong> ${escapeHtml(email)}</p>
-          <p style="margin: 4px 0;"><strong>Permission to display name/business:</strong> Granted</p>
           <hr style="margin: 16px 0; border: 0; border-top: 1px solid #e5e7eb;" />
           <p style="margin: 0 0 8px;"><strong>Review comment:</strong></p>
           <p style="margin: 0 0 16px; white-space: pre-wrap;">${escapeHtml(comment)}</p>
-          <p style="margin: 0 0 6px; font-size: 13px; color: #4b5563;">Sanitized JSON for <code>data/published-reviews.json</code> (private email stripped):</p>
-          <pre style="background: #f3f4f6; padding: 12px; border-radius: 6px; font-size: 12px; overflow-x: auto;">${escapeHtml(
-            JSON.stringify(publicModerationCandidate, null, 2)
-          )}</pre>
+          ${
+            savedInDb
+              ? `<p style="font-size: 13px; color: #4b5563;">Approve in Neon Postgres: <code>UPDATE reviews SET approved = TRUE WHERE id = '${escapeHtml(id)}';</code></p>`
+              : ""
+          }
         </div>
       `;
 
@@ -210,7 +252,7 @@ export async function POST(request: Request) {
         fromLabel: "JaniduDev Review Moderation",
         replyToName: clientName,
         replyToEmail: email,
-        subject: `Review awaiting moderation: ${projectName} (${rating}/5)`,
+        subject: `Review awaiting moderation (${country}): ${projectName} (${rating}/5)`,
         text,
         html,
       });
@@ -225,9 +267,9 @@ export async function POST(request: Request) {
     );
   }
 
-  if (!storedOnDisk && !emailed && !webhooked) {
+  if (!savedInDb && !storedOnDisk && !emailed && !webhooked) {
     console.error(
-      "Review submission: no durable moderation channel (SMTP, webhook, or persistent volume) is configured."
+      "Review submission: no durable moderation channel (Neon DB, SMTP, webhook, or persistent volume) is configured."
     );
     return NextResponse.json(
       {

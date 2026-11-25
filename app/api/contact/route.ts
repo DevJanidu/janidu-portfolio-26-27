@@ -1,6 +1,8 @@
 import crypto from "crypto";
 import { NextResponse } from "next/server";
 import { profile } from "@/lib/data";
+import { normalizeCountry } from "@/lib/countries";
+import { ensureDatabaseSchema, getSql, isDatabaseConfigured } from "@/lib/db";
 import { getSalonConceptBySlug } from "@/lib/salon-concepts";
 import {
   appendPrivateSubmission,
@@ -18,6 +20,7 @@ type InquiryPayload = {
   name?: string;
   email?: string;
   businessName?: string;
+  country?: string;
   message?: string;
   selectedDesign?: string;
   packageName?: string;
@@ -36,7 +39,6 @@ export async function POST(request: Request) {
     );
   }
 
-  // Honeypot field: bots fill it in, real visitors leave it empty.
   if (body.company) {
     return NextResponse.json({ ok: true });
   }
@@ -44,6 +46,7 @@ export async function POST(request: Request) {
   const name = body.name?.trim() ?? "";
   const email = body.email?.trim() ?? "";
   const businessName = body.businessName?.trim() ?? "";
+  const country = normalizeCountry(body.country);
   const message = body.message?.trim() ?? "";
   const rawDesign = body.selectedDesign?.trim() ?? "";
   const packageName = body.packageName?.trim() ?? "";
@@ -66,7 +69,12 @@ export async function POST(request: Request) {
       { status: 400 }
     );
   }
-  if (name.length > 140 || email.length > 200 || businessName.length > 160 || message.length > 5000) {
+  if (
+    name.length > 140 ||
+    email.length > 200 ||
+    businessName.length > 160 ||
+    message.length > 5000
+  ) {
     return NextResponse.json(
       { error: "One or more fields exceed the maximum length." },
       { status: 400 }
@@ -84,12 +92,13 @@ export async function POST(request: Request) {
   const subjectLine =
     body.subject?.trim() ||
     (businessName
-      ? `New project inquiry: ${businessName} (${name})`
-      : `New project inquiry from ${name}`);
+      ? `New project inquiry (${country}): ${businessName} (${name})`
+      : `New project inquiry (${country}) from ${name}`);
 
   const textLines = [
     `Name: ${name}`,
     `Email: ${email}`,
+    `Country: ${country}`,
     businessName ? `Business name: ${businessName}` : null,
     designLabel ? `Selected design concept: ${designLabel}` : null,
     packageName ? `Selected package: ${packageName}` : null,
@@ -106,6 +115,7 @@ export async function POST(request: Request) {
       <h2 style="margin: 0 0 16px; font-size: 18px;">New website inquiry</h2>
       <p style="margin: 4px 0;"><strong>Name:</strong> ${escapeHtml(name)}</p>
       <p style="margin: 4px 0;"><strong>Email:</strong> ${escapeHtml(email)}</p>
+      <p style="margin: 4px 0;"><strong>Country:</strong> ${escapeHtml(country)}</p>
       ${
         businessName
           ? `<p style="margin: 4px 0;"><strong>Business name:</strong> ${escapeHtml(businessName)}</p>`
@@ -127,10 +137,33 @@ export async function POST(request: Request) {
     </div>
   `;
 
+  let savedInDb = false;
   let delivered = false;
-  let stored = false;
+  let storedOnDisk = false;
 
   try {
+    if (isDatabaseConfigured()) {
+      await ensureDatabaseSchema();
+      const sql = getSql();
+      const rows = await sql`
+        INSERT INTO inquiries (
+          id, name, email, business_name, country, selected_design, package_name, message
+        )
+        VALUES (
+          ${submissionId},
+          ${name},
+          ${email},
+          ${businessName || null},
+          ${country},
+          ${designLabel || null},
+          ${packageName || null},
+          ${message}
+        )
+        RETURNING id
+      `;
+      savedInDb = rows.length > 0;
+    }
+
     if (isSmtpConfigured()) {
       delivered = await sendSmtpMail({
         fromLabel: "JaniduDev Project Inquiry",
@@ -150,6 +183,7 @@ export async function POST(request: Request) {
         name,
         email,
         businessName: businessName || undefined,
+        country,
         selectedDesign: designLabel || undefined,
         packageName: packageName || undefined,
         message,
@@ -157,30 +191,35 @@ export async function POST(request: Request) {
       delivered = delivered || webhookOk;
     }
 
-    // Persist a private backup on stateful hosts, or serve as durable local storage during non-serverless operation.
-    stored = await appendPrivateSubmission("inquiry-submissions.private.json", {
-      id: submissionId,
-      submittedAt,
-      name,
-      email,
-      businessName: businessName || undefined,
-      selectedDesign: designLabel || undefined,
-      packageName: packageName || undefined,
-      message,
-    });
+    if (!savedInDb) {
+      storedOnDisk = await appendPrivateSubmission(
+        "inquiry-submissions.private.json",
+        {
+          id: submissionId,
+          submittedAt,
+          name,
+          email,
+          businessName: businessName || undefined,
+          country,
+          selectedDesign: designLabel || undefined,
+          packageName: packageName || undefined,
+          message,
+        }
+      );
+    }
   } catch (error) {
-    console.error("Inquiry submission delivery failed:", error);
+    console.error("Inquiry submission persistence/delivery failed:", error);
     return NextResponse.json(
       {
-        error: `Could not deliver your inquiry right now. Please email ${profile.email} directly or message ${profile.whatsapp} on WhatsApp.`,
+        error: `Could not save your inquiry right now. Please email ${profile.email} directly or message ${profile.whatsapp} on WhatsApp.`,
       },
       { status: 502 }
     );
   }
 
-  if (!delivered && !stored) {
+  if (!savedInDb && !delivered && !storedOnDisk) {
     console.error(
-      "Inquiry form: neither SMTP/webhook nor persistent storage is configured."
+      "Inquiry form: neither Neon DB, SMTP/webhook, nor persistent storage is configured."
     );
     return NextResponse.json(
       {

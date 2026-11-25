@@ -3,6 +3,7 @@
 import { useState, type FormEvent } from "react";
 import { CheckCircle2, Send, Star } from "lucide-react";
 import { profile } from "@/lib/data";
+import { COUNTRY_OPTIONS, DEFAULT_COUNTRY } from "@/lib/countries";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -22,6 +23,7 @@ export function ReviewForm() {
   const [hoverRating, setHoverRating] = useState<number>(0);
   const [clientName, setClientName] = useState("");
   const [businessName, setBusinessName] = useState("");
+  const [country, setCountry] = useState<string>(DEFAULT_COUNTRY);
   const [email, setEmail] = useState("");
   const [projectName, setProjectName] = useState("");
   const [comment, setComment] = useState("");
@@ -75,6 +77,7 @@ export function ReviewForm() {
           rating,
           clientName: clientName.trim(),
           businessName: businessName.trim() || undefined,
+          country,
           email: email.trim(),
           projectName: projectName.trim(),
           comment: comment.trim(),
@@ -255,30 +258,52 @@ export function ReviewForm() {
 
         <div>
           <label
-            htmlFor="review-email"
+            htmlFor="review-country"
             className="mb-1.5 block text-sm font-medium text-foreground"
           >
-            Email <span className="text-muted-foreground">(kept private)</span>
+            Country
           </label>
-          <input
-            id="review-email"
-            name="email"
-            type="email"
-            required
-            autoComplete="email"
-            aria-describedby="review-email-privacy"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="alex@yourbusiness.com"
+          <select
+            id="review-country"
+            name="country"
+            value={country}
+            onChange={(e) => setCountry(e.target.value)}
             className={inputClass}
-          />
-          <p
-            id="review-email-privacy"
-            className="mt-1 text-xs text-muted-foreground"
           >
-            Used only to verify your project. Never shown on the site.
-          </p>
+            {COUNTRY_OPTIONS.map((option) => (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            ))}
+          </select>
         </div>
+      </div>
+
+      <div>
+        <label
+          htmlFor="review-email"
+          className="mb-1.5 block text-sm font-medium text-foreground"
+        >
+          Email <span className="text-muted-foreground">(kept private)</span>
+        </label>
+        <input
+          id="review-email"
+          name="email"
+          type="email"
+          required
+          autoComplete="email"
+          aria-describedby="review-email-privacy"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="alex@yourbusiness.com"
+          className={inputClass}
+        />
+        <p
+          id="review-email-privacy"
+          className="mt-1 text-xs text-muted-foreground"
+        >
+          Used only to verify your project. Never shown on the site.
+        </p>
       </div>
 
       <div>

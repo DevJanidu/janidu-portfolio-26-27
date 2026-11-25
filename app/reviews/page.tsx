@@ -8,6 +8,8 @@ import { ReviewForm } from "@/components/review-form";
 import { Button } from "@/components/ui/button";
 import { JsonLd } from "@/components/json-ld";
 
+export const revalidate = 60;
+
 const title = `Client Reviews | ${profile.publicName}`;
 const description =
   "Read verified feedback from past small-business website projects, or leave a review if we recently worked together.";
