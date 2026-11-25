@@ -164,9 +164,19 @@ export function LiveProjectShowcase() {
           style={{ scale, y, opacity }}
           className="mt-8 origin-top will-change-transform"
         >
-          <div className="overflow-hidden rounded-2xl border border-border bg-surface shadow-frame">
+          <div className="relative overflow-hidden rounded-2xl border border-border bg-surface shadow-frame">
+            {/* Diagonal corner ribbon tag */}
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute left-0 top-0 z-20 h-32 w-32 overflow-hidden"
+            >
+              <span className="absolute -left-11 top-6 block w-44 -rotate-45 border-y border-black/15 bg-[#CCFF00] py-1.5 text-center text-[11px] font-bold uppercase tracking-[0.14em] text-black shadow-sm">
+                Recent Project
+              </span>
+            </div>
+
             {/* Browser chrome toolbar */}
-            <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border bg-secondary/75 px-4 py-3 sm:px-5">
+            <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border bg-secondary/75 py-3 pl-24 pr-4 sm:pl-28 sm:pr-5">
               <div className="flex items-center gap-3">
                 <span className="flex items-center gap-1.5" aria-hidden="true">
                   <span className="size-2.5 rounded-full bg-border" />

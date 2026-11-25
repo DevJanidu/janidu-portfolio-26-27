@@ -29,6 +29,14 @@ function WideProjectFeature({ project }: { project: Project }) {
           aria-label={`View ${project.title} project details`}
           className="group relative block aspect-[16/9] overflow-hidden border-b border-border bg-neutral-900 lg:aspect-auto lg:min-h-[380px] lg:border-b-0 lg:border-r"
         >
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute left-0 top-0 z-10 h-28 w-28 overflow-hidden"
+          >
+            <span className="absolute -left-11 top-5 block w-40 -rotate-45 border-y border-black/15 bg-[#CCFF00] py-1 text-center text-[10px] font-bold uppercase tracking-[0.14em] text-black shadow-sm">
+              Recent Project
+            </span>
+          </div>
           <Image
             src={project.cardImage}
             alt={project.cardImageAlt}
@@ -112,6 +120,14 @@ function SecondaryProjectPreview({ project }: { project: Project }) {
         aria-label={`View ${project.title} project details`}
         className="group relative block aspect-[16/9] overflow-hidden border-b border-border bg-neutral-900"
       >
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute left-0 top-0 z-10 h-28 w-28 overflow-hidden"
+        >
+          <span className="absolute -left-11 top-5 block w-40 -rotate-45 border-y border-black/15 bg-[#CCFF00] py-1 text-center text-[10px] font-bold uppercase tracking-[0.14em] text-black shadow-sm">
+            Recent Project
+          </span>
+        </div>
         <Image
           src={project.cardImage}
           alt={project.cardImageAlt}
