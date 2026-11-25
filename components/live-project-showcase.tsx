@@ -52,11 +52,17 @@ export function LiveProjectShowcase() {
     "desktop"
   );
   const [reloadKey, setReloadKey] = useState(0);
-  const [frameLoaded, setFrameLoaded] = useState(false);
+  const [isSwitching, setIsSwitching] = useState(false);
 
   const activeItem =
     PREMIUM_LIVE_ITEMS.find((item) => item.slug === activeSlug) ??
     PREMIUM_LIVE_ITEMS[0];
+
+  useEffect(() => {
+    if (!isSwitching) return;
+    const timer = window.setTimeout(() => setIsSwitching(false), 1800);
+    return () => window.clearTimeout(timer);
+  }, [isSwitching, activeSlug, reloadKey]);
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -85,7 +91,7 @@ export function LiveProjectShowcase() {
       if (!slug) return;
       if (PREMIUM_LIVE_ITEMS.some((item) => item.slug === slug)) {
         setActiveSlug(slug);
-        setFrameLoaded(false);
+        setIsSwitching(true);
         sectionRef.current?.scrollIntoView({ behavior: "smooth" });
       }
     }
@@ -136,7 +142,7 @@ export function LiveProjectShowcase() {
                   onClick={() => {
                     if (item.slug !== activeSlug) {
                       setActiveSlug(item.slug);
-                      setFrameLoaded(false);
+                      setIsSwitching(true);
                     }
                   }}
                   className={cn(
@@ -219,7 +225,7 @@ export function LiveProjectShowcase() {
                 <button
                   type="button"
                   onClick={() => {
-                    setFrameLoaded(false);
+                    setIsSwitching(true);
                     setReloadKey((k) => k + 1);
                   }}
                   aria-label={`Reload ${activeItem.title} preview`}
@@ -238,12 +244,12 @@ export function LiveProjectShowcase() {
 
             {/* Live embedded interactive site */}
             <div className="relative flex justify-center bg-[#F0EFEA]">
-              {!frameLoaded ? (
+              {isSwitching ? (
                 <div
                   aria-live="polite"
-                  className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center bg-surface/80 text-sm font-medium text-muted-foreground"
+                  className="pointer-events-none absolute right-4 top-4 z-10 rounded-md border border-border bg-white/95 px-3 py-1.5 text-xs font-medium text-foreground shadow-sm"
                 >
-                  Loading live interactive preview of {activeItem.title}...
+                  Loading {activeItem.title}...
                 </div>
               ) : null}
 
@@ -259,7 +265,7 @@ export function LiveProjectShowcase() {
                   key={`${activeItem.slug}-${reloadKey}`}
                   src={activeItem.url}
                   title={`${activeItem.title} live interactive website preview`}
-                  onLoad={() => setFrameLoaded(true)}
+                  onLoad={() => setIsSwitching(false)}
                   className={cn(
                     "block w-full border-0 bg-white",
                     viewportMode === "mobile"
