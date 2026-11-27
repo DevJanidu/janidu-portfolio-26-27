@@ -108,7 +108,7 @@ export function LiveProjectShowcase() {
     <section
       id="live-showcase"
       ref={sectionRef}
-      className="scroll-mt-20 border-b border-border pb-20 pt-10 sm:pb-28 sm:pt-14"
+      className="hidden md:block scroll-mt-20 border-b border-border pb-20 pt-10 sm:pb-28 sm:pt-14"
       aria-label="Interactive live project preview"
     >
       <div className="mx-auto w-full max-w-[1440px] px-3 sm:px-6">
