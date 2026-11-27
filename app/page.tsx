@@ -89,6 +89,20 @@ export default async function HomePage() {
         badgeText: activeAnnouncementRow.contentJson?.badgeText
           ? String(activeAnnouncementRow.contentJson.badgeText)
           : undefined,
+        socials: {
+          whatsapp: activeAnnouncementRow.contentJson?.whatsappUrl
+            ? String(activeAnnouncementRow.contentJson.whatsappUrl)
+            : undefined,
+          facebook: activeAnnouncementRow.contentJson?.facebookUrl
+            ? String(activeAnnouncementRow.contentJson.facebookUrl)
+            : undefined,
+          instagram: activeAnnouncementRow.contentJson?.instagramUrl
+            ? String(activeAnnouncementRow.contentJson.instagramUrl)
+            : undefined,
+          tiktok: activeAnnouncementRow.contentJson?.tiktokUrl
+            ? String(activeAnnouncementRow.contentJson.tiktokUrl)
+            : undefined,
+        },
       }
     : null;
 

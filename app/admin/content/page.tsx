@@ -28,6 +28,10 @@ export default function WebsiteContentPage() {
   const [ctaHref, setCtaHref] = useState("/#contact");
   const [logoUrl, setLogoUrl] = useState("");
   const [badgeText, setBadgeText] = useState("Special Offer");
+  const [whatsappUrl, setWhatsappUrl] = useState("");
+  const [facebookUrl, setFacebookUrl] = useState("");
+  const [instagramUrl, setInstagramUrl] = useState("");
+  const [tiktokUrl, setTiktokUrl] = useState("");
   const [pickerOpen, setPickerOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
 
@@ -60,6 +64,10 @@ export default function WebsiteContentPage() {
     setCtaHref(String(c.ctaHref || "/#contact"));
     setLogoUrl(String(c.logoUrl || ""));
     setBadgeText(String(c.badgeText || "Special Offer"));
+    setWhatsappUrl(String(c.whatsappUrl || ""));
+    setFacebookUrl(String(c.facebookUrl || ""));
+    setInstagramUrl(String(c.instagramUrl || ""));
+    setTiktokUrl(String(c.tiktokUrl || ""));
     setIsVisible(sec.isVisible);
   }
 
@@ -84,6 +92,10 @@ export default function WebsiteContentPage() {
             ctaHref,
             ...(logoUrl ? { logoUrl } : {}),
             ...(badgeText ? { badgeText } : {}),
+            ...(whatsappUrl.trim() ? { whatsappUrl: whatsappUrl.trim() } : {}),
+            ...(facebookUrl.trim() ? { facebookUrl: facebookUrl.trim() } : {}),
+            ...(instagramUrl.trim() ? { instagramUrl: instagramUrl.trim() } : {}),
+            ...(tiktokUrl.trim() ? { tiktokUrl: tiktokUrl.trim() } : {}),
           },
         }),
       });
@@ -302,6 +314,62 @@ export default function WebsiteContentPage() {
                             Remove Logo
                           </button>
                         )}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="pt-3 border-t border-neutral-200/80 dark:border-neutral-800 space-y-3">
+                    <label className="block text-sm font-medium">
+                      Social Media Links (optional)
+                    </label>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      <div>
+                        <label className="block text-xs font-medium text-neutral-500 mb-1">
+                          WhatsApp (link or number)
+                        </label>
+                        <input
+                          type="text"
+                          value={whatsappUrl}
+                          onChange={(e) => setWhatsappUrl(e.target.value)}
+                          placeholder="+94 72 625 4163 or https://wa.me/..."
+                          className="w-full rounded-xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2 text-sm"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-medium text-neutral-500 mb-1">
+                          Facebook
+                        </label>
+                        <input
+                          type="text"
+                          value={facebookUrl}
+                          onChange={(e) => setFacebookUrl(e.target.value)}
+                          placeholder="https://facebook.com/..."
+                          className="w-full rounded-xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2 text-sm"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-medium text-neutral-500 mb-1">
+                          Instagram
+                        </label>
+                        <input
+                          type="text"
+                          value={instagramUrl}
+                          onChange={(e) => setInstagramUrl(e.target.value)}
+                          placeholder="https://instagram.com/..."
+                          className="w-full rounded-xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2 text-sm"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-medium text-neutral-500 mb-1">
+                          TikTok
+                        </label>
+                        <input
+                          type="text"
+                          value={tiktokUrl}
+                          onChange={(e) => setTiktokUrl(e.target.value)}
+                          placeholder="https://tiktok.com/@..."
+                          className="w-full rounded-xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3 py-2 text-sm"
+                        />
                       </div>
                     </div>
                   </div>
