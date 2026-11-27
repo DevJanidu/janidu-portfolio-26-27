@@ -2,6 +2,8 @@ import { Hero } from "@/components/hero";
 import { LiveProjectShowcase } from "@/components/live-project-showcase";
 import { Projects } from "@/components/projects";
 import { SalonConceptsSection } from "@/components/salon-concepts-section";
+import { DynamicCategoriesSection } from "@/components/dynamic-categories-section";
+import { AnnouncementBanner } from "@/components/announcement-banner";
 import { ProcessSection } from "@/components/process-section";
 import { ReviewsPreview } from "@/components/reviews-preview";
 import { About } from "@/components/about";
@@ -13,8 +15,14 @@ import {
   getFeaturedReviews,
   getPublishedReviews,
 } from "@/lib/reviews";
+import {
+  getPublicCategories,
+  getPublicCustomSections,
+  getPublicServices,
+  getPublicSiteSettings,
+} from "@/lib/cms/queries";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 60;
 
 const professionalServiceJsonLd = {
   "@context": "https://schema.org",
@@ -42,17 +50,56 @@ const professionalServiceJsonLd = {
 };
 
 export default async function HomePage() {
-  const allReviews = await getPublishedReviews();
-  const featuredReviews = await getFeaturedReviews(3);
+  const [
+    allReviews,
+    featuredReviews,
+    categories,
+    siteSettings,
+    services,
+    customSections,
+  ] = await Promise.all([
+    getPublishedReviews(),
+    getFeaturedReviews(3),
+    getPublicCategories(),
+    getPublicSiteSettings(),
+    getPublicServices(),
+    getPublicCustomSections(),
+  ]);
   const reviewSummary = computeReviewSummary(allReviews);
+
+  const activeAnnouncementRow = customSections.find(
+    (s) => s.templateType === "announcement"
+  );
+  const activeAnnouncement = activeAnnouncementRow
+    ? {
+        id: activeAnnouncementRow.id,
+        heading: String(
+          activeAnnouncementRow.contentJson?.heading ||
+            activeAnnouncementRow.title ||
+            ""
+        ),
+        body: String(activeAnnouncementRow.contentJson?.body || ""),
+        ctaLabel: String(activeAnnouncementRow.contentJson?.ctaLabel || ""),
+        ctaHref: String(
+          activeAnnouncementRow.contentJson?.ctaHref || "/#contact"
+        ),
+      }
+    : null;
 
   return (
     <>
       <JsonLd data={professionalServiceJsonLd} />
+      <AnnouncementBanner announcement={activeAnnouncement} />
       <Hero />
       <LiveProjectShowcase />
       <Projects />
       <SalonConceptsSection />
+      <DynamicCategoriesSection
+        categories={categories}
+        services={services}
+        showServicesSection={Boolean(siteSettings?.showServicesSection)}
+        customSections={customSections}
+      />
       <ProcessSection />
       <ReviewsPreview reviews={featuredReviews} summary={reviewSummary} />
       <About />

@@ -15,8 +15,11 @@ import {
   projects,
   siteUrl,
 } from "@/lib/data";
+import { getPublicProjectBySlug } from "@/lib/cms/queries";
 import { Button } from "@/components/ui/button";
 import { JsonLd } from "@/components/json-ld";
+
+export const revalidate = 60;
 
 type Params = { slug: string };
 
@@ -30,28 +33,36 @@ export async function generateMetadata({
   params: Promise<Params>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const project = projects.find((p) => p.slug === slug);
-  if (!project) return { title: "Project not found" };
+  const staticProject = projects.find((p) => p.slug === slug);
+  if (staticProject) {
+    const title = `${staticProject.title} | Case Study by ${profile.publicName}`;
+    const url = `${siteUrl}/projects/${staticProject.slug}`;
 
-  const title = `${project.title} | Case Study by ${profile.publicName}`;
-  const url = `${siteUrl}/projects/${project.slug}`;
+    return {
+      title: { absolute: title },
+      description: staticProject.tagline,
+      alternates: { canonical: url },
+      openGraph: {
+        type: "website",
+        url,
+        title,
+        description: staticProject.tagline,
+        siteName: "JaniduDev",
+      },
+      twitter: {
+        card: "summary_large_image",
+        title,
+        description: staticProject.tagline,
+      },
+    };
+  }
+
+  const cmsProject = await getPublicProjectBySlug(slug);
+  if (!cmsProject) return { title: "Project not found" };
 
   return {
-    title: { absolute: title },
-    description: project.tagline,
-    alternates: { canonical: url },
-    openGraph: {
-      type: "website",
-      url,
-      title,
-      description: project.tagline,
-      siteName: "JaniduDev",
-    },
-    twitter: {
-      card: "summary_large_image",
-      title,
-      description: project.tagline,
-    },
+    title: cmsProject.seoTitle || `${cmsProject.title} | ${profile.publicName}`,
+    description: cmsProject.seoDescription || cmsProject.shortDescription,
   };
 }
 
@@ -62,7 +73,132 @@ export default async function CaseStudyPage({
 }) {
   const { slug } = await params;
   const project = projects.find((p) => p.slug === slug);
-  if (!project) notFound();
+
+  if (!project) {
+    const cms = await getPublicProjectBySlug(slug);
+    if (!cms) notFound();
+
+    const externalUrl = cms.liveUrl || cms.demoUrl;
+    const badge =
+      cms.classification === "client_work"
+        ? "Client Project"
+        : cms.classification === "demo"
+          ? "Demo Website"
+          : cms.classification === "design_concept"
+            ? "Design Concept"
+            : "Personal Project";
+
+    return (
+      <article className="pb-24 pt-24 sm:pt-32">
+        <div className="container max-w-4xl">
+          <Link
+            href={cms.categorySlug ? `/categories/${cms.categorySlug}` : "/#work"}
+            className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground mb-8"
+          >
+            <ArrowLeft className="size-4" />
+            {cms.categoryName ? `Back to ${cms.categoryName}` : "Back to Portfolio"}
+          </Link>
+
+          <header>
+            <p className="section-label">
+              {cms.projectType || cms.categoryName || badge} · {badge}
+            </p>
+            <h1 className="mt-2.5 text-3xl font-semibold tracking-tight text-foreground sm:text-5xl">
+              {cms.title}
+            </h1>
+            {cms.shortDescription && (
+              <p className="mt-4 max-w-3xl text-body text-muted-foreground sm:text-body-lg">
+                {cms.shortDescription}
+              </p>
+            )}
+
+            <div className="mt-7 flex flex-wrap items-center gap-3">
+              {externalUrl && (
+                <Button asChild size="lg">
+                  <a href={externalUrl} target="_blank" rel="noopener noreferrer">
+                    {cms.liveUrl ? "Visit Live Website" : "Open Live Demo"}
+                    <ArrowUpRight className="size-4" aria-hidden="true" />
+                  </a>
+                </Button>
+              )}
+              {cms.customLinks.map((lnk, i) => (
+                <Button key={i} asChild size="lg" variant="outline">
+                  <a href={lnk.url} target="_blank" rel="noopener noreferrer">
+                    {lnk.label}
+                    <ArrowUpRight className="size-4" aria-hidden="true" />
+                  </a>
+                </Button>
+              ))}
+              <Button asChild size="lg" variant="outline">
+                <Link href="/#contact">Start a similar project</Link>
+              </Button>
+            </div>
+          </header>
+
+          {cms.coverUrl && (
+            <div className="mt-10 overflow-hidden rounded-2xl border border-border bg-neutral-900">
+              <img
+                src={cms.coverUrl}
+                alt={cms.title}
+                className="w-full h-auto object-cover"
+              />
+            </div>
+          )}
+
+          {(cms.fullDescription || cms.whatIBuilt.length > 0) && (
+            <div className="mt-14 grid gap-10 border-y border-border py-12 md:grid-cols-2">
+              {cms.fullDescription && (
+                <section>
+                  <h2 className="text-xl font-semibold tracking-tight text-foreground">
+                    About this project
+                  </h2>
+                  <p className="mt-3 text-body text-muted-foreground whitespace-pre-line">
+                    {cms.fullDescription}
+                  </p>
+                </section>
+              )}
+              {cms.whatIBuilt.length > 0 && (
+                <section>
+                  <h2 className="text-xl font-semibold tracking-tight text-foreground">
+                    What I built
+                  </h2>
+                  <ul className="mt-3 space-y-3 text-[16px] leading-relaxed text-foreground/90">
+                    {cms.whatIBuilt.map((item, idx) => (
+                      <li key={idx} className="flex items-start gap-2.5">
+                        <Check className="mt-1 size-4 shrink-0 text-primary" />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </section>
+              )}
+            </div>
+          )}
+
+          {cms.gallery.length > 0 && (
+            <section className="mt-14 space-y-8">
+              <h2 className="text-2xl font-semibold tracking-tight text-foreground">
+                Project Screenshots
+              </h2>
+              {cms.gallery.map((g) => (
+                <figure key={g.id} className="space-y-2">
+                  <div className="overflow-hidden rounded-xl border border-border bg-neutral-100">
+                    <img src={g.url} alt={g.altText} className="w-full h-auto object-cover" />
+                  </div>
+                  {(g.title || g.caption) && (
+                    <figcaption className="text-sm text-muted-foreground">
+                      {g.title && <strong className="text-foreground">{g.title}: </strong>}
+                      {g.caption}
+                    </figcaption>
+                  )}
+                </figure>
+              ))}
+            </section>
+          )}
+        </div>
+      </article>
+    );
+  }
 
   const cs = project.caseStudy;
   const url = `${siteUrl}/projects/${project.slug}`;

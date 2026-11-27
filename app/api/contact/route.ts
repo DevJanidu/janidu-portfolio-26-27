@@ -11,6 +11,13 @@ import {
   postJsonWebhook,
   sendSmtpMail,
 } from "@/lib/submission-delivery";
+import { sendTransactionalEmail } from "@/lib/email/resend";
+import {
+  buildEnquiryAcknowledgementEmail,
+  buildNewEnquiryAdminEmail,
+} from "@/lib/email/templates";
+import { getPublicSiteSettings } from "@/lib/cms/queries";
+import { invalidateCacheTags } from "@/lib/cache/redis";
 
 export const runtime = "nodejs";
 
@@ -164,7 +171,38 @@ export async function POST(request: Request) {
       savedInDb = rows.length > 0;
     }
 
-    if (isSmtpConfigured()) {
+    // Deliver via unified transactional email engine (Private Email SMTP / Resend)
+    // Avoids duplicate self-sends that trigger Private Email loop/spam filters.
+    const settings = await getPublicSiteSettings();
+    const shouldNotifyAdmin = settings ? settings.notifyNewEnquiry : true;
+    const adminInbox =
+      process.env.ADMIN_NOTIFICATION_EMAIL?.trim() ||
+      process.env.CONTACT_TO_EMAIL?.trim() ||
+      settings?.publicEmail ||
+      profile.email;
+    const dashboardBase =
+      process.env.NEXT_PUBLIC_SITE_URL?.trim() || "https://www.janidudev.com";
+
+    if (shouldNotifyAdmin && adminInbox) {
+      const adminEmail = buildNewEnquiryAdminEmail({
+        name,
+        email,
+        businessName: businessName || null,
+        country,
+        selectedDesign: designLabel || null,
+        message,
+        dashboardUrl: `${dashboardBase}/admin/enquiries`,
+      });
+      const res = await sendTransactionalEmail({
+        to: adminInbox,
+        replyTo: email,
+        subject: adminEmail.subject,
+        html: adminEmail.html,
+        text: adminEmail.text,
+        templateName: "new_enquiry_admin",
+      });
+      delivered = delivered || res.sent;
+    } else if (isSmtpConfigured()) {
       delivered = await sendSmtpMail({
         fromLabel: "JaniduDev Project Inquiry",
         replyToName: name,
@@ -174,6 +212,19 @@ export async function POST(request: Request) {
         html,
       });
     }
+
+    const ackEmail = buildEnquiryAcknowledgementEmail({
+      name,
+      businessName: businessName || null,
+    });
+    await sendTransactionalEmail({
+      to: email,
+      replyTo: settings?.publicEmail || profile.email,
+      subject: ackEmail.subject,
+      html: ackEmail.html,
+      text: ackEmail.text,
+      templateName: "enquiry_acknowledgement",
+    });
 
     if (process.env.CONTACT_WEBHOOK_URL) {
       const webhookOk = await postJsonWebhook(process.env.CONTACT_WEBHOOK_URL, {
@@ -227,6 +278,10 @@ export async function POST(request: Request) {
       },
       { status: 503 }
     );
+  }
+
+  if (savedInDb) {
+    await invalidateCacheTags(["enquiries", "badges", "overview", "analytics"]);
   }
 
   return NextResponse.json({ ok: true });

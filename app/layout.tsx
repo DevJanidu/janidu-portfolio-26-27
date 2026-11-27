@@ -3,8 +3,7 @@ import { Inter } from "next/font/google";
 import { MotionConfig } from "framer-motion";
 import "./globals.css";
 import { profile, siteUrl } from "@/lib/data";
-import { Navbar } from "@/components/navbar";
-import { Footer } from "@/components/footer";
+import { SiteChrome } from "@/components/site-chrome";
 import { JsonLd } from "@/components/json-ld";
 import { Analytics } from "@/components/analytics";
 
@@ -114,16 +113,8 @@ export default function RootLayout({
     <html lang="en" className={inter.variable} suppressHydrationWarning>
       <body className="min-h-dvh" suppressHydrationWarning>
         <JsonLd data={websiteJsonLd} />
-        <a
-          href="#main-content"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-md focus:bg-primary focus:px-4 focus:py-2.5 focus:text-sm focus:font-medium focus:text-primary-foreground"
-        >
-          Skip to main content
-        </a>
         <MotionConfig reducedMotion="user">
-          <Navbar />
-          <main id="main-content">{children}</main>
-          <Footer />
+          <SiteChrome>{children}</SiteChrome>
         </MotionConfig>
         <Analytics />
       </body>
