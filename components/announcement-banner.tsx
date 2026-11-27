@@ -95,6 +95,16 @@ export function AnnouncementBanner({ announcement }: AnnouncementBannerProps) {
             {/* Luminous White & Blue Card */}
             <div className="relative rounded-2xl p-[1.5px] bg-gradient-to-r from-sky-300 via-blue-500 to-sky-400 shadow-[0_14px_40px_-10px_rgba(37,99,235,0.32)]">
               <div className="relative overflow-hidden rounded-[15px] bg-white/95 backdrop-blur-xl px-4 py-3.5 sm:px-5 sm:py-4">
+                {/* Top-Right Close (X) Button */}
+                <button
+                  type="button"
+                  onClick={handleDismiss}
+                  aria-label="Close announcement"
+                  className="absolute top-3 right-3 z-10 inline-flex h-7 w-7 items-center justify-center rounded-full bg-blue-50/90 text-blue-600 border border-blue-200/80 hover:bg-blue-600 hover:text-white hover:border-blue-600 transition-all"
+                >
+                  <X className="h-3.5 w-3.5" />
+                </button>
+
                 {/* Subtle Luminous Shimmer Highlight */}
                 <div
                   aria-hidden="true"
@@ -105,7 +115,7 @@ export function AnnouncementBanner({ announcement }: AnnouncementBannerProps) {
                   className="pointer-events-none absolute -bottom-10 -left-10 h-28 w-40 rounded-full bg-blue-400/20 blur-2xl"
                 />
 
-                <div className="relative flex flex-col sm:flex-row sm:items-center justify-between gap-3.5">
+                <div className="relative flex flex-col sm:flex-row sm:items-center justify-between gap-3.5 pr-8">
                   <div className="flex items-start sm:items-center gap-3.5 min-w-0">
                     {announcement.logoUrl ? (
                       <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-white border border-blue-200/80 p-1.5 shadow-[0_4px_16px_rgba(37,99,235,0.18)] overflow-hidden">
@@ -213,18 +223,6 @@ export function AnnouncementBanner({ announcement }: AnnouncementBannerProps) {
                   )}
                 </div>
               </div>
-            </div>
-
-            {/* Centered Floating Cancel (X) Button */}
-            <div className="mt-2 flex justify-center">
-              <button
-                type="button"
-                onClick={handleDismiss}
-                aria-label="Close announcement"
-                className="group inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/95 text-blue-600 border border-blue-200/90 shadow-[0_4px_16px_rgba(37,99,235,0.22)] backdrop-blur-md hover:bg-blue-600 hover:text-white hover:border-blue-600 hover:scale-105 transition-all"
-              >
-                <X className="h-4 w-4" />
-              </button>
             </div>
           </div>
         </motion.div>
