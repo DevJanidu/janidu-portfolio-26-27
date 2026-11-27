@@ -6,7 +6,7 @@ export const siteUrl = "https://www.janidudev.com";
 
 export const profile = {
   name: "Janidu Dhakshitha Yapa",
-  publicName: "Janidu Yapa",
+  publicName: "Janidu Dev",
   firstName: "Janidu",
   title: "Freelance Web Designer & Developer for Small Businesses",
   location: "Kandy, Sri Lanka",
@@ -20,7 +20,7 @@ export const profile = {
   },
   responseTime: "Usually replies within 1 business day",
   aboutParagraph:
-    "I'm Janidu Yapa, an independent web designer and developer based in Kandy, Sri Lanka, building custom websites for small businesses across the US, UK, Australia, Sri Lanka, and beyond. Because you work directly with me from first draft to launch, your layout, service menu, online booking flow, and mobile speed are handled by one person without agency handoffs.",
+    "I'm Janidu Dev, an independent web designer and developer based in Kandy, Sri Lanka, building custom websites for small businesses across the US, UK, Australia, Sri Lanka, and beyond. Because you work directly with me from first draft to launch, your layout, service menu, online booking flow, and mobile speed are handled by one person without agency handoffs.",
   experienceLine:
     "BEng (Hons) Software Engineering graduate from London Metropolitan University with commercial experience building online booking platforms, client intake portals, and custom business software.",
 };

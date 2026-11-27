@@ -3,7 +3,7 @@ import { profile, projects } from "@/lib/data";
 
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
-export const alt = "Website project case study by Janidu Yapa";
+export const alt = "Website project case study by Janidu Dev";
 
 export function generateStaticParams() {
   return projects.map((p) => ({ slug: p.slug }));
@@ -17,7 +17,7 @@ export default async function Image({
   const { slug } = await params;
   const project = projects.find((p) => p.slug === slug);
   const title = project?.title ?? "Project Case Study";
-  const tagline = project?.tagline ?? "Designed and built by Janidu Yapa";
+  const tagline = project?.tagline ?? "Designed and built by Janidu Dev";
   const category = project?.category ?? "Featured Project";
 
   return new ImageResponse(

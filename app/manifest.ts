@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Janidu Yapa | Websites & Online Booking for Small Businesses",
+    name: "Janidu Dev | Websites & Online Booking for Small Businesses",
     short_name: "JaniduDev",
     description:
       "Freelance web designer and developer building custom websites, service menus, and online booking for small businesses worldwide.",

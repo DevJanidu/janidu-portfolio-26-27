@@ -27,7 +27,7 @@ export const revalidate = 60;
 const professionalServiceJsonLd = {
   "@context": "https://schema.org",
   "@type": "ProfessionalService",
-  name: "Janidu Yapa — Web Design & Development",
+  name: "Janidu Dev — Web Design & Development",
   alternateName: "JaniduDev",
   url: `${siteUrl}/`,
   email: profile.email,

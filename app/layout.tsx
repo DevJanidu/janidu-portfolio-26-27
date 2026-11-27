@@ -14,7 +14,7 @@ const inter = Inter({
 });
 
 const homepageTitle =
-  "Janidu Yapa | Websites & Online Booking for Small Businesses";
+  "Janidu Dev | Websites & Online Booking for Small Businesses";
 const homepageDescription =
   "Freelance web designer and developer based in Kandy, Sri Lanka, building custom websites, service menus, and online booking for salons, spas, and small businesses in the US, UK, Australia, and Sri Lanka.";
 
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
     default: homepageTitle,
-    template: "%s | Janidu Yapa",
+    template: "%s | Janidu Dev",
   },
   description: homepageDescription,
   applicationName: "JaniduDev",
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
   publisher: profile.name,
   category: "business",
   keywords: [
-    "Janidu Yapa",
+    "Janidu Dev",
     "JaniduDev",
     "freelance web designer for small businesses",
     "salon website designer",
@@ -99,7 +99,7 @@ export const viewport: Viewport = {
 const websiteJsonLd = {
   "@context": "https://schema.org",
   "@type": "WebSite",
-  name: "Janidu Yapa",
+  name: "Janidu Dev",
   alternateName: "JaniduDev",
   url: `${siteUrl}/`,
 };

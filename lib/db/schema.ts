@@ -428,7 +428,7 @@ export const services = pgTable(
 
 export const siteSettings = pgTable("site_settings", {
   id: text("id").primaryKey().default("default"),
-  siteName: text("site_name").notNull().default("Janidu Yapa"),
+  siteName: text("site_name").notNull().default("Janidu Dev"),
   siteTagline: text("site_tagline")
     .notNull()
     .default("Websites & Online Booking for Small Businesses"),
@@ -455,7 +455,7 @@ export const siteSettings = pgTable("site_settings", {
     .default([]),
   defaultSeoTitle: text("default_seo_title")
     .notNull()
-    .default("Janidu Yapa | Websites & Online Booking for Small Businesses"),
+    .default("Janidu Dev | Websites & Online Booking for Small Businesses"),
   defaultSeoDescription: text("default_seo_description")
     .notNull()
     .default(

@@ -166,9 +166,9 @@ export function buildEnquiryAcknowledgementEmail(params: {
       `<h2 style="margin:0 0 14px;font-size:20px;color:#111111;">Thank you, ${safeName}!</h2>
        <p style="margin:0 0 16px;">I have received your message${params.businessName ? ` about <strong>${escapeHtml(params.businessName)}</strong>` : ""} and will review it personally.</p>
        <p style="margin:0 0 16px;">I typically reply within <strong>24 hours</strong> with clear next steps, a rough timeline, and a tailored recommendation.</p>
-       <p style="margin:0;color:#525252;">Best regards,<br/><strong>Janidu Yapa</strong><br/>JaniduDev</p>`,
+       <p style="margin:0;color:#525252;">Best regards,<br/><strong>Janidu Dev</strong></p>`,
       "You received this confirmation because you submitted an enquiry at janidudev.com."
     ),
-    text: `Thank you, ${params.name}!\n\nI have received your message and will reply within 24 hours with clear next steps.\n\nBest regards,\nJanidu Yapa — JaniduDev`,
+    text: `Thank you, ${params.name}!\n\nI have received your message and will reply within 24 hours with clear next steps.\n\nBest regards,\nJanidu Dev`,
   };
 }

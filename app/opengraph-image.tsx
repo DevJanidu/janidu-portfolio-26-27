@@ -2,7 +2,7 @@ import { ImageResponse } from "next/og";
 import { heroContent, profile } from "@/lib/data";
 
 export const alt =
-  "Janidu Yapa — Websites & Online Booking for Small Businesses";
+  "Janidu Dev — Websites & Online Booking for Small Businesses";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
