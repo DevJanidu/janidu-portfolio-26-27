@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Plus, Save, Trash2, Eye, EyeOff, Loader2 } from "lucide-react";
+import { Plus, Save, Trash2, Eye, EyeOff, Loader2, Image as ImageIcon } from "lucide-react";
+import { MediaPickerModal } from "@/components/admin/media-picker-modal";
 
 interface SectionItem {
   id: string;
@@ -25,6 +26,9 @@ export default function WebsiteContentPage() {
   const [body, setBody] = useState("");
   const [ctaLabel, setCtaLabel] = useState("");
   const [ctaHref, setCtaHref] = useState("/#contact");
+  const [logoUrl, setLogoUrl] = useState("");
+  const [badgeText, setBadgeText] = useState("Special Offer");
+  const [pickerOpen, setPickerOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
 
   async function load() {
@@ -54,6 +58,8 @@ export default function WebsiteContentPage() {
     setBody(String(c.body || c.subheadline || c.story || ""));
     setCtaLabel(String(c.ctaLabel || c.primaryCta || ""));
     setCtaHref(String(c.ctaHref || "/#contact"));
+    setLogoUrl(String(c.logoUrl || ""));
+    setBadgeText(String(c.badgeText || "Special Offer"));
     setIsVisible(sec.isVisible);
   }
 
@@ -71,7 +77,14 @@ export default function WebsiteContentPage() {
           title,
           isVisible,
           status: "published",
-          contentJson: { heading, body, ctaLabel, ctaHref },
+          contentJson: {
+            heading,
+            body,
+            ctaLabel,
+            ctaHref,
+            ...(logoUrl ? { logoUrl } : {}),
+            ...(badgeText ? { badgeText } : {}),
+          },
         }),
       });
       if (res.ok) {
@@ -247,6 +260,54 @@ export default function WebsiteContentPage() {
                 />
               </div>
 
+              {selected.templateType === "announcement" && (
+                <div className="rounded-xl border border-neutral-200 dark:border-neutral-800 bg-neutral-50/70 dark:bg-neutral-950 p-4 space-y-4">
+                  <div>
+                    <label className="block text-sm font-medium mb-1">Badge Label (optional)</label>
+                    <input
+                      type="text"
+                      value={badgeText}
+                      onChange={(e) => setBadgeText(e.target.value)}
+                      placeholder="e.g. Special Offer, New Launch, Limited Time"
+                      className="w-full rounded-xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3.5 py-2 text-sm"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium mb-1.5">
+                      Custom Logo (optional)
+                    </label>
+                    <div className="flex items-center gap-4">
+                      <div className="h-14 w-14 rounded-xl border border-neutral-200 dark:border-neutral-700 bg-white flex items-center justify-center overflow-hidden p-1.5 shrink-0">
+                        {logoUrl ? (
+                          <img src={logoUrl} alt="Banner logo" className="h-full w-full object-contain" />
+                        ) : (
+                          <ImageIcon className="h-5 w-5 text-neutral-400" />
+                        )}
+                      </div>
+                      <div className="flex flex-wrap items-center gap-2">
+                        <button
+                          type="button"
+                          onClick={() => setPickerOpen(true)}
+                          className="rounded-xl border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-900 px-3.5 py-2 text-xs font-semibold hover:bg-neutral-50 dark:hover:bg-neutral-800"
+                        >
+                          {logoUrl ? "Change Logo" : "Upload or Choose Logo"}
+                        </button>
+                        {logoUrl && (
+                          <button
+                            type="button"
+                            onClick={() => setLogoUrl("")}
+                            className="text-xs font-medium text-red-600 hover:underline px-2 py-1"
+                          >
+                            Remove Logo
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium mb-1">Button Text (optional)</label>
@@ -294,6 +355,14 @@ export default function WebsiteContentPage() {
           )}
         </div>
       )}
+
+      <MediaPickerModal
+        open={pickerOpen}
+        onClose={() => setPickerOpen(false)}
+        folder="general"
+        title="Choose Announcement Logo"
+        onSelect={(asset) => setLogoUrl(asset.url)}
+      />
     </div>
   );
 }

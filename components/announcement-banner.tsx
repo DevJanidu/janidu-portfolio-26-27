@@ -11,6 +11,8 @@ export interface AnnouncementData {
   body?: string;
   ctaLabel?: string;
   ctaHref?: string;
+  logoUrl?: string;
+  badgeText?: string;
 }
 
 interface AnnouncementBannerProps {
@@ -83,14 +85,24 @@ export function AnnouncementBanner({ announcement }: AnnouncementBannerProps) {
                 />
 
                 <div className="relative flex flex-col sm:flex-row sm:items-center justify-between gap-3.5">
-                  <div className="flex items-start sm:items-center gap-3 min-w-0">
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-sky-400 via-blue-500 to-blue-600 text-white shadow-[0_4px_16px_rgba(37,99,235,0.45)]">
-                      <Sparkles className="h-5 w-5" />
-                    </div>
+                  <div className="flex items-start sm:items-center gap-3.5 min-w-0">
+                    {announcement.logoUrl ? (
+                      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-white border border-blue-200/80 p-1.5 shadow-[0_4px_16px_rgba(37,99,235,0.18)] overflow-hidden">
+                        <img
+                          src={announcement.logoUrl}
+                          alt={announcement.heading}
+                          className="h-full w-full object-contain"
+                        />
+                      </div>
+                    ) : (
+                      <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-blue-600 text-white shadow-[0_4px_16px_rgba(37,99,235,0.45)]">
+                        <Sparkles className="h-5 w-5" />
+                      </div>
+                    )}
                     <div className="min-w-0">
                       <div className="flex items-center gap-2">
-                        <span className="inline-flex items-center rounded-full bg-blue-50 border border-blue-200/80 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-blue-700">
-                          Special Offer
+                        <span className="inline-flex items-center rounded-full bg-blue-50 border border-blue-200/80 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-blue-700">
+                          {announcement.badgeText || "Special Offer"}
                         </span>
                       </div>
                       <p className="mt-1 text-sm sm:text-[15px] font-semibold text-neutral-900 leading-snug">

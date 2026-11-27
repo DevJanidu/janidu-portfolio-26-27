@@ -83,6 +83,12 @@ export default async function HomePage() {
         ctaHref: String(
           activeAnnouncementRow.contentJson?.ctaHref || "/#contact"
         ),
+        logoUrl: activeAnnouncementRow.contentJson?.logoUrl
+          ? String(activeAnnouncementRow.contentJson.logoUrl)
+          : undefined,
+        badgeText: activeAnnouncementRow.contentJson?.badgeText
+          ? String(activeAnnouncementRow.contentJson.badgeText)
+          : undefined,
       }
     : null;
 
