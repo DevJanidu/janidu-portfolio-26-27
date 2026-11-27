@@ -86,4 +86,53 @@
     content-visibility: auto;
     contain-intrinsic-size: 1px 320px;
   }
+
+  /* Comfortable, larger, ultra-readable typography scoped exclusively to the Admin Dashboard */
+  .admin-dashboard {
+    font-size: 16px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    scroll-behavior: smooth;
+  }
+
+  .admin-dashboard h1 {
+    font-size: clamp(1.75rem, 2.2vw, 2.15rem);
+    line-height: 1.25;
+    letter-spacing: -0.025em;
+  }
+
+  .admin-dashboard h2 {
+    font-size: 1.1875rem;
+    line-height: 1.35;
+  }
+
+  .admin-dashboard .text-xs {
+    font-size: 0.875rem; /* 14px instead of 12px */
+    line-height: 1.45;
+  }
+
+  .admin-dashboard .text-sm {
+    font-size: 0.98rem; /* ~15.7px instead of 14px */
+    line-height: 1.55;
+  }
+
+  .admin-dashboard .text-base {
+    font-size: 1.075rem; /* ~17.2px */
+    line-height: 1.55;
+  }
+
+  .admin-dashboard input,
+  .admin-dashboard textarea,
+  .admin-dashboard select {
+    font-size: 0.98rem;
+    line-height: 1.5;
+    transition: border-color 150ms ease, background-color 150ms ease, box-shadow 150ms ease;
+  }
+
+  .admin-dashboard button,
+  .admin-dashboard a {
+    transition: background-color 160ms ease, color 160ms ease, border-color 160ms ease, transform 160ms ease, box-shadow 160ms ease;
+  }
 }

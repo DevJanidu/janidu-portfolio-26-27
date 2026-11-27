@@ -2,14 +2,14 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Janidu Yapa | Software Engineer & Full-Stack Developer",
+    name: "Janidu Yapa | Websites & Online Booking for Small Businesses",
     short_name: "JaniduDev",
     description:
-      "Portfolio of Janidu Yapa, a software engineer and full-stack developer in Kandy, Sri Lanka.",
+      "Freelance web designer and developer building custom websites, service menus, and online booking for small businesses worldwide.",
     start_url: "/",
     display: "standalone",
-    background_color: "#FFFFFF",
-    theme_color: "#FFFFFF",
+    background_color: "#FAF9F6",
+    theme_color: "#091C44",
     icons: [
       {
         src: "/icon-192.png",

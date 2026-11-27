@@ -4,6 +4,7 @@ import { NextResponse } from "next/server";
 import { normalizeCountry } from "@/lib/countries";
 import { ensureDatabaseSchema, getSql, isDatabaseConfigured } from "@/lib/db";
 import { computeReviewSummary, getPublishedReviews } from "@/lib/reviews";
+import { invalidateCacheTags } from "@/lib/cache/redis";
 import { profile } from "@/lib/data";
 import {
   appendPrivateSubmission,
@@ -49,8 +50,8 @@ export async function POST(request: Request) {
 
   if (body.website) {
     revalidatePath("/reviews");
-  revalidatePath("/");
-  return NextResponse.json({ ok: true });
+    revalidatePath("/");
+    return NextResponse.json({ ok: true });
   }
 
   const parsedRating =
@@ -161,7 +162,7 @@ export async function POST(request: Request) {
     if (isDatabaseConfigured()) {
       await ensureDatabaseSchema();
       const sql = getSql();
-      // Save review to Neon Postgres with private_contact_email kept strictly server-side.
+      // Save review to Neon Postgres as pending moderation; private_contact_email stays strictly server-side.
       const rows = await sql`
         INSERT INTO reviews (
           id,
@@ -174,6 +175,8 @@ export async function POST(request: Request) {
           private_contact_email,
           display_permission,
           approved,
+          status,
+          source,
           featured,
           published_at
         )
@@ -187,7 +190,9 @@ export async function POST(request: Request) {
           ${country},
           ${email},
           ${displayPermission},
-          TRUE,
+          FALSE,
+          'pending',
+          'website_form',
           FALSE,
           ${publishedDate}
         )
@@ -283,6 +288,9 @@ export async function POST(request: Request) {
     );
   }
 
+  if (savedInDb) {
+    await invalidateCacheTags(["reviews", "badges", "overview"]);
+  }
   revalidatePath("/reviews");
   revalidatePath("/");
   return NextResponse.json({ ok: true });

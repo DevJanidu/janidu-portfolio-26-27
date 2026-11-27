@@ -1,6 +1,7 @@
 import { promises as fs } from "fs";
 import path from "path";
 import { ensureDatabaseSchema, getSql, isDatabaseConfigured } from "@/lib/db";
+import { cachedQuery } from "@/lib/cache/redis";
 
 export type PublishedReview = {
   id: string;
@@ -112,45 +113,51 @@ async function getPublishedReviewsFromJson(): Promise<PublishedReview[]> {
 export async function getPublishedReviews(): Promise<PublishedReview[]> {
   if (isDatabaseConfigured()) {
     try {
-      await ensureDatabaseSchema();
-      const sql = getSql();
-      // Strictly select only public columns; private_contact_email is never queried here.
-      const rows = (await sql`
-        SELECT
-          id,
-          rating,
-          project_name,
-          comment,
-          translation,
-          client_name,
-          business_name,
-          country,
-          TO_CHAR(published_at, 'YYYY-MM-DD') AS published_at,
-          featured
-        FROM reviews
-        WHERE approved = TRUE AND display_permission = TRUE
-        ORDER BY published_at DESC, created_at DESC
-      `) as DbReviewRow[];
+      return await cachedQuery(
+        "pub:reviews:published",
+        async () => {
+          await ensureDatabaseSchema();
+          const sql = getSql();
+          // Strictly select only public columns; private_contact_email is never queried here.
+          const rows = (await sql`
+            SELECT
+              id,
+              rating,
+              project_name,
+              comment,
+              translation,
+              client_name,
+              business_name,
+              country,
+              TO_CHAR(published_at, 'YYYY-MM-DD') AS published_at,
+              featured
+            FROM reviews
+            WHERE approved = TRUE AND display_permission = TRUE AND deleted_at IS NULL
+            ORDER BY published_at DESC, created_at DESC
+          `) as DbReviewRow[];
 
-      const sanitized: PublishedReview[] = [];
-      for (const row of rows) {
-        const ratingNum = Number(row.rating);
-        if (!isValidRating(ratingNum)) continue;
-        sanitized.push({
-          id: row.id,
-          rating: ratingNum,
-          projectName: row.project_name,
-          comment: row.comment,
-          ...(row.translation ? { translation: row.translation } : {}),
-          clientName: row.client_name,
-          ...(row.business_name ? { businessName: row.business_name } : {}),
-          ...(row.country ? { location: row.country } : {}),
-          publishedAt: formatIsoDate(row.published_at),
-          featured: Boolean(row.featured),
-        });
-      }
+          const sanitized: PublishedReview[] = [];
+          for (const row of rows) {
+            const ratingNum = Number(row.rating);
+            if (!isValidRating(ratingNum)) continue;
+            sanitized.push({
+              id: row.id,
+              rating: ratingNum,
+              projectName: row.project_name,
+              comment: row.comment,
+              ...(row.translation ? { translation: row.translation } : {}),
+              clientName: row.client_name,
+              ...(row.business_name ? { businessName: row.business_name } : {}),
+              ...(row.country ? { location: row.country } : {}),
+              publishedAt: formatIsoDate(row.published_at),
+              featured: Boolean(row.featured),
+            });
+          }
 
-      return sanitized;
+          return sanitized;
+        },
+        { ttlSeconds: 300, l1TtlSeconds: 30, tags: ["reviews"] }
+      );
     } catch (err) {
       console.error("Failed to load reviews from Neon, falling back to JSON:", err);
     }
